@@ -1,0 +1,4 @@
+ng generate service services/serviceName
+ng generate component components/componentName
+ng serve (utilisera environment.ts)
+ng build --prod (utilisera automatiquement environment.prod.ts)
