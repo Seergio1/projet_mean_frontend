@@ -1,32 +1,45 @@
 // angular import
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule,Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterModule],
+  standalone:true,
+  imports: [RouterModule,FormsModule,CommonModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export default class LoginComponent {
-  email = '';
-  password = '';
+  email = 'giorakotomalala@gmail.com';
+  password = 'Client1';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private router: Router,private toaster:ToastrService) {}
 
   // Méthode de connexion
   onLogin() {
     const credentials = { email: this.email, password: this.password };
-    
+
+
     this.authService.login(credentials).subscribe(
       (response) => {
-        // Sauvegarde le token JWT dans le localStorage
+
+        // Sauvegarde du token et des info user dans les localStorage
         this.authService.saveToken(response.token);
+        this.authService.saveUserInfo(response.user)
+        this.router.navigate([('/default')])
         console.log("Connexion réussie", response);
       },
       (error) => {
-        console.error('Erreur lors de la connexion', error);
+        console.error(error.error.message);
+        this.toaster.error(error.error.message,'Erreur',{
+          progressBar: true,
+          // closeButton: true,
+          progressAnimation:"decreasing"
+        })
       }
     );
   }

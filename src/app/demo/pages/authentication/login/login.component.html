@@ -15,19 +15,40 @@
               </div>
             </div>
           </div>
-         
-          <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" value="giorakotomalala@gmail.com" />
-            <label for="floatingInput">Email</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="password"  value="Client1" />
-            <label for="password">Mot de passe</label>
-          </div>
-          
-          <div class="d-grid mt-4">
-            <button type="button" class="btn btn-secondary">Se connecter</button>
-          </div>
+
+          <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+            <!-- Email -->
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="emailInput" name="email"
+                [(ngModel)]="email" #emailRef="ngModel"
+                required email />
+              <label for="emailInput">Email</label>
+              <div *ngIf="emailRef.invalid && emailRef.touched" class="text-danger">
+                <small *ngIf="emailRef.errors?.['required']">L'email est requis.</small>
+                <small *ngIf="emailRef.errors?.['email']">L'email n'est pas valide.</small>
+              </div>
+            </div>
+
+            <!-- Mot de passe -->
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="passwordInput" name="password"
+                [(ngModel)]="password" #passwordRef="ngModel"
+                required minlength="6" />
+              <label for="passwordInput">Mot de passe</label>
+              <div *ngIf="passwordRef.invalid && passwordRef.touched" class="text-danger">
+                <small *ngIf="passwordRef.errors?.['required']">Le mot de passe est requis.</small>
+                <small *ngIf="passwordRef.errors?.['minlength']">Minimum 6 caractères.</small>
+              </div>
+            </div>
+
+            <!-- Bouton de connexion -->
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-secondary" [disabled]="loginForm.invalid">
+                Se connecter
+              </button>
+            </div>
+          </form>
+
           <hr />
           <h5 class="d-flex justify-content-center">
             <a [routerLink]="['/register']">Vous n'avez pas encore de compte?</a>

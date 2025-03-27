@@ -1,4 +1,14 @@
+#commandes utile
 ng generate service services/serviceName
 ng generate component components/componentName
+
+#demmarer le serveur
 ng serve (utilisera environment.ts)
 ng build --prod (utilisera automatiquement environment.prod.ts)
+
+#install dependencies
+npm install --legacy-peer-deps
+
+#toast notif
+npm install ngx-toastr @angular/animations --legacy-peer-deps
+

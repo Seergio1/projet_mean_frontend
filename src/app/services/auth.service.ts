@@ -3,43 +3,60 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+interface UserInfo {
+  email: string;
+  role: string;
+  nom: string;
+  id: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = `${environment.apiUrl}`; 
-  private tokenKey = ''; 
+  private apiUrl = `${environment.apiUrl}/auth`;
+  private tokenKey = 'token';
+  private userKey = 'userInfo';
 
   constructor(private http: HttpClient) {}
 
-  // Méthode pour envoyer les informations de login
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
 
-  // Méthode pour envoyer les informations d'enregistrement
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register(user: { email: string; password: string; nom: string; contact: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
-  // Méthode pour sauvegarder le token JWT dans le localStorage
   saveToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
+    localStorage.setItem(this.tokenKey, JSON.stringify(token));
   }
 
-  // Méthode pour récupérer le token depuis le localStorage
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return JSON.parse(localStorage.getItem(this.tokenKey) || 'null');
   }
 
-  // Méthode pour vérifier si l'utilisateur est authentifié
+  saveUserInfo(user_info: UserInfo): void {
+    localStorage.setItem(this.userKey, JSON.stringify(user_info));
+  }
+
+  getUserInfo(): UserInfo | null {
+    return JSON.parse(localStorage.getItem(this.userKey) || 'null');
+  }
+
   isAuthenticated(): boolean {
-    return !!this.getToken(); // Retourne true si un token est présent
+    return !!this.getToken();
   }
 
-  // Méthode pour supprimer le token de localStorage (logout)
+  hasRole(role_: string): boolean {
+    const user = this.getUserInfo();
+    return user && user.role === role_;
+  }
+
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userKey);
   }
 }

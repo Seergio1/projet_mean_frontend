@@ -41,3 +41,8 @@ File: style.css
 @import url('scss/fonts/berry/berry-icons.css'); /** custom font icons - berry **/
 @import 'scss/fonts/tabler-icons.min.css';
 @import 'scss/fonts/phosphor/duotone/style.css';
+
+
+// toaster
+@import "node_modules/ngx-toastr/toastr.css";
+

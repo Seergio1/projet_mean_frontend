@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SpinnerComponent } from './theme/shared/components/spinner/spinner.component';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,3 +12,4 @@ import { SpinnerComponent } from './theme/shared/components/spinner/spinner.comp
 export class AppComponent {
   title = 'Berry Angular Free Version';
 }
+

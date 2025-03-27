@@ -10,36 +10,62 @@
             <div class="d-flex justify-content-center">
               <div class="auth-header">
                 <h2 class="text-secondary mt-5"><b>Créer un compte</b></h2>
-                <p class="fs-4 mt-2"> Entrez vos identifiants pour continuer</p>
+                <p class="fs-4 mt-2">Entrez vos identifiants pour continuer</p>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" />
-                <label for="floatingInput">Nom complet</label>
+
+          <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="nomInput" name="nom"
+                    [(ngModel)]="nom" #nomRef="ngModel" required />
+                  <label for="nomInput">Nom complet</label>
+                  <div *ngIf="nomRef.invalid && nomRef.touched" class="text-danger">
+                    <small *ngIf="nomRef.errors?.['required']">Le nom est requis.</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="contactInput" name="contact"
+                    [(ngModel)]="contact" #contactRef="ngModel" required />
+                  <label for="contactInput">Contact</label>
+                  <div *ngIf="contactRef.invalid && contactRef.touched" class="text-danger">
+                    <small *ngIf="contactRef.errors?.['required']">Le contact est requis.</small>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" />
-                <label for="floatingInput">Contact</label>
+
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="emailInput" name="email"
+                [(ngModel)]="email" #emailRef="ngModel" required email />
+              <label for="emailInput">Email</label>
+              <div *ngIf="emailRef.invalid && emailRef.touched" class="text-danger">
+                <small *ngIf="emailRef.errors?.['required']">L'email est requis.</small>
+                <small *ngIf="emailRef.errors?.['email']">L'email n'est pas valide.</small>
               </div>
             </div>
-          </div>
-          <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" />
-            <label for="floatingInput">Email</label>
-          </div>
-          <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingInput" placeholder="name@example.com" />
-            <label for="floatingInput">Mot de passe</label>
-          </div>
-          
-          <div class="d-grid mt-4">
-            <button type="button" class="btn btn-secondary p-2">S'inscrire</button>
-          </div>
+
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="passwordInput" name="password"
+                [(ngModel)]="password" #passwordRef="ngModel" required minlength="6" />
+              <label for="passwordInput">Mot de passe</label>
+              <div *ngIf="passwordRef.invalid && passwordRef.touched" class="text-danger">
+                <small *ngIf="passwordRef.errors?.['required']">Le mot de passe est requis.</small>
+                <small *ngIf="passwordRef.errors?.['minlength']">Le mot de passe doit comporter au moins 6 caractères.</small>
+              </div>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-secondary p-2" [disabled]="registerForm.invalid">
+                S'inscrire
+              </button>
+            </div>
+          </form>
+
           <hr />
           <h5 class="d-flex justify-content-center">
             <a [routerLink]="['/login']">Vous avez déjà un compte?</a>

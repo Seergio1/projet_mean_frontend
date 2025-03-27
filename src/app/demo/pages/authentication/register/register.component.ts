@@ -1,11 +1,15 @@
 // angular import
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule,Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterModule],
+  imports: [RouterModule,FormsModule,CommonModule],
+  standalone:true,
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
@@ -15,21 +19,33 @@ export default class RegisterComponent {
   contact = "";
   password = "";
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private router: Router,private toaster:ToastrService) {}
 
   onRegister() {
     const utilisateur = { email: this.email, password: this.password, nom: this.nom, contact: this.contact };
+    console.log(utilisateur);
+
 
     this.authService.register(utilisateur).subscribe(
       (response) => {
-        // Sauvegarde le token JWT dans le localStorage
-        this.authService.saveToken(response.token);
+
         console.log("L'enregistrement a été reussi", response);
+        this.toaster.success("L'enregistrement a été reussi","Succès",{
+          progressBar: true,
+          // closeButton: true,
+          progressAnimation:"decreasing"
+        })
+        this.router.navigate([('/login')])
       },
       (error) => {
-        console.error("Erreur lors de l'enregistrement", error);
+        console.error(error.error.message);
+        this.toaster.error(error.error.message,'Erreur',{
+          progressBar: true,
+          // closeButton: true,
+          progressAnimation:"increasing"
+        })
       }
     );
   }
-  
+
 }
