@@ -50,9 +50,10 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  hasRole(role_: string): boolean {
+  hasAnyRole(requiredRoles: string[]): boolean { 
     const user = this.getUserInfo();
-    return user && user.role === role_;
+    if (!user || !user.role) return false;
+    return requiredRoles.some(role_ => user.role.includes(role_));
   }
 
   logout(): void {

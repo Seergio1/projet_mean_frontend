@@ -26,7 +26,7 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: {role : "client"},
+    data: {role : ["client","mecanicien"]},
     children: [
 
       {
