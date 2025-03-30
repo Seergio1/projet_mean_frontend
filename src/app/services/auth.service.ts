@@ -35,7 +35,8 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return JSON.parse(localStorage.getItem(this.tokenKey) || 'null');
+    const token = localStorage.getItem('token');
+    return token ? token.replace(/['"]+/g, '') : null; // Supprime les guillemets
   }
 
   saveUserInfo(user_info: UserInfo): void {
@@ -50,7 +51,7 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  hasAnyRole(requiredRoles: string[]): boolean { 
+  hasAnyRole(requiredRoles: string[]): boolean {
     const user = this.getUserInfo();
     if (!user || !user.role) return false;
     return requiredRoles.some(role_ => user.role.includes(role_));
