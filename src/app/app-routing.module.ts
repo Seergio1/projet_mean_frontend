@@ -6,6 +6,7 @@ import { AuthGuard } from './utils/auth.guard';
 import { AuthService } from './services/auth.service';
 import { UnauthorizedComponent } from './demo/error/unauthorized/unauthorized.component';
 
+
 const routes: Routes = [
   {
     path: '',
@@ -26,7 +27,7 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: {role : ["client","manager"] },
+    data: {role : ["client","mecanicien"]},
     children: [
 
       {
@@ -52,6 +53,15 @@ const routes: Routes = [
       {
         path: 'commentaires',
         loadComponent: () => import('./demo/pages/client/commentaires/commentaires.component')
+      },
+      // nouvelle route
+      {
+        path: 'rendez-vous/prise',
+        loadComponent: () => import('./demo/rendezvous/prise/prise.component')
+      },
+      {
+        path: 'rendez-vous/liste',
+        loadComponent: () => import('./demo/rendezvous/liste/liste.component')
       },
     ]
   },

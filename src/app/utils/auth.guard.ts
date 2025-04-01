@@ -12,7 +12,8 @@ export class AuthGuard implements CanActivate {
   // Cette méthode est appelée pour chaque route protégée
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const requiredRole = next.data['role'];  // Récupère le rôle requis depuis les données de la route
+    const requiredRole: string[] = next.data['role'];  // Récupère le rôle requis depuis les données de la route
+    // console.log(requiredRole);
 
     if (this.authService.isAuthenticated()) {
       console.log(requiredRole);

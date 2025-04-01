@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -35,7 +35,8 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    return JSON.parse(localStorage.getItem(this.tokenKey) || 'null');
+    const token = localStorage.getItem('token');
+    return token ? token.replace(/['"]+/g, '') : null; // Supprime les guillemets
   }
 
   saveUserInfo(user_info: UserInfo): void {
@@ -50,9 +51,10 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  hasRole(role_: string): boolean {
+  hasAnyRole(requiredRoles: string[]): boolean {
     const user = this.getUserInfo();
-    return user && user.role === role_;
+    if (!user || !user.role) return false;
+    return requiredRoles.some(role_ => user.role.includes(role_));
   }
 
   hasAnyRole(requiredRole: string[]): boolean {
@@ -64,5 +66,11 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+  }
+
+  getAuthHeaders(): HttpHeaders {
+      const token = this.getToken();
+      // console.log(token);
+      return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 }
