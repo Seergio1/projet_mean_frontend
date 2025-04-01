@@ -4,3 +4,12 @@
   // height: 80%; /* Pour augmenter la hauteur du modal */
   max-height: none; /* Limite la hauteur maximale à 80% de la hauteur de la fenêtre */
 }
+/* Personnaliser l'apparence des cases à cocher */
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+label {
+  font-size: 14px;
+  margin-left: 5px;
+}

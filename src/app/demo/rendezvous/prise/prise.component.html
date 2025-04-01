@@ -2,22 +2,30 @@
   <div class="form-group">
     <label for="vehiculeId">Véhicule</label>
     <select id="vehiculeId" [(ngModel)]="rendezVous.vehiculeId" name="vehiculeId" class="form-control" required>
-      <option *ngFor="let vehicule of vehicules" [value]="vehicule._id">{{ vehicule.nom }}</option>
+      <option *ngFor="let vehicule of vehicules" [value]="vehicule._id">
+        {{ vehicule.modele }} - {{ vehicule.numero }}
+      </option>
     </select>
   </div>
 
   <div class="form-group">
     <label for="servicesIds">Services</label>
-    <select id="servicesIds" [(ngModel)]="rendezVous.servicesIds" name="servicesIds" class="form-control" multiple required>
-      <option *ngFor="let service of services" [value]="service._id">{{ service.libelle }}</option>
-    </select>
+    <div *ngFor="let service of selectedServices; let i = index">
+      <input type="checkbox" 
+      name="service_{{i}}" 
+             [(ngModel)]="service.selected" 
+             (change)="onServiceChange(service)" 
+             [value]="service._id" />
+             
+      <label>{{ service.nom }}</label>
+    </div>
   </div>
 
   <div class="form-group">
     <label for="dateSelectionnee">Date</label>
     <div class="input-group">
-      <input type="date" id="dateSelectionnee" [(ngModel)]="rendezVous.dateSelectionnee" name="dateSelectionnee" class="form-control" required (change)="onDateChange()">
-      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#calendarModal" (click)="ouvrirModal(calendarModal)">📅</button>
+      <input type="date" id="dateSelectionnee" [(ngModel)]="rendezVous.dateSelectionnee" name="dateSelectionnee" class="form-control" required  [disabled]="true">
+      <button type="button" class="btn btn-secondary" (click)="ouvrirModal(calendarModal)">📅</button>
     </div>
   </div>
 
@@ -26,7 +34,7 @@
     <input type="time" id="heureSelectionnee" [(ngModel)]="rendezVous.heureSelectionnee" name="heureSelectionnee" class="form-control" required (change)="onDateChange()">
   </div>
 
-  <button type="submit" [disabled]="!rendezVous.vehiculeId || !rendezVous.servicesIds.length || !rendezVous.dateSelectionnee || !rendezVous.heureSelectionnee" class="btn btn-primary">
+  <button type="submit" class="btn btn-primary" [disabled]="!rendezVous.vehiculeId || !rendezVous.dateSelectionnee || !rendezVous.heureSelectionnee || !hasSelectedServices()">
     Valider le Rendez-vous
   </button>
 
@@ -34,26 +42,16 @@
 </form>
 
 
-
-
 <ng-template #calendarModal let-modal>
-  <div class="modal-dialog custom-modal-size"> <!-- Utilisez 'modal-lg' pour agrandir le modal -->
+  <div class="modal-dialog custom-modal-size">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Sélectionner une date</h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
       </div>
       <div class="modal-body">
-        <full-calendar [options]="calendarOptions"></full-calendar>
+        <full-calendar [options]="calendarOptions" (dateClick)="onDateClick($event)"></full-calendar>
       </div>
     </div>
   </div>
 </ng-template>
-
-
-
-
-
-
-
-
