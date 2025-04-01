@@ -28,6 +28,6 @@ npm install @fullcalendar/timegrid --legacy-peer-deps
 NB : anaty navigation.ts no misy ny element navBar(inona no apoitra sns)
 nav-content-component.ts antsoina NavigationItem[]
 
-ng add @angular/material --legacy-peer-deps
+
 
 
