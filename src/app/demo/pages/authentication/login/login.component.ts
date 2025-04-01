@@ -26,7 +26,6 @@ export default class LoginComponent {
 
     this.authService.login(credentials).subscribe(
       (response) => {
-
         // Sauvegarde du token et des info user dans les localStorage
         this.authService.saveToken(response.token);
         this.authService.saveUserInfo(response.user)
