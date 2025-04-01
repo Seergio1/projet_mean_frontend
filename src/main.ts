@@ -12,6 +12,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { provideToastr } from 'ngx-toastr';
 import {ToastrModule } from 'ngx-toastr';
+// import { CalendarModule } from 'primeng/calendar';
+// import { providePrimeNG } from 'primeng/config';
+
 
 
 
@@ -28,15 +31,20 @@ bootstrapApplication(AppComponent, {
       FormsModule,
       CommonModule,
       BrowserAnimationsModule,
+      // CalendarModule,
       ToastrModule.forRoot({
         timeOut: 3000,
         positionClass: 'toast-top-right',
         preventDuplicates: true,
-      })
+      }),
+
     ),
     provideAnimations(),
     provideHttpClient(),
-    provideToastr()
+    provideToastr(),
+    // providePrimeNG({
+    //   theme:'none'
+    // })
 
   ]
 }).catch((err) => console.error(err));

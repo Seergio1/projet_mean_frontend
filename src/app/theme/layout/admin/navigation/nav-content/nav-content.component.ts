@@ -34,7 +34,7 @@ export class NavContentComponent implements OnInit {
   title = 'Demo application for version numbering';
   currentApplicationVersion = environment.appVersion;
 
-  navigations!: NavigationItem[];
+  navigations!: NavigationItem[]; // donné navBar
   windowWidth: number;
 
   // Constructor

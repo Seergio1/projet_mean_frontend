@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -60,5 +60,11 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+  }
+
+  getAuthHeaders(): HttpHeaders {
+      const token = this.getToken();
+      // console.log(token);
+      return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 }

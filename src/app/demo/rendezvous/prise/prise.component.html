@@ -1,0 +1,59 @@
+<form (ngSubmit)="validerRendezVous()">
+  <div class="form-group">
+    <label for="vehiculeId">Véhicule</label>
+    <select id="vehiculeId" [(ngModel)]="rendezVous.vehiculeId" name="vehiculeId" class="form-control" required>
+      <option *ngFor="let vehicule of vehicules" [value]="vehicule._id">{{ vehicule.nom }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="servicesIds">Services</label>
+    <select id="servicesIds" [(ngModel)]="rendezVous.servicesIds" name="servicesIds" class="form-control" multiple required>
+      <option *ngFor="let service of services" [value]="service._id">{{ service.libelle }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="dateSelectionnee">Date</label>
+    <div class="input-group">
+      <input type="date" id="dateSelectionnee" [(ngModel)]="rendezVous.dateSelectionnee" name="dateSelectionnee" class="form-control" required (change)="onDateChange()">
+      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#calendarModal" (click)="ouvrirModal(calendarModal)">📅</button>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="heureSelectionnee">Heure</label>
+    <input type="time" id="heureSelectionnee" [(ngModel)]="rendezVous.heureSelectionnee" name="heureSelectionnee" class="form-control" required (change)="onDateChange()">
+  </div>
+
+  <button type="submit" [disabled]="!rendezVous.vehiculeId || !rendezVous.servicesIds.length || !rendezVous.dateSelectionnee || !rendezVous.heureSelectionnee" class="btn btn-primary">
+    Valider le Rendez-vous
+  </button>
+
+  <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
+</form>
+
+
+
+
+<ng-template #calendarModal let-modal>
+  <div class="modal-dialog custom-modal-size"> <!-- Utilisez 'modal-lg' pour agrandir le modal -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Sélectionner une date</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+      </div>
+      <div class="modal-body">
+        <full-calendar [options]="calendarOptions"></full-calendar>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+
+
+
+
+

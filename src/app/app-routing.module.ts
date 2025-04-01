@@ -45,7 +45,17 @@ const routes: Routes = [
       {
         path: 'sample-page',
         loadComponent: () => import('./demo/other/sample-page/sample-page.component')
-      }
+      },
+
+      // nouvelle route
+      {
+        path: 'rendez-vous/prise',
+        loadComponent: () => import('./demo/rendezvous/prise/prise.component')
+      },
+      {
+        path: 'rendez-vous/liste',
+        loadComponent: () => import('./demo/rendezvous/liste/liste.component')
+      },
     ]
   },
   {

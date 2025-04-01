@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
@@ -12,26 +12,21 @@ export class NotificationService {
 
   constructor(private http: HttpClient,private authService: AuthService) {}
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    console.log(token);
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  }
 
   // Récupérer les notifications par ID du client
   getNotificationsByIdClient(id_client: string): Observable<any> {
-    const headers = this.getAuthHeaders(); // Ajouter l'en-tête d'autorisation
+    const headers = this.authService.getAuthHeaders(); // Ajouter l'en-tête d'autorisation
     return this.http.get(`${this.apiUrl}/notifications/${id_client}`, { headers });
   }
 
   // Mettre à jour l'état d'une notification
   updateEtatNotification(id_notification: string, etat: boolean): Observable<any> {
-    const headers = this.getAuthHeaders(); // Ajouter l'en-tête d'autorisation
+    const headers =  this.authService.getAuthHeaders(); // Ajouter l'en-tête d'autorisation
     return this.http.put(`${this.apiUrl}/notification/etat/${id_notification}`, { etat }, { headers });
   }
 
   marquerTousLu(clientId: string): Observable<any> {
-    const headers = this.getAuthHeaders(); // Ajouter l'en-tête d'autorisation
+    const headers =  this.authService.getAuthHeaders(); // Ajouter l'en-tête d'autorisation
     return this.http.put(`${this.apiUrl}/notifications/etat/${clientId}`, {}, { headers });
   }
 }
