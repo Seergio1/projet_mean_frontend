@@ -19,7 +19,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export default class PriseComponent implements OnInit {
   @ViewChild('calendarModal', { static: false }) calendarModal!: ElementRef;
   rendezVous = {
-    clientId: this.authService.getUserInfo().id,
+    clientId: '',
     vehiculeId: '',
     servicesIds: [],
     dateSelectionnee: '',
@@ -40,6 +40,7 @@ export default class PriseComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.rendezVous.clientId = this.authService.getUserInfo()?.id || '';
     this.chargerVehicules();
     this.chargerServices();
     this.chargerDatesIndisponibles();
@@ -78,7 +79,7 @@ export default class PriseComponent implements OnInit {
       next: (response) => {
         this.services = response.data;
         this.selectedServices = this.services.map(service => ({ _id: service._id, selected: false, nom: service.nom }));
-        console.log(this.services);
+        // console.log(this.services);
         
       },
       error: (err) => console.error('Erreur lors du chargement des services:', err)
@@ -126,10 +127,12 @@ export default class PriseComponent implements OnInit {
           };
         });
         console.log(events);
-        this.calendarOptions.events = events;
-        this.calendarOptions = { ...this.calendarOptions };
+        this.calendarOptions = { 
+          ...this.calendarOptions, 
+          events 
+        };
       },
-      error: (err) => console.error('Erreur lors du chargement des dates:', err)
+      error: (err) => console.error('Erreur lors du chargement des dates:', err.error.message)
     });
   }
 
@@ -186,6 +189,7 @@ export default class PriseComponent implements OnInit {
         this.message = "Rendez-vous validé avec succès !";
       },
       error: (err) => {
+        console.error("Erreur lors de la validation du rendez-vous:", err);
         this.message = err.error.message;
       }
     });
@@ -194,11 +198,7 @@ export default class PriseComponent implements OnInit {
   handleDateClick(arg: { dateStr: string; }) {
     this.rendezVous.dateSelectionnee = arg.dateStr;
     this.message = '';
-    const modalElement = document.getElementById('calendarModal');
-    if (modalElement) {
-      (modalElement as any).classList.remove('show');
-      (modalElement as any).style.display = 'none';
-    }
+    this.modalService.dismissAll();
   }
 
   ouvrirModal(modal: any) {

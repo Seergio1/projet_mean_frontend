@@ -35,5 +35,11 @@ export class RendezvousService {
         body,
         { headers }
     );
-}
+  }
+
+  getRendezVousClient(idClient: any): Observable<{ data: any[], message: string }> {
+    const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
+    return this.http.get<{ data: any[], message: string }>(`${this.apiUrl}/rendez-vous/tous/${idClient}`,{headers});
+  }
+  
 }

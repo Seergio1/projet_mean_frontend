@@ -1,1 +1,93 @@
-<p>liste works!</p>
+<div class="row">
+    <div class="col-xl-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3 align-items-center">
+                    <div class="col">
+                        <h4>Liste des rendez vous</h4>
+                    </div>
+                    <div class="col-auto"></div>
+                </div>
+                <!-- <div class="rounded bg-light-secondary overflow-hidden mb-3">
+                    <div class="px-3 pt-3">
+                        <div class="row mb-1 align-items-start">
+                            <div class="col">
+                                <h5 class="text-secondary mb-0">Bajaj Finery</h5>
+                                <small class="text-muted">10% Profit</small>
+                            </div>
+                            <div class="col-auto">
+                                <h4 class="mb-0">$1839.00</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <app-bajaj-chart />
+                </div> -->
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item px-0" *ngFor="let rdv of allRenderVous">
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <h5 class="mb-0">{{formatDate(rdv.date)}}</h5>
+                                <small class="text-success">{{rdv.id_vehicule.modele}}</small>
+                            </div>
+                            <div class="col-auto">
+                                <h4 class="mb-0">
+                                    MGA {{formatPrix(getSommeService(rdv.services,"prix"))}}
+                                    <span class="ms-2 align-top avatar avatar-xxs bg-light-success" (click)="ouvrirModal(detailServiceModal,rdv)">
+                                        <i class="ti ti-chevron-up text-success"></i>
+                                    </span>
+                                </h4>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="text-center">
+                    <a  class="b-b-primary text-primary f-w-500">
+                        Afficher tous
+                        <i class="ti ti-chevron-right" ></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<ng-template #detailServiceModal>
+    <div class="modal-dialog custom-modal-size">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Details rendez-vous</h3>
+          <button type="button" class="btn-close" aria-label="Close" (click)="fermerModal()"></button>
+        </div>
+        <div class="modal-body">
+
+            <!-- <ul class="list-group list-group-flush"> -->
+                <ul class="list-group">
+                    <h5>Liste des services</h5>
+                <li class="list-group-item " *ngFor="let liste of rdv">
+                    
+                    <div class="row align-items-start"  *ngFor="let service of liste.services">
+                        
+                        <div class="col">
+                            <div class="mb-0">{{service.nom}}</div>
+                            
+                        </div>
+                        <div class="col-auto">
+                            <!-- <h4 class="mb-0">
+                                MGA {{formatPrix(getSommeService(liste.services,"prix"))}}
+                                <span class="ms-2 align-top avatar avatar-xxs bg-light-success">
+                                    <i class="ti ti-chevron-up text-success"></i>
+                                </span>
+                            </h4> -->
+                        </div>
+                    </div>
+                    
+                </li>
+            </ul>
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
