@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-sm-12">
+        <app-card cardTitle="Hello Card">
+            <h2>Item List</h2>
+            
+            <div class="table-container">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="number">
+                                <input
+                                type="text"
+                                [(ngModel)]="nomSearch"
+                                (input)="getEtatStock()"
+                                placeholder="Rechercher un article..."
+                                /><br>  
+                                nom article
+                            </th>
+                            <th class="number">entrer</th>
+                            <th class="number">sortie</th>
+                            <th class="number">reste</th>
+                            <!-- <th class="number">prix unitaire</th>
+                            <th class="number">prix total</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of etatStock">
+                            <td class="number">{{ row.nom }}</td>
+                            <td class="number">{{ row.totalEntrer }}</td>
+                            <td class="number">{{ row.totalSortie }}</td>
+                            <td class="number">{{ row.totalEntrer - row.totalSortie }}</td>
+                            <!-- <td class="number">{{ row.prix }}</td>
+                            <td class="number">{{ row.prix_total }}</td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </app-card>
+    </div>
+</div>

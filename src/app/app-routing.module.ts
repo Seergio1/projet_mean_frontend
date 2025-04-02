@@ -27,7 +27,7 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: {role : ["client","mecanicien"]},
+    data: {role : ["client","mecanicien","manager"]},
     children: [
 
       {
@@ -53,6 +53,14 @@ const routes: Routes = [
       {
         path: 'commentaires',
         loadComponent: () => import('./demo/pages/client/commentaires/commentaires.component')
+      },
+      {
+        path: 'mouvement',
+        loadComponent: () => import('./demo/pages/manager/mouvement-stock/mouvement-stock.component')
+      },
+      {
+        path: 'etat-stock',
+        loadComponent: () => import('./demo/pages/manager/etat-stock/etat-stock.component')
       },
       // nouvelle route
       {

@@ -57,11 +57,11 @@ export class AuthService {
     return requiredRoles.some(role_ => user.role.includes(role_));
   }
 
-  hasAnyRole(requiredRole: string[]): boolean {
-    const user = this.getUserInfo();
-    if (!user || !user.role) return false;
-    return requiredRole.some(role => user.role.includes(role));
-  }
+  // hasAnyRole(requiredRole: string[]): boolean {
+  //   const user = this.getUserInfo();
+  //   if (!user || !user.role) return false;
+  //   return requiredRole.some(role => user.role.includes(role));
+  // }
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);
@@ -72,5 +72,21 @@ export class AuthService {
       const token = this.getToken();
       // console.log(token);
       return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
+  modifierDate(date) {
+    const date1 = new Date(date);
+    const reponse = date1.toLocaleString("fr-FR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+
+    console.log(reponse);
+
+    return reponse;
   }
 }
