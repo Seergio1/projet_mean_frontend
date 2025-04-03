@@ -2,8 +2,6 @@
 ng generate service services/serviceName
 ng generate component components/componentName
 
-ng generate component demo/rendezvous/prise
-ng generate component demo/rendezvous/liste
 
 #demmarer le serveur
 ng serve (utilisera environment.ts)
@@ -27,6 +25,15 @@ npm install @fullcalendar/timegrid --legacy-peer-deps
 
 NB : anaty navigation.ts no misy ny element navBar(inona no apoitra sns)
 nav-content-component.ts antsoina NavigationItem[]
+
+
+
+ng generate component demo/devis/demande-devis
+ng generate component demo/devis/historique-devis
+
+ng generate component demo/service/historique-service
+
+ng generate component demo/facture/liste-facture
 
 
 

@@ -30,7 +30,7 @@ export default class LoginComponent {
         // Sauvegarde du token et des info user dans les localStorage
         this.authService.saveToken(response.token);
         this.authService.saveUserInfo(response.user)
-        this.router.navigate([('/default')])
+        this.router.navigate([('/dashboard')])
         console.log("Connexion réussie", response);
       },
       (error) => {

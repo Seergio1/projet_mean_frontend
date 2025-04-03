@@ -54,7 +54,8 @@ export class AuthService {
   hasAnyRole(requiredRoles: string[]): boolean {
     const user = this.getUserInfo();
     if (!user || !user.role) return false;
-    return requiredRoles.some(role_ => user.role.includes(role_));
+    const userRoles = Array.isArray(user.role) ? user.role : [user.role];
+    return requiredRoles.some(role_ => userRoles.includes(role_));
   }
 
   logout(): void {

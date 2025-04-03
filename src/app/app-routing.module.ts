@@ -10,6 +10,20 @@ import { UnauthorizedComponent } from './demo/error/unauthorized/unauthorized.co
 const routes: Routes = [
   {
     path: '',
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: {role : ["manager"]},
+    children: [
+
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent)
+      },
+
+    ]
+  },
+  {
+    path: '',
     component: GuestComponent,
     children: [
       {
@@ -23,6 +37,7 @@ const routes: Routes = [
       }
     ]
   },
+
   {
     path: '',
     component: AdminComponent,
@@ -56,8 +71,25 @@ const routes: Routes = [
         path: 'rendez-vous/liste',
         loadComponent: () => import('./demo/rendezvous/liste/liste.component')
       },
+      {
+        path: 'devis/demande',
+        loadComponent: () => import('./demo/devis/demande-devis/demande-devis.component')
+      },
+      {
+        path: 'devis/historique',
+        loadComponent: () => import('./demo/devis/historique-devis/historique-devis.component')
+      },
+      {
+        path: 'service/historique',
+        loadComponent: () => import('./demo/service/historique-service/historique-service.component')
+      },
+      {
+        path: 'facture/liste',
+        loadComponent: () => import('./demo/facture/liste-facture/liste-facture.component')
+      },
     ]
   },
+
   {
     path: 'unauthorized',
     component: UnauthorizedComponent  // Ajoute cette route
