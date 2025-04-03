@@ -15,6 +15,7 @@ import { NavItemComponent } from './nav-item/nav-item.component';
 
 // NgScrollbarModule
 import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -36,11 +37,14 @@ export class NavContentComponent implements OnInit {
 
   navigations!: NavigationItem[]; // donné navBar
   windowWidth: number;
+  userRole=null
 
   // Constructor
-  constructor() {
+  constructor( private authService:AuthService) {
     this.navigations = NavigationItems;
     this.windowWidth = window.innerWidth;
+
+
   }
 
   // Life cycle events
@@ -50,6 +54,19 @@ export class NavContentComponent implements OnInit {
         (document.querySelector('.coded-navbar') as HTMLDivElement).classList.add('menupos-static');
       }, 500);
     }
+    this.userRole = this.authService.getUserInfo()?.role || '';
+    this.navigations = this.filterNavigationItems(NavigationItems);
+  }
+
+  filterNavigationItems(items: NavigationItem[]): NavigationItem[] {
+    return items
+      .map(group => ({
+        ...group,
+        children: group.children?.filter(child =>
+          !child.role || child.role.includes(this.userRole!)
+        ) || []
+      }))
+      .filter(group => group.children && group.children.length > 0); // Supprime les groupes vides
   }
 
   fireOutClick() {

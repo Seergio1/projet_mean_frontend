@@ -27,9 +27,9 @@ export const NavigationItems: NavigationItem[] = [
         title: 'Dashboard',
         type: 'item',
         classes: 'nav-item',
-        url: '/default',
+        url: '/dashboard',
         icon: 'ti ti-dashboard',
-        breadcrumbs: false
+        role: ['manager']
       }
     ]
   },
@@ -45,7 +45,8 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/rendez-vous/prise',
-        icon: 'ti ti-typography'
+        icon: 'ti ti-typography',
+        role: ['client','mecanicien']
       },
       {
         id: 'rendez-vous-liste',
@@ -53,68 +54,70 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/rendez-vous/liste',
-        icon: 'ti ti-typography'
+        icon: 'ti ti-typography',
+        role: ['client','mecanicien']
       }
     ]
   },
   {
-    id: 'elements',
-    title: 'Elements',
+    id: 'devis',
+    title: 'Devis',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'typography',
-        title: 'Typography',
+        id: 'devis-demande',
+        title: 'Demande',
         type: 'item',
         classes: 'nav-item',
-        url: '/typography',
-        icon: 'ti ti-typography'
+        url: '/devis/demande',
+        icon: 'ti ti-typography',
+        role: ['client','mecanicien']
       },
       {
-        id: 'color',
-        title: 'Colors',
+        id: 'devis-historique',
+        title: 'Historique',
         type: 'item',
         classes: 'nav-item',
-        url: '/color',
-        icon: 'ti ti-brush'
-      },
-      {
-        id: 'tabler',
-        title: 'Tabler',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://tabler-icons.io/',
-        icon: 'ti ti-plant-2',
-        target: true,
-        external: true
+        url: '/devis/historique',
+        icon: 'ti ti-typography',
+        role: ['client','mecanicien']
       }
     ]
   },
   {
-    id: 'other',
-    title: 'Other',
+    id: 'service',
+    title: 'Service',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'sample-page',
-        title: 'Sample Page',
-        type: 'item',
-        url: '/sample-page',
-        classes: 'nav-item',
-        icon: 'ti ti-brand-chrome'
-      },
-      {
-        id: 'document',
-        title: 'Document',
+        id: 'service-historique',
+        title: 'Historique',
         type: 'item',
         classes: 'nav-item',
-        url: 'https://codedthemes.gitbook.io/berry-angular/',
-        icon: 'ti ti-vocabulary',
-        target: true,
-        external: true
+        url: '/service/historique',
+        icon: 'ti ti-typography',
+        role: ['client','mecanicien']
       }
     ]
-  }
+  },
+  {
+    id: 'facture',
+    title: 'Facture',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'facture-liste',
+        title: 'Liste',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/facture/liste',
+        icon: 'ti ti-typography',
+        role: ['client','mecanicien']
+      }
+    ]
+  },
+
 ];

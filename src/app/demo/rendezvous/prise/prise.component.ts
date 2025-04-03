@@ -19,7 +19,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export default class PriseComponent implements OnInit {
   @ViewChild('calendarModal', { static: false }) calendarModal!: ElementRef;
   rendezVous = {
-    clientId: this.authService.getUserInfo().id,
+    clientId: '',
     vehiculeId: '',
     servicesIds: [],
     dateSelectionnee: '',
@@ -40,6 +40,7 @@ export default class PriseComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.rendezVous.clientId = this.authService.getUserInfo()?.id || '';
     this.chargerVehicules();
     this.chargerServices();
     this.chargerDatesIndisponibles();
@@ -78,29 +79,50 @@ export default class PriseComponent implements OnInit {
       next: (response) => {
         this.services = response.data;
         this.selectedServices = this.services.map(service => ({ _id: service._id, selected: false, nom: service.nom }));
-        console.log(this.services);
-        
+        // console.log(this.services);
+
       },
       error: (err) => console.error('Erreur lors du chargement des services:', err)
     });
   }
 
-  onServiceChange(service: any) {
-    if (service.selected) {
-      // Ajouter l'ID du service à la liste des services sélectionnés
-      this.rendezVous.servicesIds.push(service._id);
-    } else {
-      // Supprimer l'ID du service de la liste
-      const index = this.rendezVous.servicesIds.indexOf(service._id);
-      if (index > -1) {
-        this.rendezVous.servicesIds.splice(index, 1);
-      }
-    }
-  }
+  // debut service
+  selectionServiceOuvert = false;
+tempSelectedServices: any[] = [];
 
-  hasSelectedServices() {
-    return this.rendezVous.servicesIds.length > 0;
+ouvrirSelectionService() {
+  this.selectionServiceOuvert = true;
+
+  // Copier l'état actuel pour annulation possible
+  this.tempSelectedServices = this.selectedServices.map(service => ({
+    ...service,
+    selected: service.selected
+  }));
+}
+
+fermerSelectionService(annuler = false) {
+  if (annuler) {
+    // Remettre l'état initial
+    this.selectedServices = this.tempSelectedServices.map(service => ({
+      ...service
+    }));
   }
+  this.selectionServiceOuvert = false;
+}
+
+validerSelectionService() {
+  this.rendezVous.servicesIds = this.selectedServices
+    .filter(service => service.selected)
+    .map(service => service._id);
+
+  this.selectionServiceOuvert = false;
+}
+
+getServiceNameById(serviceId: string): string {
+  const service = this.selectedServices.find(s => s._id === serviceId);
+  return service ? service.nom : '';
+}
+  // fin service
 
   chargerDatesIndisponibles() {
     this.datesIndisponibles = new Map();
@@ -110,13 +132,13 @@ export default class PriseComponent implements OnInit {
           const dateDebut = d.dateDebut.split('T')[0];
           const heureDebut = d.dateDebut.split('T')[1].substring(0, 5);
           const heureFin = d.dateFin.split('T')[1].substring(0, 5);
-          
+
           // Stocke les horaires indisponibles par date
         if (!this.datesIndisponibles.has(dateDebut)) {
           this.datesIndisponibles.set(dateDebut, []);
         }
         this.datesIndisponibles.get(dateDebut)?.push({ heureDebut, heureFin });
-          
+
           return {
             title: `Indisponible ${heureDebut} - ${heureFin}`,
             start: `${dateDebut}T${heureDebut}:00`,
@@ -126,10 +148,12 @@ export default class PriseComponent implements OnInit {
           };
         });
         console.log(events);
-        this.calendarOptions.events = events;
-        this.calendarOptions = { ...this.calendarOptions };
+        this.calendarOptions = {
+          ...this.calendarOptions,
+          events
+        };
       },
-      error: (err) => console.error('Erreur lors du chargement des dates:', err)
+      error: (err) => console.error('Erreur lors du chargement des dates:', err.error.message)
     });
   }
 
@@ -138,9 +162,9 @@ export default class PriseComponent implements OnInit {
     if (!this.datesIndisponibles.has(dateSelectionnee)) {
       return true;
     }
-  
+
     const horairesIndisponibles = this.datesIndisponibles.get(dateSelectionnee);
-  
+
     // Vérifier si l'heure sélectionnée est dans l'intervalle d'indisponibilité
     return !horairesIndisponibles.some(({ heureDebut, heureFin }) =>
       heureSelectionnee >= heureDebut && heureSelectionnee < heureFin
@@ -152,7 +176,7 @@ export default class PriseComponent implements OnInit {
     const dateStr = this.rendezVous.dateSelectionnee;
     const heureSelectionnee = this.rendezVous.heureSelectionnee;
     console.log(this.datesIndisponibles.has(dateStr));
-    
+
     if (this.datesIndisponibles.has(dateStr)) {
       if (!this.estHeureDisponible(dateStr, heureSelectionnee)) {
         this.message = "Ce créneau horaire est déjà pris. Veuillez en choisir un autre.";
@@ -169,7 +193,7 @@ export default class PriseComponent implements OnInit {
       return;
     }
     const dateHeure = this.formatDateEtHeure(this.rendezVous.dateSelectionnee, this.rendezVous.heureSelectionnee)
-    
+
 
     const rdv = {
       clientId: this.rendezVous.clientId,
@@ -178,14 +202,15 @@ export default class PriseComponent implements OnInit {
       dateSelectionnee: dateHeure,
     }
 
-    console.log(rdv);
+    // console.log(rdv);
 
-    
+
     this.rendezVousService.createRendezvous(rdv).subscribe({
-      next: (response) => {
+      next: () => {
         this.message = "Rendez-vous validé avec succès !";
       },
       error: (err) => {
+        console.error("Erreur lors de la validation du rendez-vous:", err);
         this.message = err.error.message;
       }
     });
@@ -194,11 +219,7 @@ export default class PriseComponent implements OnInit {
   handleDateClick(arg: { dateStr: string; }) {
     this.rendezVous.dateSelectionnee = arg.dateStr;
     this.message = '';
-    const modalElement = document.getElementById('calendarModal');
-    if (modalElement) {
-      (modalElement as any).classList.remove('show');
-      (modalElement as any).style.display = 'none';
-    }
+    this.modalService.dismissAll();
   }
 
   ouvrirModal(modal: any) {
@@ -216,7 +237,7 @@ export default class PriseComponent implements OnInit {
   // formatDateEtHeure(date: string, heure: string): string {
   //   const dateParts = date.split('-'); // Sépare la date en année, mois, jour
   //   const timeParts = heure.split(':'); // Sépare l'heure en heures, minutes
-  
+
   //   // Crée une nouvelle date en combinant la date et l'heure
   //   const combinedDate = new Date(
   //     parseInt(dateParts[0]), // Année
@@ -227,15 +248,15 @@ export default class PriseComponent implements OnInit {
   //     0, // Seconde (on met 0 par défaut)
   //     0 // Milliseconde (on met 0 par défaut)
   //   );
-  
+
   //   // Retourne la date formatée en ISO : "YYYY-MM-DDTHH:mm:ss"
   //   return combinedDate.toISOString().split('.')[0]; // Exclut les fractions de seconde
   // }
 
   formatDateEtHeure(date: string, heure: string): string {
-    return `${date}T${heure}:00`  
+    return `${date}T${heure}:00`
 }
 
-  
+
 
 }

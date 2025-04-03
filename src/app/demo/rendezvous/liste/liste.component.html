@@ -1,1 +1,107 @@
-<p>liste works!</p>
+<div class="row">
+  <div class="col-xl-12 col-md-12">
+      <div class="card">
+          <div class="card-body">
+              <div class="row mb-3 align-items-center">
+                  <div class="col">
+                      <h4>Liste des rendez-vous</h4>
+                  </div>
+                  <div class="col-auto">
+                      <!-- Filtre par date -->
+                      <input type="date" [(ngModel)]="dateFilter" (ngModelChange)="applyFilters()" class="form-control">
+                  </div>
+                  <div class="col-auto">
+                      <!-- Filtre par état -->
+                      <select [(ngModel)]="etatFilter" (ngModelChange)="applyFilters()" class="form-control">
+                          <option value="">Tous</option>
+                          <option value="accepté">Accepté</option>
+                          <option value="annulé">Annulé</option>
+                          <option value="en attente">En attente</option>
+                      </select>
+                  </div>
+              </div>
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item px-0" *ngFor="let rdv of paginatedRdv; let index = index">
+                    <div class="row align-items-start">
+                        <div class="col">
+                            <h5 class="mb-0">{{ formatDate(rdv.date) }}</h5>
+                            <small class="text-success">{{ rdv.id_vehicule.modele }}</small>
+                        </div>
+                        <div class="col-auto">
+                            <h4 class="mb-0">
+                                MGA {{ formatPrix(getSommeService(rdv.services, "prix")) }}
+                                <span tabindex="0" role="button"
+                                      (click)="ouvrirModal(detailServiceModal, rdv, index)"
+                                      (keydown.enter)="ouvrirModal(detailServiceModal, rdv, index)"
+                                      (keyup.space)="ouvrirModal(detailServiceModal, rdv, index)"
+                                      class="ms-2 align-top avatar avatar-xxs bg-light-success">
+                                      <i *ngIf="rdv.etat === 'annulé'" class="ti ti-x text-success"></i> <!-- Icône pour "annulé" -->
+                                      <i *ngIf="rdv.etat === 'accepté'" class="ti ti-check text-danger"></i> <!-- Icône pour "accepté" -->
+                                      <i *ngIf="rdv.etat === 'en attente'" class="ti ti-hourglass text-warning"></i> <!-- Icône pour "en attente" -->
+                                </span>
+                            </h4>
+                        </div>
+                    </div>
+                </li>
+              </ul>
+
+              <!-- Pagination -->
+              <div class="text-center">
+                  <button class="btn btn-link" (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+                  <span>Page {{ currentPage }} / {{ totalPages }}</span>
+                  <button class="btn btn-link" (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+              </div>
+
+              <!-- <div class="text-center mt-3">
+                  <a class="b-b-primary text-primary f-w-500" href="#" (click)="showAll()">
+                      Afficher tous
+                      <i class="ti ti-chevron-right"></i>
+                  </a>
+              </div> -->
+          </div>
+      </div>
+  </div>
+</div>
+
+<ng-template #detailServiceModal>
+  <div class="modal-dialog custom-modal-size">
+      <div class="modal-content" #modalContainer tabindex="-1">
+          <div class="modal-header">
+              <h3 class="modal-title">Détails rendez-vous</h3>
+              <button type="button" class="btn-close" aria-label="Close" (click)="fermerModal()"></button>
+          </div>
+          <div class="modal-body">
+              <ul class="list-group">
+                  <h5>Liste des services</h5>
+                  <li class="list-group-item" *ngFor="let liste of rdv">
+                      <div class="row align-items-start" *ngFor="let service of liste.services">
+                          <div class="col">
+                              <div class="mb-0">{{ service.nom }}</div>
+                          </div>
+                      </div>
+                  </li>
+              </ul>
+
+              <!-- rendez vous en attente -->
+              <div class="text-center mt-3" *ngIf="etatTache?.tache?.etat === 'en attente'">
+                  <button class="btn btn-danger" (click)="annulerRendezVous(rdv[indexRdv]?._id,'annulé')">
+                    Annulez le rendez-vous
+                  </button>
+              </div>
+
+              <!-- <div class="text-center mt-3" *ngIf="rdv[indexRdv]?.etat === 'en attente'">
+                <button class="btn btn-danger" (click)="annulerRendezVous(rdv[indexRdv]?._id,'accepté')">
+                    Valider le rendez-vous
+                </button>
+            </div> -->
+
+            <!-- <div class="text-center mt-3" *ngIf="rdv[indexRdv]?.etat !== 'annulé'">
+              <button class="btn btn-danger" (click)="annulerRendezVous(rdv[indexRdv]?._id)">
+                  Annuler le rendez-vous
+              </button>
+            </div> -->
+
+          </div>
+      </div>
+  </div>
+</ng-template>
