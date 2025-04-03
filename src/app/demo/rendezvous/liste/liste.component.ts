@@ -44,6 +44,7 @@ export default class ListeComponent implements OnInit {
   totalPages: number = 0;
 
 
+
   ngOnInit(): void {
     this.userInfo = this.authService.getUserInfo();
     this.getClientRendezVous();

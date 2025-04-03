@@ -1,0 +1,37 @@
+.nav-tabs {
+    border-bottom: none !important;
+  }
+  body.berry-dark .nav-tabs .nav-link,
+  body.berry-dark .tab-content {
+    box-shadow: none !important;
+    background: none !important;
+  }
+
+  .earning-card {
+    .round {
+      &.secondary-round {
+        background: #4527a0;
+      }
+      &.primary-round {
+        background: #1565c0;
+      }
+    }
+  }
+
+  .total-income-card {
+    .avatar {
+      background: #1565c0;
+    }
+  }
+
+.custom-modal-size {
+    max-width: none; /* Pour agrandir le modal à 90% de la largeur de l'écran */
+    width: 50vw; /* Pour que le modal occupe 90% de la largeur de l'écran */
+    // height: 80%; /* Pour augmenter la hauteur du modal */
+    max-height: none; /* Limite la hauteur maximale à 80% de la hauteur de la fenêtre */
+    .modal-content {
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+
