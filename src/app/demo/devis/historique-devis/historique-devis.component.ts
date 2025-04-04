@@ -67,7 +67,7 @@ export default class HistoriqueDevisComponent implements OnInit{
         this.historiqueDevis = response.data;
         console.log(response.data);
         this.applyFilters();
-        
+
       },
       error: (err) => console.error('Erreur lors de la récupération des historique des devis:', err)
     });
@@ -95,7 +95,7 @@ export default class HistoriqueDevisComponent implements OnInit{
     this.paginatedDevis = this.filteredDevis.slice((this.currentPage - 1) * this.itemsPerPage, this.currentPage * this.itemsPerPage);
   }
 
-  
+
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -143,7 +143,7 @@ export default class HistoriqueDevisComponent implements OnInit{
       const article = listArticle[m];
       total += article.id_article.prix
      }
-     
+
     }
 
     return total != null ? total.toLocaleString('fr-FR') : '0';
@@ -158,14 +158,14 @@ export default class HistoriqueDevisComponent implements OnInit{
       const service = listService[m];
       total += service.prix
      }
-     
+
     }
 
     return total != null ? total.toLocaleString('fr-FR') : '0';
   }
   getTotalMontant(histo: any[]): string {
-    let totalMateriel = this.getMontantMaterielValeur(histo); 
-    let totalService = this.getMontantServiceValeur(histo); 
+    let totalMateriel = this.getMontantMaterielValeur(histo);
+    let totalService = this.getMontantServiceValeur(histo);
 
     let total = totalMateriel + totalService;
 

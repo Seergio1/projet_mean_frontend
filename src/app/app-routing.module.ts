@@ -83,10 +83,10 @@ const routes: Routes = [
         path: 'service/historique',
         loadComponent: () => import('./demo/service/historique-service/historique-service.component')
       },
-      {
-        path: 'facture/liste',
-        loadComponent: () => import('./demo/facture/liste-facture/liste-facture.component')
-      },
+      // {
+      //   path: 'facture/liste',
+      //   loadComponent: () => import('./demo/facture/liste-facture/liste-facture.component')
+      // },
     ]
   },
 
