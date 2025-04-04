@@ -37,4 +37,27 @@ export class MouvementStockService {
       { headers, params } 
     );
   }
+
+  insertMouvementStock(body: any): Observable<{ data: any[], message: string}> {
+    const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
+    
+    return this.http.put<{
+      data: any[], 
+      message: string
+    }>(`${this.apiUrl}/insert-mvmt`,
+      body,
+      { headers } 
+    );
+  }
+
+  getTotalDepenseArticle(): Observable<{ data: any[], message: string}> {
+    const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
+    
+    return this.http.get<{
+      data: any[], 
+      message: string
+    }>(`${this.apiUrl}/article-depense`,
+      { headers } 
+    );
+  }
 }

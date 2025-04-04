@@ -29,7 +29,14 @@ export default class LoginComponent {
         // Sauvegarde du token et des info user dans les localStorage
         this.authService.saveToken(response.token);
         this.authService.saveUserInfo(response.user)
-        this.router.navigate([('/dashboard')])
+
+        if (response.user.role === 'manager') {
+          this.router.navigate([('/dashboard')]);
+        } else if (response.user.role === 'client') {
+          this.router.navigate([('rendez-vous/liste')]);
+        }
+
+        // this.router.navigate([('/dashboard')])
         console.log("Connexion réussie", response);
       },
       (error) => {

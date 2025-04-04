@@ -1,5 +1,5 @@
 // Angular Import
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // project import
@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { BajajChartComponent } from 'src/app/theme/shared/components/apexchart/bajaj-chart/bajaj-chart.component';
 import { BarChartComponent } from 'src/app/theme/shared/components/apexchart/bar-chart/bar-chart.component';
 import { ChartDataMonthComponent } from 'src/app/theme/shared/components/apexchart/chart-data-month/chart-data-month.component';
+import { MouvementStockService } from 'src/app/services/manager/mouvement-stock.service';
 
 @Component({
   selector: 'app-default',
@@ -14,8 +15,9 @@ import { ChartDataMonthComponent } from 'src/app/theme/shared/components/apexcha
   templateUrl: './default.component.html',
   styleUrls: ['./default.component.scss']
 })
-export class DefaultComponent {
+export class DefaultComponent implements OnInit {
   // public method
+
   ListGroup = [
     {
       name: 'Bajaj Finery',
@@ -77,4 +79,25 @@ export class DefaultComponent {
       color: 'text-warning'
     }
   ];
+
+  totalDepenseArticle: any = 0;
+
+  ngOnInit(): void {
+    this.getTotalDepenseArticle();
+  }
+
+  constructor(
+    private mouvementStockService: MouvementStockService
+  ) {}
+  
+  getTotalDepenseArticle() {
+    this.mouvementStockService.getTotalDepenseArticle().subscribe({
+      next: (resp) => {
+        this.totalDepenseArticle = resp.data;
+      },
+      error: (err) => {
+        console.log("erreur get total depense Article", err)
+      }
+    });
+  }
 }
