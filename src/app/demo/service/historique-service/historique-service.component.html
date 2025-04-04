@@ -1,1 +1,113 @@
-<p>historique-service works!</p>
+<div class="row">
+    <div class="col-xl-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3 align-items-center">
+                    <div class="col">
+                        <h4>Historique des services</h4>
+                    </div>
+                    <div class="col-auto">
+                        <!-- Filtre par date -->
+                        <input type="date" [(ngModel)]="dateFilter" (ngModelChange)="applyFilters()" class="form-control">
+                    </div>
+                    <div class="col-auto">
+                        <!-- Filtre par vehicule -->
+                        <select [(ngModel)]="vehiculeFilter" (ngModelChange)="applyFilters()" class="form-control">
+                            <option value="">Tous</option>
+                            <option *ngFor="let vehicule of vehicules" [value]="vehicule.modele">
+                                {{ vehicule.modele }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item px-0" *ngFor="let service of paginatedService; let index = index">
+                      <div class="row align-items-start">
+                          <div class="col">
+                              <h5 class="mb-0">{{ formatDate(service.date) }}</h5>
+                              <small class="text-success">{{ service.id_vehicule.modele }}</small>
+                          </div>
+                          <div class="col-auto">
+                              <h4 class="mb-0">
+                                   {{ service.prix_total | number:'1.0-0' }} MGA
+                                  <span tabindex="0" role="button"
+                                        (click)="ouvrirModal(detailHistoDevisModal, service)"
+                                        (keydown.enter)="ouvrirModal(detailHistoDevisModal, service)"
+                                        (keyup.space)="ouvrirModal(detailHistoDevisModal, service)"
+                                        class="ms-2 align-top avatar avatar-xxs bg-light-success">
+                                        <!-- <i *ngIf="rdv.etat === 'annulé'" class="ti ti-x text-success"></i>
+                                        <i *ngIf="rdv.etat === 'accepté'" class="ti ti-check text-danger"></i>
+                                        <i *ngIf="rdv.etat === 'en attente'" class="ti ti-hourglass text-warning"></i>  -->
+                                  </span>
+                              </h4>
+                          </div>
+                      </div>
+                  </li>
+                </ul>
+
+                <!-- Pagination -->
+                <div class="text-center">
+                    <button class="btn btn-link" (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+                    <span>Page {{ currentPage }} / {{ totalPages }}</span>
+                    <button class="btn btn-link" (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <ng-template #detailHistoDevisModal>
+    <div class="modal-dialog custom-modal-size">
+      <div class="modal-content" #modalDevisContainer tabindex="-1">
+          <div class="modal-header">
+              <h3 class="modal-title">Détails devis</h3>
+              <button type="button" class="btn-close" aria-label="Close" (click)="fermerModal()"></button>
+          </div>
+          <div class="modal-body">
+              <div class="section">
+                  <h5>Liste des services</h5>
+                  <div *ngFor="let devis of historiqueService">
+                    <ul class="list-group">
+                      <li class="list-group-item" *ngFor="let service of devis.services">
+                        <span>{{ service.nom }}</span>
+                        <span>{{ service.prix | number:'1.0-0' }} MGA</span>
+                      </li>
+                    </ul>
+                  </div>
+              </div>
+
+              <div class="section">
+                  <h5>Liste des matériels</h5>
+                  <div *ngFor="let devis of historiqueService">
+                    <ul class="list-group">
+                          <li class="list-group-item" *ngFor="let article of devis.articles">
+                            <span>{{ article.id_article.nom }}</span>
+                            <span>{{ article.id_article.prix | number:'1.0-0'}} MGA (X{{article.nbr_article}})</span>
+                          </li>
+                    </ul>
+                  </div>
+              </div>
+
+              <div class="section total">
+                  <h5>Total</h5>
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <span>Total des matériels</span>
+                      <span>{{ getMontantMateriel(historiqueService) | number:'1.0-0'}} MGA</span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>Total des services</span>
+                      <span>{{ getMontantService(historiqueService) | number:'1.0-0'}} MGA</span>
+                    </li>
+                    <li class="list-group-item">
+                      <span>Total à payer</span>
+                      <span>{{ getTotalMontant(historiqueService) | number:'1.0-0'}} MGA</span>
+                    </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+  </ng-template>

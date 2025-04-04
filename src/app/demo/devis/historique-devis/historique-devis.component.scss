@@ -1,17 +1,27 @@
+.modal {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-dialog {
+    padding: 0 !important;
+    margin: 0;
+    background: transparent !important;
+    display: inline-block !important;
+  }
 /* Modal Size */
 .custom-modal-size {
-  max-width: 45vw; /* Réduit la largeur du modal à 45% */
-  width: 45vw;
-  max-height: 60vh; /* Limite la hauteur à 60% de l'écran */
-  height: auto;
-  border-radius: 8px; /* Coins légèrement arrondis */
+
+  border-radius: 8px; 
+  flex-direction: column; 
+  background-color: white !important;
   .modal-content {
       border: none;
       border-radius: 8px;
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Ombre douce */
-      background: #fff; /* Fond blanc */
+      background: #fff !important; /* Fond blanc */
       overflow-y: auto; /* Permet le défilement si nécessaire */
-      padding: 15px; /* Moins d'espace pour un contenu plus compact */
+      padding: 18px; /* Moins d'espace pour un contenu plus compact */
   }
   .modal-header {
       padding: 10px 15px; /* Réduit la hauteur de l'entête */
@@ -47,22 +57,21 @@
           }
           .list-group-item {
               background: #fff;
-              border: 1px solid #e5e5e5; /* Bordure discrète */
+              border: none;
+            //   border-bottom: 1px solid #e5e5e5; /* Bordure discrète */
               border-radius: 6px;
-              margin-bottom: 5px; /* Moins d'espace entre les éléments */
+            //   margin-bottom: 5px; /* Moins d'espace entre les éléments */
               padding: 8px 12px; /* Moins de padding pour rendre l'élément plus compact */
-              .row {
-                  display: flex;
-                  justify-content: space-between;
-                  .col {
-                      display: flex;
-                      justify-content: space-between;
-                      padding: 5px 0;
-                  }
-                  .text-end {
-                      font-weight: bold;
-                      color: #333;
-                  }
+              display: flex ;
+              justify-content: space-between;
+              
+              .list-group-item span:first-of-type {
+                order: 1; /* Place le nom au début */
+              }
+              
+              .list-group-item span:last-of-type {
+                order: 2; /* Place le prix à la fin */
+                font-weight: bold !important;
               }
           }
       }

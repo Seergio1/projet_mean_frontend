@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div class="row mb-3 align-items-center">
                     <div class="col">
-                        <h4>Historique de devis</h4>
+                        <h4>Historique des devis</h4>
                     </div>
                     <div class="col-auto">
                         <!-- Filtre par date -->
@@ -29,7 +29,7 @@
                           </div>
                           <div class="col-auto">
                               <h4 class="mb-0">
-                                  MGA {{ formatPrix(devis.prix_total) }}
+                                   {{ devis.prix_total | number:'1.0-0' }} MGA
                                   <span tabindex="0" role="button"
                                         (click)="ouvrirModal(detailHistoDevisModal, devis)"
                                         (keydown.enter)="ouvrirModal(detailHistoDevisModal, devis)"
@@ -71,7 +71,8 @@
                   <div *ngFor="let devis of historiqueDevis">
                     <ul class="list-group">
                       <li class="list-group-item" *ngFor="let service of devis.services">
-                        {{ service.nom }} - {{ service.prix | number:'1.0-0' }} MGA
+                        <span>{{ service.nom }}</span>
+                        <span>{{ service.prix | number:'1.0-0' }} MGA</span>
                       </li>
                     </ul>
                   </div>
@@ -82,7 +83,8 @@
                   <div *ngFor="let devis of historiqueDevis">
                     <ul class="list-group">
                           <li class="list-group-item" *ngFor="let article of devis.articles">
-                            {{ article.id_article.nom }} - {{ formatPrix(article.id_article.prix) }} MGA (X{{article.nbr_article}})
+                            <span>{{ article.id_article.nom }}</span>
+                            <span>{{ article.id_article.prix | number:'1.0-0'}} MGA (X{{article.nbr_article}})</span>
                           </li>
                     </ul>
                   </div>
@@ -92,13 +94,16 @@
                   <h5>Total</h5>
                   <ul class="list-group">
                     <li class="list-group-item">
-                      Total des matériels - {{ getMontantMateriel(historiqueDevis) }} MGA
+                      <span>Total des matériels</span>
+                      <span>{{ getMontantMateriel(historiqueDevis) | number:'1.0-0'}} MGA</span>
                     </li>
                     <li class="list-group-item">
-                      Total des services - {{ getMontantService(historiqueDevis) }} MGA
+                      <span>Total des services</span>
+                      <span>{{ getMontantService(historiqueDevis) | number:'1.0-0'}} MGA</span>
                     </li>
                     <li class="list-group-item">
-                      Total à payer - {{ getTotalMontant(historiqueDevis) }} MGA
+                      <span>Total à payer</span>
+                      <span>{{ getTotalMontant(historiqueDevis) | number:'1.0-0'}} MGA</span>
                     </li>
                   </ul>
               </div>
