@@ -1,0 +1,68 @@
+.custom-modal-size {
+    max-width: none; /* Pour agrandir le modal à 90% de la largeur de l'écran */
+    width: 50vw; /* Pour que le modal occupe 90% de la largeur de l'écran */
+    // height: 80%; /* Pour augmenter la hauteur du modal */
+    max-height: none; /* Limite la hauteur maximale à 80% de la hauteur de la fenêtre */
+  }
+  /* Personnaliser l'apparence des cases à cocher */
+  
+  
+  /* Style du modal service */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    z-index: 1050; /* Au-dessus des autres éléments */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .modal-content {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      width: 100%;
+      max-width: 600px; /* Largeur maximale du modal */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+  
+    .close-btn {
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  
+    .modal-body.scrollable {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 15px;
+  
+      input[type="checkbox"] {
+        margin-right: 10px;
+      }
+    }
+  
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 10px;
+    }
+  
+  
+  }
+  
+  
+  
+  
+  
+  

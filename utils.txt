@@ -36,5 +36,11 @@ ng generate component demo/service/historique-service
 ng generate component demo/facture/liste-facture
 
 
+ng generate service services/client/historique-service
+
+ng generate service services/client/article
+
+
+
 
 

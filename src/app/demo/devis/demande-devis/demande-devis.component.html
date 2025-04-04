@@ -1,1 +1,107 @@
-<p>demande-devis works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form (ngSubmit)="demandeDevis()">
+                    
+                    <!-- Sélection du véhicule -->
+                    <div class="form-group mb-3">
+                        <label for="vehiculeId">Véhicule</label>
+                        <select id="vehiculeId" [(ngModel)]="body.vehiculeId" name="vehiculeId" class="form-control" required>
+                            <option *ngFor="let vehicule of vehicules" [value]="vehicule._id">
+                                {{ vehicule.modele }} - {{ vehicule.numero }}
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <!-- Sélection des articles et services -->
+                    <div class="row mb-3 d-flex justify-content-between align-items-center gap-3">
+                        <!-- <div class="col-12 col-md-12">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary w-100" (click)="ouvrirSelectionArticle()">
+                                    Choisir Articles
+                                </button>
+                                <div class="mt-2">
+                                    <span *ngFor="let articleId of body.tabArticles" class="badge bg-primary me-2">
+                                        {{ getArticleNameById(articleId) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div> -->
+                        
+                        
+                        <div class="col-12 col-md-12">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary w-100" (click)="ouvrirSelectionService()">
+                                    Choisir Services
+                                </button>
+                                <div class="mt-2">
+                                    <span *ngFor="let serviceId of body.servicesIds" class="badge bg-primary me-2">
+                                        {{ getServiceNameById(serviceId) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-12">
+                            <div class="form-group">
+                                <label for="choixOption">Matériels</label>
+                                <select id="choixOption" class="form-control" [(ngModel)]="body.artCheck" name="choixOption">
+                                    <option value="0">Sans</option>
+                                    <option value="1">Avec</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bouton de validation -->
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-primary"
+                                [disabled]="!body.vehiculeId || body.servicesIds.length === 0">
+                            Demande de devis
+                        </button>
+                    </div>
+                </form>
+                
+                <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modals de sélection -->
+<div *ngIf="selectionServiceOuvert" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Sélectionner les services</h5>
+            <button type="button" class="close-btn" (click)="fermerSelectionService(true)">✖</button>
+        </div>
+        <div class="modal-body scrollable">
+            <div *ngFor="let service of selectedServices; let i = index" class="form-check">
+                <input type="checkbox" class="form-check-input" id="service_{{i}}" [(ngModel)]="service.selected" />
+                <label class="form-check-label" for="service_{{i}}">{{ service.nom }}</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="validerSelectionService()">Valider</button>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectionArticleOuvert" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Sélectionner les articles</h5>
+            <button type="button" class="close-btn" (click)="fermerSelectionArticle(true)">✖</button>
+        </div>
+        <div class="modal-body scrollable">
+            <div *ngFor="let article of selectedArticles; let i = index" class="form-check">
+                <input type="checkbox" class="form-check-input" id="article_{{i}}" [(ngModel)]="article.selected" />
+                <label class="form-check-label" for="article_{{i}}">{{ article.nom }}</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="validerSelectionArticle()">Valider</button>
+        </div>
+    </div>
+</div>
