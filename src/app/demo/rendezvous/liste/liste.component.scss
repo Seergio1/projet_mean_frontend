@@ -7,31 +7,35 @@
     background: none !important;
   }
 
-  .earning-card {
-    .round {
-      &.secondary-round {
-        background: #4527a0;
-      }
-      &.primary-round {
-        background: #1565c0;
-      }
-    }
+  .modal {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
   }
-
-  .total-income-card {
-    .avatar {
-      background: #1565c0;
-    }
+  .modal-dialog {
+    padding: 0 !important;
+    margin: 0;
+    background: transparent !important;
+    display: inline-block !important;
   }
-
 .custom-modal-size {
-    max-width: none; /* Pour agrandir le modal à 90% de la largeur de l'écran */
-    width: 50vw; /* Pour que le modal occupe 90% de la largeur de l'écran */
-    // height: 80%; /* Pour augmenter la hauteur du modal */
-    max-height: none; /* Limite la hauteur maximale à 80% de la hauteur de la fenêtre */
+  border-radius: 8px; 
+  flex-direction: column; 
+  background-color: white !important;
     .modal-content {
-        border: none !important;
-        box-shadow: none !important;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Ombre douce */
+      background: #fff !important; /* Fond blanc */
+      overflow-y: auto; /* Permet le défilement si nécessaire */
+      padding: 15px; /* Moins d'espace pour un contenu plus compact */
+    }
+    .section {
+      .list-group-item {
+        background: #fff;
+        border: none;
+        padding: 8px 12px;
+      }
     }
 }
 

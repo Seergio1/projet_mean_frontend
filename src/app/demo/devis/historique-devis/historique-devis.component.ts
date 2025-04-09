@@ -67,9 +67,9 @@ export default class HistoriqueDevisComponent implements OnInit{
         this.historiqueDevis = response.data;
         console.log(response.data);
         this.applyFilters();
-        
+
       },
-      error: (err) => console.error('Erreur lors de la récupération des historique des devis:', err)
+      error: (err) => console.error('Erreur lors de la récupération des historiques des devis:', err)
     });
   }
 
@@ -95,7 +95,7 @@ export default class HistoriqueDevisComponent implements OnInit{
     this.paginatedDevis = this.filteredDevis.slice((this.currentPage - 1) * this.itemsPerPage, this.currentPage * this.itemsPerPage);
   }
 
-  
+
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -130,8 +130,8 @@ export default class HistoriqueDevisComponent implements OnInit{
     return moisNoms[mois - 1] || '';
   }
 
-  formatPrix(prix: number): string {
-    return prix != null ? prix.toLocaleString('fr-FR') : '0';
+  formatPrix(prix: number): number {
+    return prix != null ? prix : 0;
   }
 
   getMontantMateriel(histo:any[]): any {
@@ -143,10 +143,10 @@ export default class HistoriqueDevisComponent implements OnInit{
       const article = listArticle[m];
       total += article.id_article.prix
      }
-     
+
     }
 
-    return total != null ? total.toLocaleString('fr-FR') : '0';
+    return total != null ? total : 0;
   }
 
   getMontantService(histo:any[]): any {
@@ -158,18 +158,18 @@ export default class HistoriqueDevisComponent implements OnInit{
       const service = listService[m];
       total += service.prix
      }
-     
+
     }
 
-    return total != null ? total.toLocaleString('fr-FR') : '0';
+    return total != null ? total : 0;
   }
-  getTotalMontant(histo: any[]): string {
-    let totalMateriel = this.getMontantMaterielValeur(histo); 
-    let totalService = this.getMontantServiceValeur(histo); 
+  getTotalMontant(histo: any[]): number {
+    let totalMateriel = this.getMontantMaterielValeur(histo);
+    let totalService = this.getMontantServiceValeur(histo);
 
     let total = totalMateriel + totalService;
 
-    return total.toLocaleString('fr-FR') + ' MGA';
+    return total;
 }
 
 getMontantMaterielValeur(histo: any[]): number {
@@ -202,15 +202,11 @@ getMontantServiceValeur(histo: any[]): number {
 
 
     this.dvs = Array.isArray(devisHisto) ? devisHisto : [devisHisto];
-    // this.indexRdv = index;
-    // if (this.rdv.length>0) {
-    //   this.getEtatTache(this.rdv[this.indexRdv]._id)
-    // }
 
     // Ouvre la modale et stocke l'instance
     this.modalRef = this.modalService.open(modal, {
       centered: true,
-      size: 'lg',
+      // size: 'lg',
       windowClass: 'custom-modal-size'
     });
   }

@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div class="row mb-3 align-items-center">
                     <div class="col">
-                        <h4>Historique de devis</h4>
+                        <h4>Historique des devis</h4>
                     </div>
                     <div class="col-auto">
                         <!-- Filtre par date -->
@@ -29,14 +29,14 @@
                           </div>
                           <div class="col-auto">
                               <h4 class="mb-0">
-                                  MGA {{ formatPrix(devis.prix_total) }}
+                                   {{ devis.prix_total | number:'1.0-0' }} MGA
                                   <span tabindex="0" role="button"
                                         (click)="ouvrirModal(detailHistoDevisModal, devis)"
                                         (keydown.enter)="ouvrirModal(detailHistoDevisModal, devis)"
                                         (keyup.space)="ouvrirModal(detailHistoDevisModal, devis)"
                                         class="ms-2 align-top avatar avatar-xxs bg-light-success">
-                                        <!-- <i *ngIf="rdv.etat === 'annulé'" class="ti ti-x text-success"></i> 
-                                        <i *ngIf="rdv.etat === 'accepté'" class="ti ti-check text-danger"></i> 
+                                        <!-- <i *ngIf="rdv.etat === 'annulé'" class="ti ti-x text-success"></i>
+                                        <i *ngIf="rdv.etat === 'accepté'" class="ti ti-check text-danger"></i>
                                         <i *ngIf="rdv.etat === 'en attente'" class="ti ti-hourglass text-warning"></i>  -->
                                   </span>
                               </h4>
@@ -44,15 +44,15 @@
                       </div>
                   </li>
                 </ul>
-  
+
                 <!-- Pagination -->
                 <div class="text-center">
                     <button class="btn btn-link" (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
                     <span>Page {{ currentPage }} / {{ totalPages }}</span>
                     <button class="btn btn-link" (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
                 </div>
-  
-                
+
+
             </div>
         </div>
     </div>
@@ -60,84 +60,54 @@
 
   <ng-template #detailHistoDevisModal>
     <div class="modal-dialog custom-modal-size">
-        <div class="modal-content" #modalDevisContainer tabindex="-1">
-            <div class="modal-header">
-                <h3 class="modal-title">Détails devis</h3>
-                <button type="button" class="btn-close" aria-label="Close" (click)="fermerModal()"></button>
-            </div>
-            <div class="modal-body">
-                <ul class="list-group">
-                    <h5>Liste des services</h5>
-                    <li class="list-group-item" *ngFor="let devis of historiqueDevis">
-                        <div class="row align-items-start" *ngFor="let service of devis.services">
-                            <div class="col d-flex justify-content-between">
-                                <div class="mb-0">{{ service.nom }}</div>
-                                <div class="mb-0 text-end">{{ formatPrix(service.prix) }} MGA</div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+      <div class="modal-content" #modalDevisContainer tabindex="-1">
+          <div class="modal-header">
+              <h3 class="modal-title">Détails devis</h3>
+              <button type="button" class="btn-close" aria-label="Close" (click)="fermerModal()"></button>
+          </div>
+          <div class="modal-body">
+              <div class="section">
+                  <h5>Liste des services</h5>
+                  <div *ngFor="let devis of historiqueDevis">
+                    <ul class="list-group">
+                      <li class="list-group-item" *ngFor="let service of devis.services">
+                        <span>{{ service.nom }}</span>
+                        <span>{{ service.prix | number:'1.0-0' }} MGA</span>
+                      </li>
+                    </ul>
+                  </div>
+              </div>
 
-                <ul class="list-group">
-                    <h5>Liste des matériels</h5>
-                    <li class="list-group-item" *ngFor="let devis of historiqueDevis">
-                        <div class="row align-items-start" *ngFor="let article of devis.articles">
-                            <div class="col d-flex justify-content-between">
-                                <div class="mb-0">{{ article.id_article.nom }}</div>
-                                <div class="mb-0 text-end">{{ formatPrix(article.id_article.prix) }} MGA (X{{article.nbr_article}})</div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="list-group">
-                    <h5>Total</h5>
+              <div class="section">
+                  <h5>Liste des matériels</h5>
+                  <div *ngFor="let devis of historiqueDevis">
+                    <ul class="list-group">
+                          <li class="list-group-item" *ngFor="let article of devis.articles">
+                            <span>{{ article.id_article.nom }}</span>
+                            <span>{{ article.id_article.prix | number:'1.0-0'}} MGA (X{{article.nbr_article}})</span>
+                          </li>
+                    </ul>
+                  </div>
+              </div>
+
+              <div class="section total">
+                  <h5>Total</h5>
+                  <ul class="list-group">
                     <li class="list-group-item">
-                        <div class="row align-items-start">
-                            <div class="col d-flex justify-content-between">
-                                <h3 class="mb-0">Total des matériels</h3>
-                                <div class="mb-0 text-end">{{ getMontantMateriel(historiqueDevis) }} MGA</div>
-                            </div>
-                        </div>
+                      <span>Total des matériels</span>
+                      <span>{{ getMontantMateriel(historiqueDevis) | number:'1.0-0'}} MGA</span>
                     </li>
                     <li class="list-group-item">
-                        <div class="row align-items-start">
-                            <div class="col d-flex justify-content-between">
-                                <h3 class="mb-0">Total des services</h3>
-                                <div class="mb-0 text-end">{{ getMontantService(historiqueDevis) }} MGA</div>
-                            </div>
-                        </div>
+                      <span>Total des services</span>
+                      <span>{{ getMontantService(historiqueDevis) | number:'1.0-0'}} MGA</span>
                     </li>
                     <li class="list-group-item">
-                        <div class="row align-items-start">
-                            <div class="col d-flex justify-content-between">
-                                <h3 class="mb-0">Total à payer</h3>
-                                <div class="mb-0 text-end">{{ getTotalMontant(historiqueDevis) }} MGA</div>
-                            </div>
-                        </div>
+                      <span>Total à payer</span>
+                      <span>{{ getTotalMontant(historiqueDevis) | number:'1.0-0'}} MGA</span>
                     </li>
-                    
-                </ul>
-  
-                <!-- rendez vous en attente -->
-                <!-- <div class="text-center mt-3" *ngIf="etatTache?.tache?.etat === 'en attente'">
-                    <button class="btn btn-danger" (click)="annulerRendezVous(rdv[indexRdv]?._id,'annulé')">
-                      Annulez le rendez-vous
-                    </button>
-                </div> -->
-  
-                <!-- <div class="text-center mt-3" *ngIf="rdv[indexRdv]?.etat === 'en attente'">
-                  <button class="btn btn-danger" (click)="annulerRendezVous(rdv[indexRdv]?._id,'accepté')">
-                      Valider le rendez-vous
-                  </button>
-              </div> -->
-  
-              <!-- <div class="text-center mt-3" *ngIf="rdv[indexRdv]?.etat !== 'annulé'">
-                <button class="btn btn-danger" (click)="annulerRendezVous(rdv[indexRdv]?._id)">
-                    Annuler le rendez-vous
-                </button>
-              </div> -->
-  
-            </div>
-        </div>
-    </div>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
   </ng-template>

@@ -111,6 +111,10 @@ const routes: Routes = [
         path: 'taches',
         loadComponent: () => import('./demo/pages/mecanicien/tache/tache.component')
       },
+      // {
+      //   path: 'facture/liste',
+      //   loadComponent: () => import('./demo/facture/liste-facture/liste-facture.component')
+      // },
     ]
   },
 

@@ -102,22 +102,22 @@ export const NavigationItems: NavigationItem[] = [
       }
     ]
   },
-  {
-    id: 'facture',
-    title: 'Facture',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'facture-liste',
-        title: 'Liste',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/facture/liste',
-        icon: 'ti ti-typography',
-        role: ['client','mecanicien']
-      }
-    ]
-  },
+  // {
+  //   id: 'facture',
+  //   title: 'Facture',
+  //   type: 'group',
+  //   icon: 'icon-navigation',
+  //   children: [
+  //     {
+  //       id: 'facture-liste',
+  //       title: 'Liste',
+  //       type: 'item',
+  //       classes: 'nav-item',
+  //       url: '/facture/liste',
+  //       icon: 'ti ti-typography',
+  //       role: ['client','mecanicien']
+  //     }
+  //   ]
+  // },
 
 ];

@@ -51,13 +51,6 @@
                   <span>Page {{ currentPage }} / {{ totalPages }}</span>
                   <button class="btn btn-link" (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
               </div>
-
-              <!-- <div class="text-center mt-3">
-                  <a class="b-b-primary text-primary f-w-500" href="#" (click)="showAll()">
-                      Afficher tous
-                      <i class="ti ti-chevron-right"></i>
-                  </a>
-              </div> -->
           </div>
       </div>
   </div>
@@ -71,16 +64,18 @@
               <button type="button" class="btn-close" aria-label="Close" (click)="fermerModal()"></button>
           </div>
           <div class="modal-body">
-              <ul class="list-group">
-                  <h5>Liste des services</h5>
-                  <li class="list-group-item" *ngFor="let liste of rdv">
-                      <div class="row align-items-start" *ngFor="let service of liste.services">
-                          <div class="col">
-                              <div class="mb-0">{{ service.nom }}</div>
-                          </div>
-                      </div>
-                  </li>
-              </ul>
+
+            <div class="section">
+                <h5>Liste des services</h5>
+                <div *ngFor="let liste of rdv">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let service of liste.services">
+                      {{ service.nom }}
+                    </li>
+                  </ul>
+                </div>
+            </div>
+
 
               <!-- rendez vous en attente -->
               <div class="text-center mt-3" *ngIf="etatTache?.tache?.etat === 'en attente'">
@@ -89,17 +84,6 @@
                   </button>
               </div>
 
-              <!-- <div class="text-center mt-3" *ngIf="rdv[indexRdv]?.etat === 'en attente'">
-                <button class="btn btn-danger" (click)="annulerRendezVous(rdv[indexRdv]?._id,'accepté')">
-                    Valider le rendez-vous
-                </button>
-            </div> -->
-
-            <!-- <div class="text-center mt-3" *ngIf="rdv[indexRdv]?.etat !== 'annulé'">
-              <button class="btn btn-danger" (click)="annulerRendezVous(rdv[indexRdv]?._id)">
-                  Annuler le rendez-vous
-              </button>
-            </div> -->
 
           </div>
       </div>
