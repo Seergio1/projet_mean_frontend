@@ -34,6 +34,8 @@ export default class LoginComponent {
           this.router.navigate([('/dashboard')]);
         }else if (response.user.role === 'client') {
           this.router.navigate([('/rendez-vous/liste')]);
+        } else if(response.user.role === 'mecanicien') {
+          this.router.navigate([('/default')]);
         }
         // apiana ho an'ny meca avy eo
       },
