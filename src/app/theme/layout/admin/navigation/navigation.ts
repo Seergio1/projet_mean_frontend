@@ -59,6 +59,34 @@ export const NavigationItems: NavigationItem[] = [
       }
     ]
   },
+
+  {
+    id: 'vehicule',
+    title: 'Vehicule',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'ajout-vehicule',
+        title: 'Ajout',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/vehicule/ajout',
+        icon: 'ti ti-typography',
+        role: ['client','mecanicien']
+      },
+      {
+        id: 'vehicule-liste',
+        title: 'Liste',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/vehicule/liste',
+        icon: 'ti ti-typography',
+        role: ['client','mecanicien']
+      }
+    ]
+  },
+
   {
     id: 'devis',
     title: 'Devis',

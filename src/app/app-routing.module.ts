@@ -71,6 +71,16 @@ const routes: Routes = [
         path: 'rendez-vous/liste',
         loadComponent: () => import('./demo/rendezvous/liste/liste.component')
       },
+
+      {
+        path: 'vehicule/ajout',
+        loadComponent: () => import('./demo/vehicule/ajout/ajout.component')
+      },
+      {
+        path: 'vehicule/liste',
+        loadComponent: () => import('./demo/vehicule/liste/liste.component')
+      },
+
       {
         path: 'devis/demande',
         loadComponent: () => import('./demo/devis/demande-devis/demande-devis.component')
