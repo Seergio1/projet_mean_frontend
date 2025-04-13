@@ -45,7 +45,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/rendez-vous/prise',
-        icon: 'ti ti-typography',
+        icon: 'ti ti-calendar',
         role: ['client','mecanicien']
       },
       {
@@ -54,7 +54,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/rendez-vous/liste',
-        icon: 'ti ti-typography',
+        icon: 'ti ti-list',
         role: ['client','mecanicien']
       }
     ]
@@ -72,7 +72,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/vehicule/ajout',
-        icon: 'ti ti-typography',
+        icon: 'ti ti-car',
         role: ['client','mecanicien']
       },
       {
@@ -81,7 +81,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/vehicule/liste',
-        icon: 'ti ti-typography',
+        icon: 'ti ti-list',
         role: ['client','mecanicien']
       }
     ]
@@ -99,7 +99,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/devis/demande',
-        icon: 'ti ti-typography',
+        icon: 'ti ti-clipboard',
         role: ['client','mecanicien']
       },
       {
@@ -108,7 +108,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/devis/historique',
-        icon: 'ti ti-typography',
+        icon: 'ti ti-receipt',
         role: ['client','mecanicien']
       }
     ]
@@ -125,7 +125,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/service/historique',
-        icon: 'ti ti-typography',
+        icon: 'ti ti-receipt',
         role: ['client','mecanicien']
       }
     ]

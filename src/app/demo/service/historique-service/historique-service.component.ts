@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 import { HistoriqueServiceService } from 'src/app/services/client/historique-service.service';
@@ -114,7 +114,7 @@ export default class HistoriqueServiceComponent implements OnInit {
     return `${jour} ${moisString} ${annee} à ${heure}:${minute}`;
   }
 
-  
+
   getMois(mois: number): string {
     const moisNoms = [
       'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',

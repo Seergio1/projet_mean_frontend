@@ -26,7 +26,7 @@ export default class AjoutComponent implements OnInit {
 
     message = ''
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.input.utilisateurId = this.authService.getUserInfo()?.id || '';
     this.chargerModeles();
   }
@@ -36,7 +36,7 @@ export default class AjoutComponent implements OnInit {
       next: (response) => {
         this.modeles = response.data;
       },
-      error: (err) => console.error('Erreur lors du chargement des véhicules:', err)
+      error: (err) => console.error('Erreur lors du chargement des modèles:', err)
     });
   }
 
@@ -46,7 +46,7 @@ export default class AjoutComponent implements OnInit {
       return;
     }
     console.log(this.input);
-    
+
     this.vehiculeService.addVehiculeToUtilisateur(this.input).subscribe({
       next: () => {
         this.message = "Véhicule ajouté avec succès !";
@@ -56,6 +56,6 @@ export default class AjoutComponent implements OnInit {
         this.message = err.error.message;
       }
     });
-  } 
+  }
 
 }
