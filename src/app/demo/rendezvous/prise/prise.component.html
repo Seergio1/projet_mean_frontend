@@ -9,7 +9,7 @@
             <label for="vehiculeId">Véhicule</label>
             <select id="vehiculeId" [(ngModel)]="rendezVous.vehiculeId" name="vehiculeId" class="form-control" required>
               <option *ngFor="let vehicule of vehicules" [value]="vehicule._id">
-                {{ vehicule.modele }} - {{ vehicule.numero }}
+                {{ vehicule.id_modele.nom }} {{ vehicule.marque }} - {{ vehicule.numero }}
               </option>
             </select>
           </div>
