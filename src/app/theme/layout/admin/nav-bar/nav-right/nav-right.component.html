@@ -1,0 +1,145 @@
+<div class="ms-auto">
+  <ul class="list-unstyled">
+
+    <li>
+      <div class="dropdown pc-h-item" ngbDropdown>
+        <a
+          class="pc-head-link head-link-secondary dropdown-toggle arrow-none me-0"
+          data-bs-toggle="dropdown"
+          href="javascript:"
+          ngbDropdownToggle
+        >
+          <i class="ti ti-bell"></i>
+        </a>
+        <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown" ngbDropdownMenu>
+          <div class="dropdown-header">
+            <!-- <a href="javascript:!" class="link-primary float-end text-decoration-underline" (click)="marquerTousLu()">Marquer toutes comme lues</a> -->
+            <h5>
+              Notifications
+              <span class="badge bg-warning rounded-pill ms-1">{{ filteredNotifications.length }}</span>
+            </h5>
+          </div>
+          <ng-scrollbar style="height: calc(100vh - 215px)" visibility="hover">
+            <div class="dropdown-header px-0 text-wrap">
+              <div class="list-group list-group-flush w-100">
+                <div class="list-group-item">
+                  <select class="form-select" (change)="filterNotifications($event)">
+                    <option value="tous">Tous</option>
+                    <option value="lu">Lu</option>
+                    <option value="nonlu">Non lu</option>
+                  </select>
+                </div>
+
+
+                <a *ngFor="let notif of filteredNotifications" class="list-group-item list-group-item-action">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0">
+                      <img *ngIf="notif.imageUrl" [src]="notif.imageUrl" alt="user-image" class="user-avtar" />
+                      <div *ngIf="!notif.imageUrl" class="user-avtar bg-light-primary">
+                        <i class="ti ti-bell"></i>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1 ms-1">
+                      <!-- <span class="float-end text-muted">21 Jan 2020</span> -->
+                      <h5>{{ notif.titre }}</h5>
+                      <p class="text-body fs-6">{{ notif.message}}</p>
+                      <div *ngIf="notif.lu" class="badge rounded-pill bg-light-success">lu</div>
+                      <button *ngIf="!notif.lu" class="btn btn-sm btn-primary" (click)="updateNotification(notif._id, true)">
+                        Marquer comme lu
+                      </button>
+                    </div>
+                  </div>
+                </a>
+
+
+
+              </div>
+            </div>
+          </ng-scrollbar>
+          <div class="dropdown-divider"></div>
+          <div  class="text-center py-2">
+            <a href="javascript:" class="link-primary" (click)="marquerTousLu()">Marquer toutes comme lues</a>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div class="dropdown pc-h-item header-user-profile" ngbDropdown>
+        <a
+          class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0"
+          data-bs-toggle="dropdown"
+          href="javascript:"
+          ngbDropdownToggle
+        >
+          <img src="assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
+          <span>
+            <i class="ti ti-settings"></i>
+          </span>
+        </a>
+        <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown" ngbDropdownMenu>
+          <div class="dropdown-header">
+            <h4>
+              Bonjour,
+              <span *ngIf="userInfo" class="small text-muted">{{ userInfo.nom }}</span>
+              <span *ngIf="!userInfo" class="small text-muted">Nom d'utilisateur</span>
+            </h4>
+            <p class="text-muted" *ngIf="userInfo">{{ userInfo.email }}</p>
+            <p class="text-muted" *ngIf="!userInfo">Email</p>
+            <!-- <form class="header-search">
+              <div class="search-btn">
+                <i class="ti ti-search"></i>
+              </div>
+              <input type="search" class="form-control" placeholder="Search profile options" />
+            </form> -->
+            <hr />
+            <ng-scrollbar style="height: calc(100vh - 550px)" visibility="hover">
+              <!-- <div class="upgradeplan-block bg-light-warning rounded">
+                <h4>Upgrade your plan</h4>
+                <p class="text-muted">
+                  70% discount for 1 years
+                  <br />
+                  subscriptions.
+                </p>
+                <a href="https://codedthemes.com/item/berry-angular-admin-dashboard-template/" target="_blank" class="btn btn-warning">
+                  Go Premium
+                </a>
+              </div> -->
+              <!-- <hr /> -->
+
+              <!-- <div class="settings-block bg-light-primary rounded">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Start DND Mode</label>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked />
+                  <label class="form-check-label" for="flexSwitchCheckChecked">Allow Notifications</label>
+                </div>
+              </div> -->
+
+              <!-- <hr /> -->
+              <!-- <a [routerLink]="['/guest/register']" class="dropdown-item">
+                <i class="ti ti-settings"></i>
+                <span>Account Profile</span>
+              </a> -->
+              <!-- <a href="javascript:" class="dropdown-item">
+                <i class="ti ti-user"></i>
+                <span>Social Profile</span>
+              </a> -->
+              <a (click)="logout()"
+                (keydown.enter)="logout()"
+                (keyup.space)="logout()"
+                class="dropdown-item"
+                tabindex="0">
+                <i class="ti ti-logout"></i>
+                <span>Logout</span>
+              </a>
+
+            </ng-scrollbar>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

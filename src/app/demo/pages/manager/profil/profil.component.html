@@ -1,0 +1,61 @@
+<div class="row">
+    <div *ngFor="let user of utilisateurs" class="col-xl-4 col-md-6">
+      <div class="card earning-card overflow-hidden">
+        <span class="round secondary-round small"></span>
+        <span class="round secondary-round big"></span>
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <div class="avatar avatar-lg">
+                <i class="text-white ti ti-user f-24"></i>
+              </div>
+            </div>
+            <div class="col-auto">
+              <div class="btn-group">
+                <button class="avatar avatar-xs bg-primary dropdown-toggle arrow-none"
+                (click)="open(content, user)"
+                >
+                  <i class="ti ti-dots"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <span class="d-block f-34 f-w-500 my-2">
+            {{ user.nom }}
+          </span>
+          <p class="mb-0">{{ user.email }}</p>
+          <p class="mb-0 text-danger">{{ user.role }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">{{ selectedProfil.nom }}</h4>
+      <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+          <label for="exampleInputEmail1">nouveau role</label>
+          <select id="vehiculeId" [(ngModel)]="selectedProfil.role"
+          (change)="updateRole(selectedProfil._id, selectedProfil.role)"
+          name="vehiculeId" class="form-control" required
+          >
+            <option *ngFor="let role of roles" [value]="role">
+              {{ role }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
+        <!-- <div class="form-group">
+          <label for="exampleInputPassword1">prix unitaire</label>
+          <input type="number" min="1" class="form-control" id="exampleInputPassword1" placeholder="Prix Unitaire" [(ngModel)]="prixUnitaireInserer">
+        </div> -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="modal.close('Fermer')">Fermer</button>
+      <!-- <button type="button" class="btn btn-success" (click)=" inserer(); modal.close()">inserer</button> -->
+    </div>
+  </ng-template>

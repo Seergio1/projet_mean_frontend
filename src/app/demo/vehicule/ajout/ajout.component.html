@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-xl-12 col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <form (ngSubmit)="addVehicule()">
+  
+            <!-- Sélection du véhicule -->
+            <div class="form-group mb-3">
+              <label for="vehiculeId">Marque</label>
+              <select id="vehiculeId" [(ngModel)]="input.id_modele" name="id_modele" class="form-control" required>
+                <option *ngFor="let modele of modeles" [value]="modele._id">
+                  {{ modele.nom }}
+                </option>
+              </select>
+            </div>
+  
+            <!-- Date et Heure sur la même ligne -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="modeleSelectionnee">Modèle</label>
+                    <input type="text" id="modeleSelectionnee" [(ngModel)]="input.marque" name="modeleSelectionnee" class="form-control" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="numeroSelectionnee">Immatriculation</label>
+                  <input type="text" id="numeroSelectionnee" [(ngModel)]="input.numero" name="numeroSelectionnee" class="form-control" required>
+                </div>
+              </div>
+            </div>
+  
+        
+  
+            <!-- Bouton de validation aligné à droite -->
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary"
+                      [disabled]="!input.id_modele || !input.marque || !input.numero">
+                Ajouter le vehicule
+              </button>
+            </div>
+          </form>
+  
+          <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+ 
+  

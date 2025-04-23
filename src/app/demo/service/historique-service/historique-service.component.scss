@@ -1,0 +1,112 @@
+.modal {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-dialog {
+    padding: 0 !important;
+    margin: 0;
+    background: transparent !important;
+    display: inline-block !important;
+  }
+/* Modal Size */
+.custom-modal-size {
+
+  border-radius: 8px; 
+  flex-direction: column; 
+  background-color: white !important;
+  .modal-content {
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Ombre douce */
+      background: #fff !important; /* Fond blanc */
+      overflow-y: auto; /* Permet le défilement si nécessaire */
+      padding: 18px; /* Moins d'espace pour un contenu plus compact */
+  }
+  .modal-header {
+      padding: 10px 15px; /* Réduit la hauteur de l'entête */
+      border-bottom: 1px solid #f0f0f0; /* Légère séparation */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h3 {
+          color: #333;
+          font-size: 1.1rem; /* Réduit la taille du titre */
+          margin: 0;
+      }
+      .btn-close {
+          background-color: transparent;
+          border: none;
+          font-size: 1.2rem; /* Réduit la taille du bouton de fermeture */
+          color: #aaa;
+          &:hover {
+              color: #333;
+          }
+      }
+  }
+  .modal-body {
+      padding: 10px 15px; /* Réduit le padding pour un contenu plus dense */
+      background: #fff; /* Fond blanc */
+      .section {
+          margin-bottom: 10px; /* Espacement réduit entre les sections */
+          h5 {
+              font-size: 1rem; /* Titre plus petit */
+              color: #444;
+              margin-bottom: 8px;
+              font-weight: 600;
+          }
+          .list-group-item {
+              background: #fff;
+              border: none;
+            //   border-bottom: 1px solid #e5e5e5; /* Bordure discrète */
+              border-radius: 6px;
+            //   margin-bottom: 5px; /* Moins d'espace entre les éléments */
+              padding: 8px 12px; /* Moins de padding pour rendre l'élément plus compact */
+              display: flex ;
+              justify-content: space-between;
+              
+              .list-group-item span:first-of-type {
+                order: 1; /* Place le nom au début */
+              }
+              
+              .list-group-item span:last-of-type {
+                order: 2; /* Place le prix à la fin */
+                font-weight: bold !important;
+              }
+          }
+      }
+  }
+}
+
+/* Animation et effets de survol des boutons */
+.btn {
+  &:hover {
+      background-color: #4f8a8b;
+      color: #fff;
+      transition: background-color 0.3s ease;
+  }
+}
+
+/* Gestion du texte et des couleurs */
+h3, h5 {
+  font-weight: 600; /* Poids de police plus élevé pour les titres */
+}
+
+.text-end {
+  font-weight: 500;
+  color: #333;
+}
+
+/* Améliorations pour les autres éléments */
+.list-group-item {
+  font-size: 0.9rem; /* Taille de texte plus petite */
+  color: #555; /* Texte légèrement plus clair pour un rendu plus épuré */
+}
+
+/* Pour les boutons "Précédent" et "Suivant" */
+.btn-link {
+  color: #007bff;
+  &:hover {
+      color: #0056b3;
+  }
+}

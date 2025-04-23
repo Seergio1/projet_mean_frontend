@@ -1,0 +1,41 @@
+.nav-tabs {
+    border-bottom: none !important;
+  }
+  body.berry-dark .nav-tabs .nav-link,
+  body.berry-dark .tab-content {
+    box-shadow: none !important;
+    background: none !important;
+  }
+
+  .modal {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-dialog {
+    padding: 0 !important;
+    margin: 0;
+    background: transparent !important;
+    display: inline-block !important;
+  }
+.custom-modal-size {
+  border-radius: 8px; 
+  flex-direction: column; 
+  background-color: white !important;
+    .modal-content {
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Ombre douce */
+      background: #fff !important; /* Fond blanc */
+      overflow-y: auto; /* Permet le défilement si nécessaire */
+      padding: 15px; /* Moins d'espace pour un contenu plus compact */
+    }
+    .section {
+      .list-group-item {
+        background: #fff;
+        border: none;
+        padding: 8px 12px;
+      }
+    }
+}
+

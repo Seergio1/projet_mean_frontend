@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-xl-12 col-md-12">
+      <div class="card">
+          <div class="card-body">
+              <div class="row mb-3 align-items-center">
+                  <div class="col">
+                      <h4>Liste de vos véhicules</h4>
+                  </div>
+
+                  <div class="col-auto">
+                      <!-- Filtre par vehicule -->
+                      <select [(ngModel)]="modeleFilter" (ngModelChange)="applyFilters()" class="form-control" aria-placeholder="Modèle">
+                          <option value="">Tous</option>
+                          <option *ngFor="let modele of modeles" [value]="modele.nom">
+                              {{ modele.nom }}
+                          </option>
+                      </select>
+                  </div>
+              </div>
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item px-0" *ngFor="let vehicule of vehicules; let index = index">
+                    <div class="row align-items-start">
+                        <div class="col">
+                            <h5 class="mb-0">{{ vehicule.id_modele.nom }} {{ vehicule.marque }}</h5>
+                            <small class="text-success">{{ vehicule.numero }}</small>
+                        </div>
+                        <!-- <div class="col-auto">
+                            <h4 class="mb-0">
+                                 {{ service.prix_total | number:'1.0-0' }} MGA
+                                <span tabindex="0" role="button"
+                                      (click)="ouvrirModal(detailHistoDevisModal, service)"
+                                      (keydown.enter)="ouvrirModal(detailHistoDevisModal, service)"
+                                      (keyup.space)="ouvrirModal(detailHistoDevisModal, service)"
+                                      class="ms-2 align-top avatar avatar-xxs bg-light-success">
+
+                                </span>
+                            </h4>
+                        </div> -->
+                    </div>
+                </li>
+              </ul>
+
+              <!-- Pagination -->
+              <div class="text-center">
+                  <button class="btn btn-link" (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+                  <span>Page {{ currentPage }} / {{ totalPages }}</span>
+                  <button class="btn btn-link" (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+              </div>
+
+
+          </div>
+      </div>
+  </div>
+</div>
+

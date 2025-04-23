@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-xl-12 col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <form (ngSubmit)="validerRendezVous()">
+
+          <!-- Sélection du véhicule -->
+          <div class="form-group mb-3">
+            <label for="vehiculeId">Véhicule</label>
+            <select id="vehiculeId" [(ngModel)]="rendezVous.vehiculeId" name="vehiculeId" class="form-control" required>
+              <option *ngFor="let vehicule of vehicules" [value]="vehicule._id">
+                {{ vehicule.id_modele.nom }} {{ vehicule.marque }} - {{ vehicule.numero }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Date et Heure sur la même ligne -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="dateSelectionnee">Date</label>
+                <div class="input-group">
+                  <input type="date" id="dateSelectionnee" [(ngModel)]="rendezVous.dateSelectionnee" name="dateSelectionnee" class="form-control" required [disabled]="true">
+                  <button type="button" class="btn btn-secondary" (click)="ouvrirModal(calendarModal)">📅</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="heureSelectionnee">Heure</label>
+                <input type="time" id="heureSelectionnee" [(ngModel)]="rendezVous.heureSelectionnee" name="heureSelectionnee" class="form-control" required (change)="onDateChange()">
+              </div>
+            </div>
+          </div>
+
+          <!-- Sélection des services -->
+          <div class="form-group mb-3">
+            <!-- <label for="servicesIds">Services</label> -->
+            <button type="button" class="btn btn-secondary" (click)="ouvrirSelectionService()">
+              Choisir Services
+            </button>
+
+            <div class="mt-2">
+              <span *ngFor="let serviceId of rendezVous.servicesIds" class="badge bg-primary me-2">
+                {{ getServiceNameById(serviceId) }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Bouton de validation aligné à droite -->
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary"
+                    [disabled]="!rendezVous.vehiculeId || !rendezVous.dateSelectionnee || !rendezVous.heureSelectionnee || rendezVous.servicesIds.length === 0">
+              Valider le Rendez-vous
+            </button>
+          </div>
+        </form>
+
+        <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de sélection de date -->
+<ng-template #calendarModal let-modal>
+  <div class="modal-dialog custom-modal-size">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Sélectionner une date</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+      </div>
+      <div class="modal-body">
+        <full-calendar [options]="calendarOptions" (dateClick)="onDateClick($event)"></full-calendar>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Modal pour sélectionner les services -->
+<div *ngIf="selectionServiceOuvert" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Sélectionner les services</h5>
+      <button type="button" class="close-btn" (click)="fermerSelectionService(true)">✖</button>
+    </div>
+
+    <div class="modal-body scrollable">
+      <div *ngFor="let service of selectedServices; let i = index" class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          id="service_{{i}}"
+          [(ngModel)]="service.selected"
+        />
+        <label class="form-check-label" for="service_{{i}}">{{ service.nom }}</label>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="validerSelectionService()">Valider</button>
+    </div>
+  </div>
+</div>

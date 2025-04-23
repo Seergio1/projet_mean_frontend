@@ -1,0 +1,52 @@
+#commandes utile
+ng generate service services/serviceName
+ng generate component components/componentName
+
+
+#demmarer le serveur
+ng serve (utilisera environment.ts)
+ng build --prod (utilisera automatiquement environment.prod.ts)
+
+#install dependencies
+npm install --legacy-peer-deps
+
+#toast notif
+npm install ngx-toastr @angular/animations --legacy-peer-deps
+
+#composant
+npm install @fullcalendar/angular --legacy-peer-deps
+npm install @fullcalendar/core @fullcalendar/daygrid @fullcalendar/interaction --legacy-peer-deps
+
+npm install @fullcalendar/timegrid --legacy-peer-deps
+
+
+
+
+
+NB : anaty navigation.ts no misy ny element navBar(inona no apoitra sns)
+nav-content-component.ts antsoina NavigationItem[]
+
+
+
+ng generate component demo/devis/demande-devis
+ng generate component demo/devis/historique-devis
+
+ng generate component demo/service/historique-service
+
+ng generate component demo/facture/liste-facture
+
+ng generate component demo/vehicule/ajout
+
+ng generate component demo/vehicule/liste
+
+
+ng generate service services/client/historique-service
+
+ng generate service services/client/article
+
+ng generate service services/client/vehicule
+
+
+
+
+
