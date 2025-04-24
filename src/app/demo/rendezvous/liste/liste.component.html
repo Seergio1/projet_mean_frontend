@@ -34,9 +34,14 @@
                                       (click)="ouvrirModal(detailServiceModal, rdv, index)"
                                       (keydown.enter)="ouvrirModal(detailServiceModal, rdv, index)"
                                       (keyup.space)="ouvrirModal(detailServiceModal, rdv, index)"
-                                      class="ms-2 align-top avatar avatar-xxs bg-light-success">
-                                      <i *ngIf="rdv.etat === 'annulé'" class="ti ti-x text-success"></i> <!-- Icône pour "annulé" -->
-                                      <i *ngIf="rdv.etat === 'accepté'" class="ti ti-check text-danger"></i> <!-- Icône pour "accepté" -->
+                                      [ngClass]="{
+                                        'bg-light-danger': rdv.etat === 'annulé',
+                                        'bg-light-warning': rdv.etat === 'en attente',
+                                        'bg-light-success': rdv.etat === 'accepté'
+                                      }"
+                                      class="ms-2 align-top avatar avatar-xxs">
+                                      <i *ngIf="rdv.etat === 'annulé'" class="ti ti-x text-danger"></i> <!-- Icône pour "annulé" -->
+                                      <i *ngIf="rdv.etat === 'accepté'" class="ti ti-check text-success"></i> <!-- Icône pour "accepté" -->
                                       <i *ngIf="rdv.etat === 'en attente'" class="ti ti-hourglass text-warning"></i> <!-- Icône pour "en attente" -->
                                 </span>
                             </h4>

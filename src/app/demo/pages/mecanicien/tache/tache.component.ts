@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component,ElementRef,OnInit, ViewChild } from '@angular/core'
 import { FormsModule } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal,NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
+import { RendezvousService } from 'src/app/services/client/rendezvous.service';
 import { MecanicienService } from 'src/app/services/mecanicien/mecanicien.service';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 
@@ -13,6 +14,8 @@ import { CardComponent } from 'src/app/theme/shared/components/card/card.compone
   styleUrl: './tache.component.scss'
 })
 export default class TacheComponent implements OnInit {
+  @ViewChild('modalContainer', { static: false }) modalContainer!: ElementRef;
+
   taches: any[] = [];
   filteredTache: any[] = [];
   dateMinFilter: any = null;
@@ -21,9 +24,14 @@ export default class TacheComponent implements OnInit {
   selectedTache: any = null;
   etats= ["en attente", "en cours", "terminée"];
   message: any = null;
+  detailTache: any = null;
+  modalRef!: NgbModalRef;
+  modalOuverte = false;
 
 
-  constructor(private mecanicienService: MecanicienService,
+  constructor(
+    private mecanicienService: MecanicienService,
+    private rendezVousService: RendezvousService,
     private authService: AuthService,
     private modalService: NgbModal
   ) {}
@@ -41,6 +49,16 @@ export default class TacheComponent implements OnInit {
         this.applyFilters();
       },
       error: (err) => console.error('Erreur lors de la récupération des taches:', err)
+    })
+  }
+
+  getRendezVous(rendezVousId: string) {
+    this.rendezVousService.getRendezVousById(rendezVousId).subscribe({
+      next: (resp) => {
+        this.detailTache = resp.data;
+        
+      },
+      error: (err) => console.error('Erreur lors de la récupération des details de la tache:', err)
     })
   }
 
@@ -105,13 +123,35 @@ export default class TacheComponent implements OnInit {
     return moisNoms[mois - 1] || '';
   }
 
-  open(content: any, tache: any) {
-    this.selectedTache = tache;
+  // open(content: any, tache: any) {
+  //   this.selectedTache = tache;
+    
+  //   this.getRendezVous(tache.id_rendez_vous._id);
 
-    if (tache.etat != "terminée") {
-      this.modalService.open(content, {
-        centered: true
-      });
+  //   if (tache.etat != "terminée") {
+  //     this.modalService.open(content, {
+  //       centered: true
+  //     });
+  //   }
+  // }
+
+  ouvrirModal(modal: any, tache:any) {
+    this.selectedTache = tache;
+    
+    this.getRendezVous(tache.id_rendez_vous._id);
+
+    // Ouvre la modale et stocke l'instance
+    this.modalRef = this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      windowClass: 'custom-modal-size'
+    });
+  }
+
+  fermerModal() {
+    if (this.modalRef) {
+      this.modalOuverte = false;
+      this.modalRef.dismiss();
     }
   }
 }

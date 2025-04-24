@@ -8,6 +8,22 @@ import { UnauthorizedComponent } from './demo/error/unauthorized/unauthorized.co
 
 
 const routes: Routes = [
+
+  {
+    path: '',
+    component: GuestComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: '/login',
+        pathMatch: 'full'
+      },
+      {
+        path: '',
+        loadChildren: () => import('./demo/pages/authentication/authentication.module').then((m) => m.AuthenticationModule)
+      }
+    ]
+  },
   {
     path: '',
     component: AdminComponent,
@@ -24,21 +40,6 @@ const routes: Routes = [
         loadComponent: () => import('./demo/pages/manager/profil/profil.component')
       },
 
-    ]
-  },
-  {
-    path: '',
-    component: GuestComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: '/login',
-        pathMatch: 'full'
-      },
-      {
-        path: '',
-        loadChildren: () => import('./demo/pages/authentication/authentication.module').then((m) => m.AuthenticationModule)
-      }
     ]
   },
 

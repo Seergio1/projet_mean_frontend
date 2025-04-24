@@ -10,8 +10,15 @@ import { AuthService } from '../auth.service';
 export class RendezvousService {
   private apiUrl = `${environment.apiUrl}/client`;
 
+  private apiUrlM = `${environment.apiUrl}/mecanicien`;
+
   constructor(private http: HttpClient,private authService: AuthService) { }
 
+  getRendezVousById(id: string): Observable<{ data: any, message: string }> {
+    const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
+    return this.http.get<{ data: any, message: string }>(`${this.apiUrlM}/rendez-vous/${id}`, { headers });
+  }
+  
   getVehicules(id_client: string): Observable<{data: any[], message: string}> {
     const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
     return this.http.get<{data: any[], message: string}>(`${this.apiUrl}/vehicules/${id_client}`, { headers });
