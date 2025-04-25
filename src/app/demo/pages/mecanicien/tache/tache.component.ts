@@ -6,12 +6,14 @@ import { AuthService } from 'src/app/services/auth.service';
 import { RendezvousService } from 'src/app/services/client/rendezvous.service';
 import { MecanicienService } from 'src/app/services/mecanicien/mecanicien.service';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tache',
   imports: [CommonModule, FormsModule, CardComponent],
   templateUrl: './tache.component.html',
-  styleUrl: './tache.component.scss'
+  styleUrl: './tache.component.scss',
+  standalone: true
 })
 export default class TacheComponent implements OnInit {
   @ViewChild('modalContainer', { static: false }) modalContainer!: ElementRef;
@@ -33,7 +35,8 @@ export default class TacheComponent implements OnInit {
     private mecanicienService: MecanicienService,
     private rendezVousService: RendezvousService,
     private authService: AuthService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toaster:ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -66,10 +69,24 @@ export default class TacheComponent implements OnInit {
     const UserInfo = this.authService.getUserInfo();
 
     if (this.selectedTache) {
+      console.log(UserInfo.id, idTache, etat);
+      
       this.mecanicienService.updateTacheMecanicien(UserInfo.id, idTache, etat, '').subscribe({
         next: (resp) => {
-          this.message = "etat change";
-          console.log(this.message);
+          this.message = "Changement d\'etat de la tache";
+          this.toaster.success(this.message,'Succès',{
+            timeOut: 3000,  
+            progressAnimation:"decreasing",
+            progressBar: true,
+          });
+        },
+        error: (err) => {
+          this.toaster.error('Erreur lors de la modification de l\'etat de la tache','Erreur',{
+            progressBar: true,
+            // closeButton: true,
+            progressAnimation:"decreasing"
+          })
+          console.error('Erreur lors de la modification de l\'etat de la tache:', err)
         }
       });
 
@@ -140,6 +157,15 @@ export default class TacheComponent implements OnInit {
     
     this.getRendezVous(tache.id_rendez_vous._id);
 
+    // Ouvre la modale et stocke l'instance
+    this.modalRef = this.modalService.open(modal, {
+      centered: true,
+      size: 'lg',
+      windowClass: 'custom-modal-size'
+    });
+  }
+
+  ouvrirModalFacture(modal: any) {
     // Ouvre la modale et stocke l'instance
     this.modalRef = this.modalService.open(modal, {
       centered: true,

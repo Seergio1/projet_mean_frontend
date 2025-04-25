@@ -35,6 +35,8 @@ export class MecanicienService {
       newEtat: newEtat,
       libelle: undefined
     }
+    // console.log(body);
+    
 
     return this.http.put<{
       data: any[], 

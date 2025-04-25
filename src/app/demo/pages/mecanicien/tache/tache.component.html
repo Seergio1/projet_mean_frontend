@@ -8,56 +8,60 @@
                     </div>
                     <div class="col-auto">
                         <!-- Filtre par date debut -->
-                        <input type="date" [(ngModel)]="dateMinFilter" (ngModelChange)="applyFilters()" class="form-control">
+                        <input type="date" [(ngModel)]="dateMinFilter" (ngModelChange)="applyFilters()"
+                            class="form-control">
                     </div>
                     <div class="col-auto">
-                      <!-- Filtre par date fin -->
-                      <input type="date" [(ngModel)]="dateMaxFilter" (ngModelChange)="applyFilters()" class="form-control">
-                  </div>
+                        <!-- Filtre par date fin -->
+                        <input type="date" [(ngModel)]="dateMaxFilter" (ngModelChange)="applyFilters()"
+                            class="form-control">
+                    </div>
                     <div class="col-auto">
                         <!-- Filtre par état -->
                         <select [(ngModel)]="etatFilter" (ngModelChange)="applyFilters()" class="form-control">
                             <option value="">Tous</option>
                             <option *ngFor="let etat of etats" [value]="etat">
-                              {{ etat }}
+                                {{ etat }}
                             </option>
                         </select>
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item px-0" *ngFor="let tache of filteredTache; let index = index">
-                      <div class="row align-items-start">
-                          <div class="col">
-                              <h4 class="mb-0">{{ tache.id_vehicule.id_modele.nom }} {{ tache.id_vehicule.marque }} - {{ tache.id_vehicule.numero }}</h4>
-                              <!-- <h5 class="mb-0">{{  }}</h5> -->
-                              <small class="text-success">{{ formatDate(tache.date_debut) }} jusqu'a {{ formatDate(tache.date_fin) }}</small>
-                          </div>
-                          <div class="col-auto">
-                              <h4 class="mb-0">
-                                <span tabindex="0" role="button"
-                                      (click)="ouvrirModal(content, tache)"
-                                      (keydown.enter)="ouvrirModal(content, tache)"
-                                      (keyup.space)="ouvrirModal(content, tache)"
-                                      [ngClass]="{
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <h4 class="mb-0">{{ tache.id_vehicule.id_modele.nom }} {{ tache.id_vehicule.marque }} -
+                                    {{ tache.id_vehicule.numero }}</h4>
+                                <!-- <h5 class="mb-0">{{  }}</h5> -->
+                                <small class="text-success">{{ formatDate(tache.date_debut) }} jusqu'au {{
+                                    formatDate(tache.date_fin) }}</small>
+                            </div>
+                            <div class="col-auto">
+                                <h4 class="mb-0">
+                                    <span tabindex="0" role="button" (click)="ouvrirModal(content, tache)"
+                                        (keydown.enter)="ouvrirModal(content, tache)"
+                                        (keyup.space)="ouvrirModal(content, tache)" [ngClass]="{
                                         'bg-light-danger': tache.etat === 'en attente',
                                         'bg-light-warning': tache.etat === 'en cours',
                                         'bg-light-success': tache.etat === 'terminée'
-                                      }"
-                                      class="ms-2 align-top avatar avatar-xxs">
-                                      <i *ngIf="tache.etat === 'en attente'" class="ti ti-x text-danger"></i>
-                                      <i *ngIf="tache.etat === 'en cours'"  class="ti ti-hourglass text-warning"></i>
-                                      <i *ngIf="tache.etat === 'terminée'" class="ti ti-check text-success"></i>
+                                      }" class="ms-2 align-top avatar avatar-xxs">
+                                        <i *ngIf="tache.etat === 'en attente'" class="ti ti-x text-danger"></i>
+                                        <i *ngIf="tache.etat === 'en cours'" class="ti ti-hourglass text-warning"></i>
+                                        <i *ngIf="tache.etat === 'terminée'" class="ti ti-check text-success"></i>
+                                    </span>
 
-                                </span>
-                                <span tabindex="0" role="button"
-                                      *ngIf="tache.etat === 'terminée'"
-                                      class="ms-2 align-top avatar avatar-xxs bg-light-danger">
-                                      <i class="ti ti-printer text-danger"></i>
-                                </span>
-                              </h4>
-                          </div>
-                      </div>
-                  </li>
+                                    <span tabindex="0" role="button" *ngIf="tache.etat === 'terminée'"
+                                    (click)="ouvrirModalFacture(facture_content)" 
+                                    (keydown.enter)="ouvrirModalFacture(facture_content)"
+                                    (keyup.space)="ouvrirModalFacture(facture_content)"
+                                        class="ms-2 align-top avatar avatar-xxs bg-light-danger">
+                                        <i class="ti ti-printer text-danger"></i>
+                                    </span>
+                                    
+                                </h4>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
 
                 <!-- Pagination -->
@@ -76,43 +80,84 @@
             </div>
         </div>
     </div>
-  </div>
+</div>
 
-  <ng-template #content let-modal>
+<ng-template #content let-modal>
     <div class="modal-dialog custom-modal-size">
         <div class="modal-content" #modalContainer tabindex="-1">
             <div class="modal-header">
                 <h4 class="modal-title">Détails de la tâche</h4>
                 <button type="button" class="btn-close" (click)="fermerModal()"></button>
-              </div>
+            </div>
 
-              <div class="modal-body">
-                  <div class="section">
-                      <h5>Liste des services</h5>
-                      <div>
+            <div class="modal-body">
+                <div class="section">
+                    <h5>Liste des services</h5>
+                    <div>
                         <ul class="list-group">
-                          <li class="list-group-item" *ngFor="let service of detailTache.services">
-                            {{ service.nom }}
-                          </li>
+                            <li class="list-group-item" *ngFor="let service of detailTache?.services">
+                                {{ service?.nom }}
+                            </li>
                         </ul>
-                      </div>
-                  </div>
-              </div>
+                    </div>
+                </div>
+            </div>
 
-              <div *ngIf="selectedTache.etat != 'terminée'" class="modal-footer">
-                  <div class="col-auto">
-                      <label for="etatId">Etat</label>
-                      <select id="etatId" [(ngModel)]="selectedTache.etat"
-                          ((change))="updateRole(selectedTache._id, selectedTache.etat)" name="etatId" class="form-control"
-                          required>
-                          <option *ngFor="let etat of etats" [value]="etat">
-                              {{ etat }}
-                          </option>
-                      </select>
-                  </div>
-                  <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
-              </div>
+            <div *ngIf="selectedTache.etat != 'terminée'" class="modal-footer">
+                <div class="col-auto">
+                    <label for="etatId">Etat</label>
+                    <select id="etatId" [(ngModel)]="selectedTache.etat"
+                        (ngModelChange)="updateRole(selectedTache._id, selectedTache.etat)" name="etatId"
+                        class="form-control" required>
+                        <option *ngFor="let etat of etats" [value]="etat">
+                            {{ etat }}
+                        </option>
+                    </select>
+                </div>
+                
+                <!-- <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div> -->
+            </div>
         </div>
 
     </div>
-  </ng-template>
+</ng-template>
+
+<ng-template #facture_content let-modal>
+    <div class="modal-dialog custom-modal-size">
+
+        <div class="modal-content" #modalContainer tabindex="-1">
+            <div class="modal-header">
+                <h4 class="modal-title">Facture</h4>
+                <button type="button" class="btn-close" (click)="fermerModal()"></button>
+            </div>
+
+            <!-- <div class="modal-body">
+                <div class="section">
+                    <h5>Liste des services</h5>
+                    <div>
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let service of detailTache?.services">
+                                {{ service?.nom }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="selectedTache.etat != 'terminée'" class="modal-footer">
+                <div class="col-auto">
+                    <label for="etatId">Etat</label>
+                    <select id="etatId" [(ngModel)]="selectedTache.etat"
+                        (ngModelChange)="updateRole(selectedTache._id, selectedTache.etat)" name="etatId"
+                        class="form-control" required>
+                        <option *ngFor="let etat of etats" [value]="etat">
+                            {{ etat }}
+                        </option>
+                    </select>
+                </div>
+            </div> -->
+
+        </div>
+
+    </div>
+</ng-template>
