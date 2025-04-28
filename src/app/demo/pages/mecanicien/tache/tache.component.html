@@ -51,9 +51,9 @@
                                     </span>
 
                                     <span tabindex="0" role="button" *ngIf="tache.etat === 'terminée'"
-                                    (click)="ouvrirModalFacture(facture_content)" 
-                                    (keydown.enter)="ouvrirModalFacture(facture_content)"
-                                    (keyup.space)="ouvrirModalFacture(facture_content)"
+                                    (click)="ouvrirModalFacture(facture_content,tache)" 
+                                    (keydown.enter)="ouvrirModalFacture(facture_content,tache)"
+                                    (keyup.space)="ouvrirModalFacture(facture_content,tache)"
                                         class="ms-2 align-top avatar avatar-xxs bg-light-danger">
                                         <i class="ti ti-printer text-danger"></i>
                                     </span>
@@ -114,8 +114,6 @@
                         </option>
                     </select>
                 </div>
-                
-                <!-- <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div> -->
             </div>
         </div>
 
@@ -131,31 +129,61 @@
                 <button type="button" class="btn-close" (click)="fermerModal()"></button>
             </div>
 
-            <!-- <div class="modal-body">
+            <div class="modal-body">
                 <div class="section">
                     <h5>Liste des services</h5>
+                    <div style="margin-bottom: 10px;">
+                        <ul class="list-group">
+                          <li class="list-group-item" *ngFor="let service of detailTache?.services">
+                            <span style="display: inline-block; width: 90%;">
+                              <select id="etatId" [(ngModel)]="service.nom"
+                                      name="etatId" 
+                                      [disabled]="true"
+                                      class="form-control" required>
+                                <option>
+                                  {{ service?.nom }}
+                                </option>
+                              </select>
+                            </span>
+                            <span style="display: inline-block; width: 10%; text-align: right;">
+                              <input type="checkbox" [(ngModel)]="articleChecked[service._id]">
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                </div>
+
+                <div class="section">
+                    <h5>Services supplémentaires</h5>
                     <div>
                         <ul class="list-group">
-                            <li class="list-group-item" *ngFor="let service of detailTache?.services">
-                                {{ service?.nom }}
-                            </li>
+                          <li class="list-group-item">
+                            <span style="display: inline-block; width: 80%;">
+                              <select id="serviceId" 
+                                    [(ngModel)]="serviceEtArticleChecked"
+                                    name="serviceId" 
+                                class="form-control">
+                                <option value=""></option>
+                                <option *ngFor="let service of allServices" value="{{ service._id }}">
+                                  {{ service?.nom }}
+                                </option>
+                              </select>
+                            </span>
+                            <span style="display: inline-block; width: 10%; text-align: center;">
+                              <input type="checkbox">
+                            </span>
+                            <span style="display: inline-block; width: 10%; text-align: center;">
+                              <i class="ti ti-plus"></i>
+                            </span>
+                          </li>
                         </ul>
-                    </div>
+                      </div>
                 </div>
             </div>
 
-            <div *ngIf="selectedTache.etat != 'terminée'" class="modal-footer">
-                <div class="col-auto">
-                    <label for="etatId">Etat</label>
-                    <select id="etatId" [(ngModel)]="selectedTache.etat"
-                        (ngModelChange)="updateRole(selectedTache._id, selectedTache.etat)" name="etatId"
-                        class="form-control" required>
-                        <option *ngFor="let etat of etats" [value]="etat">
-                            {{ etat }}
-                        </option>
-                    </select>
-                </div>
-            </div> -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Valider</button>
+            </div>
 
         </div>
 

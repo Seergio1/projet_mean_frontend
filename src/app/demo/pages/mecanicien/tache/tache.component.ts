@@ -31,6 +31,11 @@ export default class TacheComponent implements OnInit {
   modalOuverte = false;
 
 
+  allServices: any[] = [];
+  articleChecked: any[] = [];
+  serviceEtArticleChecked:any[] = [];
+
+
   constructor(
     private mecanicienService: MecanicienService,
     private rendezVousService: RendezvousService,
@@ -41,6 +46,7 @@ export default class TacheComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllTache();
+    this.chargerServices();
   }
 
   getAllTache() {
@@ -63,6 +69,21 @@ export default class TacheComponent implements OnInit {
       },
       error: (err) => console.error('Erreur lors de la récupération des details de la tache:', err)
     })
+  }
+
+  chargerServices() {
+    this.rendezVousService.getServices().subscribe({
+      next: (response) => {
+        this.allServices = response.data;
+        this.detailTache?.services.forEach((service) => {
+          this.articleChecked[service._id] = 0;
+        });
+        // this.selectedServices = this.services.map(service => ({ _id: service._id, selected: false, nom: service.nom }));
+        // console.log(this.services);
+
+      },
+      error: (err) => console.error('Erreur lors du chargement des services:', err)
+    });
   }
 
   updateRole(idTache: string, etat: string) {
@@ -89,6 +110,27 @@ export default class TacheComponent implements OnInit {
           console.error('Erreur lors de la modification de l\'etat de la tache:', err)
         }
       });
+
+  //   "serviceEtArticles": [
+  //   {
+  //     "serviceId": "67d30ee48a5297b7577f5367",
+  //     "checkArticle": 1
+  //   },
+  //   {
+  //     "serviceId": "67edb288b35e9ab1dece8cea",
+  //     "checkArticle": 0
+  //   }
+  // ]
+
+  
+
+      // this.mecanicienService.addFacture(this.detailTache.id_vehicule._id, this.detailTache.id_client, this.detailTache.serviceEtArticles).subscribe({
+      //   next: (resp) => {
+      //     console.log("insertion succes");
+      //   },
+      //   error: (err) => console.error('erreur insertion', err)
+      // });
+      
 
       // this.mouvementStockService.insertMouvementStock(mouvement).subscribe({
       //   next: (resp) => {
@@ -154,6 +196,10 @@ export default class TacheComponent implements OnInit {
 
   ouvrirModal(modal: any, tache:any) {
     this.selectedTache = tache;
+
+    if (tache.etat == "en cours") {
+      this.etats = ["en cours", "terminée"];
+    }
     
     this.getRendezVous(tache.id_rendez_vous._id);
 
@@ -165,7 +211,8 @@ export default class TacheComponent implements OnInit {
     });
   }
 
-  ouvrirModalFacture(modal: any) {
+  ouvrirModalFacture(modal: any, tache:any) {
+    this.getRendezVous(tache.id_rendez_vous._id);
     // Ouvre la modale et stocke l'instance
     this.modalRef = this.modalService.open(modal, {
       centered: true,
