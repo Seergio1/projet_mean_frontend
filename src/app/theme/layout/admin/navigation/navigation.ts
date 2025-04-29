@@ -140,6 +140,23 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
+    id: 'commentaire',
+    title: 'Avis',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'commentaire',
+        title: 'Commentaire',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/commentaires',
+        icon: 'ti ti-star',
+        role: ['client']
+      }
+    ]
+  },
+  {
     id: 'tache',
     title: 'Tache',
     type: 'group',

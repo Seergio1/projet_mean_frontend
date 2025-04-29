@@ -46,6 +46,30 @@ export class NavRightComponent implements  OnInit{
     });
   }
 
+  basculerPleinEcran() {
+    const elem = document.documentElement as any;
+  
+    if (!document.fullscreenElement) {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen(); // Safari
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen(); // IE11
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      } else if ((document as any).msExitFullscreen) {
+        (document as any).msExitFullscreen();
+      }
+    }
+  }
+  
+  
+
   filterNotifications(event: any) {
     const filterType = event.target.value;
 

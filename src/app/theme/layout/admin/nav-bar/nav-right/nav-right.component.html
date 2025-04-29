@@ -127,6 +127,15 @@
                 <i class="ti ti-user"></i>
                 <span>Social Profile</span>
               </a> -->
+              <a (click)="basculerPleinEcran()"
+                (keydown.enter)="basculerPleinEcran()"
+                (keyup.space)="basculerPleinEcran()"
+                class="dropdown-item"
+                tabindex="0">
+                <i class="ti ti-zoom-in"></i>
+                <span>Plein écran</span>
+              </a>
+
               <a (click)="logout()"
                 (keydown.enter)="logout()"
                 (keyup.space)="logout()"

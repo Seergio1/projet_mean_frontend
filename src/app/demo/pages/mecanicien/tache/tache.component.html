@@ -40,6 +40,7 @@
                                 <h4 class="mb-0">
                                     <span tabindex="0" role="button" (click)="ouvrirModal(content, tache)"
                                         (keydown.enter)="ouvrirModal(content, tache)"
+                                        *ngIf="tache.facture===false"
                                         (keyup.space)="ouvrirModal(content, tache)" [ngClass]="{
                                         'bg-light-danger': tache.etat === 'en attente',
                                         'bg-light-warning': tache.etat === 'en cours',
@@ -50,10 +51,18 @@
                                         <i *ngIf="tache.etat === 'terminée'" class="ti ti-check text-success"></i>
                                     </span>
 
-                                    <span tabindex="0" role="button" *ngIf="tache.etat === 'terminée'"
+                                    <span tabindex="0" role="button" *ngIf="tache.etat === 'terminée' && tache.facture===false"
                                     (click)="ouvrirModalFacture(facture_content,tache)" 
                                     (keydown.enter)="ouvrirModalFacture(facture_content,tache)"
                                     (keyup.space)="ouvrirModalFacture(facture_content,tache)"
+                                        class="ms-2 align-top avatar avatar-xxs bg-light-danger">
+                                        <i class="ti ti-receipt text-danger"></i>
+                                    </span>
+
+                                    <span tabindex="0" role="button" *ngIf="tache.facture===true"
+                                    (click)="genererFacture(tache._id)" 
+                                    (keydown.enter)="genererFacture(tache._id)"
+                                    (keyup.space)="genererFacture(tache._id)"
                                         class="ms-2 align-top avatar avatar-xxs bg-light-danger">
                                         <i class="ti ti-printer text-danger"></i>
                                     </span>
@@ -130,60 +139,70 @@
             </div>
 
             <div class="modal-body">
+                <!-- SECTION 1 - Services initiaux -->
                 <div class="section">
-                    <h5>Liste des services</h5>
-                    <div style="margin-bottom: 10px;">
-                        <ul class="list-group">
-                          <li class="list-group-item" *ngFor="let service of detailTache?.services">
-                            <span style="display: inline-block; width: 90%;">
-                              <select id="etatId" [(ngModel)]="service.nom"
-                                      name="etatId" 
-                                      [disabled]="true"
-                                      class="form-control" required>
-                                <option>
-                                  {{ service?.nom }}
-                                </option>
-                              </select>
-                            </span>
-                            <span style="display: inline-block; width: 10%; text-align: right;">
-                              <input type="checkbox" [(ngModel)]="articleChecked[service._id]">
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
+                  <h5>Liste des services</h5>
+                  <ul class="list-group mb-3">
+                    <li class="list-group-item" *ngFor="let service of detailTache?.services">
+                      <span style="display: inline-block; width: 80%;">
+                        <input class="form-control" [value]="service.nom" disabled />
+                      </span>
+                      <span style="display: inline-block; width: 10%; text-align: right;">
+                        <input type="checkbox"
+                               [(ngModel)]="getEntry(service._id).checkArticle"
+                               [ngModelOptions]="{standalone: true}" />
+                      </span>
+                      <span style="display: inline-block; width: 10%; text-align: center;">
+                        <i class="ti ti-x ms-2" style="cursor: pointer; color: red;"
+                           (click)="removeInitialService(service._id)"></i>
+                      </span>
+                    </li>
+                  </ul>
                 </div>
-
+              
+                <!-- SECTION 2 - Services supplémentaires -->
                 <div class="section">
-                    <h5>Services supplémentaires</h5>
-                    <div>
-                        <ul class="list-group">
-                          <li class="list-group-item">
-                            <span style="display: inline-block; width: 80%;">
-                              <select id="serviceId" 
-                                    [(ngModel)]="serviceEtArticleChecked"
-                                    name="serviceId" 
-                                class="form-control">
-                                <option value=""></option>
-                                <option *ngFor="let service of allServices" value="{{ service._id }}">
-                                  {{ service?.nom }}
-                                </option>
-                              </select>
-                            </span>
-                            <span style="display: inline-block; width: 10%; text-align: center;">
-                              <input type="checkbox">
-                            </span>
-                            <span style="display: inline-block; width: 10%; text-align: center;">
-                              <i class="ti ti-plus"></i>
-                            </span>
-                          </li>
-                        </ul>
-                      </div>
+                  <h5>Services supplémentaires</h5>
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let supp of getServicesSupplementaires(); let i = index">
+                      <span style="display: inline-block; width: 70%;">
+                        <select class="form-control"
+                                [(ngModel)]="supp.serviceId"
+                                name="suppService_{{i}}">
+                          <option value="">-- Choisir un service --</option>
+                          <option *ngFor="let service of allServices" [value]="service._id">
+                            {{ service.nom }}
+                          </option>
+                        </select>
+                      </span>
+                      <span style="display: inline-block; width: 15%; text-align: center;">
+                        <input type="checkbox"
+                               [(ngModel)]="supp.checkArticle"
+                               [ngModelOptions]="{standalone: true}" />
+                      </span>
+                      <span style="display: inline-block; width: 15%; text-align: center;">
+                        <i class="ti ti-x" style="cursor: pointer; color: red;"
+                           (click)="removeServiceSupplementaire(i)"></i>
+                      </span>
+                    </li>
+                  </ul>
+              
+                  <div class="text-end mt-2" *ngIf="isAjoutServicePossible()">
+                    <button class="btn btn-outline-primary btn-sm" type="button" (click)="addNewServiceSupplementaire()">
+                      <i class="ti ti-plus"></i> Ajouter un service
+                    </button>
+                  </div>
                 </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Valider</button>
-            </div>
+              </div>
+              
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="fermerModal()">Annuler</button>
+                <button type="button" class="btn btn-primary" (click)="valider()">Valider</button>
+              </div>
+              
+              
+              
+              
 
         </div>
 

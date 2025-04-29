@@ -21,11 +21,17 @@ export class MecanicienService {
     return this.http.get(`${this.apiUrl}/getIdLastFacture`, { headers });
   }
 
-  addFacture(vehiculeId,clientId,serviceEtArticles): Observable<{ data: any[], message: string}> {
+  getFactureByTache(idTache): Observable<any> {
+    const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
+    return this.http.get(`${this.apiUrl}/facture/tache/${idTache}`, { headers });
+  }
+
+  addFacture(vehiculeId,tacheId,clientId,serviceEtArticles): Observable<{ data: any[], message: string}> {
     const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
 
     const body = {
       vehiculeId : vehiculeId,
+      tacheId: tacheId,
       clientId: clientId,
       serviceEtArticles: serviceEtArticles
     }
@@ -45,12 +51,21 @@ export class MecanicienService {
     }>(`${this.apiUrl}/facture/mise_a_jour/${idFacture}`,{ serviceEtArticles }, { headers });
   }
 
+  miseAjourFactureEtat(idTache,newEtat): Observable<{ data: any, message: string}> {
+    const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');  
+
+    return this.http.put<{
+      data: any, 
+      message: string 
+    }>(`${this.apiUrl}/facture/modification_etat_facture/${idTache}`,{ newEtat }, { headers });
+    }
+
   genererPdf(idFacture): Observable<any> {
     const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
   
     return this.http.get(`${this.apiUrl}/facture/pdf/${idFacture}`, {
       headers,
-      responseType: 'json'
+      responseType: 'blob'
     });
   }
 

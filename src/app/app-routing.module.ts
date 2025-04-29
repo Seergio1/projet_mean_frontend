@@ -39,7 +39,27 @@ const routes: Routes = [
         path: 'profil',
         loadComponent: () => import('./demo/pages/manager/profil/profil.component')
       },
+      {
+        path: 'mouvement',
+        loadComponent: () => import('./demo/pages/manager/mouvement-stock/mouvement-stock.component')
+      },
+      {
+        path: 'etat-stock',
+        loadComponent: () => import('./demo/pages/manager/etat-stock/etat-stock.component')
+      },
+    ]
+  },
 
+  {
+    path: '',
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: {role : ["mecanicien"]},
+    children: [
+      {
+        path: 'taches',
+        loadComponent: () => import('./demo/pages/mecanicien/tache/tache.component')
+      },
     ]
   },
 
@@ -49,23 +69,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {role : ["client","mecanicien","manager"]},
     children: [
-
-      // {
-      //   path: 'default',
-      //   loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent)
-      // },
-      // {
-      //   path: 'typography',
-      //   loadComponent: () => import('./demo/elements/typography/typography.component')
-      // },
-      // {
-      //   path: 'color',
-      //   loadComponent: () => import('./demo/elements/element-color/element-color.component')
-      // },
-      // {
-      //   path: 'sample-page',
-      //   loadComponent: () => import('./demo/other/sample-page/sample-page.component')
-      // },
       {
         path: 'coucou',
         loadComponent: () => import('./demo/pages/liste-taches/liste-taches.component')
@@ -74,15 +77,7 @@ const routes: Routes = [
         path: 'commentaires',
         loadComponent: () => import('./demo/pages/client/commentaires/commentaires.component')
       },
-      {
-        path: 'mouvement',
-        loadComponent: () => import('./demo/pages/manager/mouvement-stock/mouvement-stock.component')
-      },
-      {
-        path: 'etat-stock',
-        loadComponent: () => import('./demo/pages/manager/etat-stock/etat-stock.component')
-      },
-      // nouvelle route
+      
       {
         path: 'rendez-vous/prise',
         loadComponent: () => import('./demo/rendezvous/prise/prise.component')
@@ -117,15 +112,6 @@ const routes: Routes = [
         path: 'facture/liste',
         loadComponent: () => import('./demo/facture/liste-facture/liste-facture.component')
       },
-      // mecanicien route
-      {
-        path: 'taches',
-        loadComponent: () => import('./demo/pages/mecanicien/tache/tache.component')
-      },
-      // {
-      //   path: 'facture/liste',
-      //   loadComponent: () => import('./demo/facture/liste-facture/liste-facture.component')
-      // },
     ]
   },
 
