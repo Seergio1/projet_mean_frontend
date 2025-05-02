@@ -70,6 +70,23 @@
           </div>
           <div class="modal-body">
 
+            <div style="margin-bottom: 10px;" class="section">
+                <h5>Mécanicien</h5>
+                <div *ngFor="let liste of rdv">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      {{ liste.id_mecanicien.nom }}  
+                    </li>
+                    <li class="list-group-item">
+                        {{ liste.id_mecanicien.contact }}
+                    </li>
+                    <li class="list-group-item">
+                        {{ liste.id_mecanicien.email }}
+                    </li>
+                  </ul>
+                </div>
+            </div>
+
             <div class="section">
                 <h5>Liste des services</h5>
                 <div *ngFor="let liste of rdv">

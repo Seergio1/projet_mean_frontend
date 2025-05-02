@@ -32,7 +32,8 @@ export default class CommentairesComponent implements OnInit {
   }
 
   loadCommentaires(): void {
-    this.commentairesService.getAllCommentaires().subscribe( data => {
+    const userInfo = this.authService.getUserInfo();
+    this.commentairesService.getAllCommentairesClient(userInfo.id).subscribe( data => {
       this.commentaires = Array.isArray(data.data) ? data.data : [];
       console.log(this.commentaires);
     });

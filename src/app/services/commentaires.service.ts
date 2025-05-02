@@ -19,8 +19,13 @@ export class CommentairesService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
+  getAllCommentairesClient(id_client: string): Observable<any> {
+    const response = this.http.get(`${this.apiUrl}/client/commentaires/${id_client}`);
+    return response;
+  }
+
   getAllCommentaires(): Observable<any> {
-    const response = this.http.get(`${this.apiUrl}/client/commentaires`);
+    const response = this.http.get(`${this.apiUrl}/manager/commentaires`);
     return response;
   }
 

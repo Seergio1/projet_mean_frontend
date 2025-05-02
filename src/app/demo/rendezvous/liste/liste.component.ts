@@ -168,6 +168,8 @@ export default class ListeComponent implements OnInit {
 
 
     this.rdv = Array.isArray(rendezVous) ? rendezVous : [rendezVous];
+    console.log(this.rdv);
+    
     this.indexRdv = index;
     if (this.rdv.length>0) {
       this.getEtatTache(this.rdv[this.indexRdv]._id)
