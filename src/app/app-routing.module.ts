@@ -50,11 +50,12 @@ const routes: Routes = [
     ]
   },
 
+
   {
     path: '',
     component: AdminComponent,
     canActivate: [AuthGuard],
-    data: {role : ["mecanicien"]},
+    data: {role : ["mecanicien","manager"]},
     children: [
       {
         path: 'taches',

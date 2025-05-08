@@ -35,10 +35,11 @@ ng generate component demo/service/historique-service
 
 ng generate component demo/facture/liste-facture
 
-ng generate component demo/vehicule/ajout
+ng generate component demo/pages/manager/avis/avis
 
 ng generate component demo/vehicule/liste
 
+ng generate component demo/vehicule/liste
 
 ng generate service services/client/historique-service
 

@@ -23,8 +23,6 @@ export default class RegisterComponent {
 
   onRegister() {
     const utilisateur = { email: this.email, password: this.password, nom: this.nom, contact: this.contact };
-    console.log(utilisateur);
-
 
     this.authService.register(utilisateur).subscribe(
       (response) => {

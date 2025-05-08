@@ -4,12 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfilService } from 'src/app/services/manager/profil.service';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profil',
   imports: [CommonModule, FormsModule, CardComponent],
   templateUrl: './profil.component.html',
-  styleUrl: './profil.component.scss'
+  styleUrl: './profil.component.scss',
+  standalone: true
 })
 export default class ProfilComponent implements OnInit {
   utilisateurs: any[] = [];
@@ -18,8 +20,15 @@ export default class ProfilComponent implements OnInit {
   roles = ["client", "mecanicien", "manager"];
   message: any = null;
 
+  roleFilter: string | null = null;
+  nomFilter: string | null = null;
+  filterUser: any[] = [];
+  
+
+
   constructor(private profilService: ProfilService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toaster:ToastrService
   ) {
 
   }
@@ -32,11 +41,21 @@ export default class ProfilComponent implements OnInit {
     this.profilService.findUtilisateurs().subscribe({
       next: (resp) => {
         this.utilisateurs = resp.data;
+        this.applyFilters();
       },
       error: (err) => {
         console.error('erreur lors du chargements des profils');
       }
     })
+  }
+
+  applyFilters() {
+    this.filterUser = this.utilisateurs.filter((user) => {
+      const roleMatch = this.roleFilter ? user.role === this.roleFilter : true;
+
+      const nomMatch = this.nomFilter ? user.nom.toLowerCase().includes(this.nomFilter) : true;
+      return roleMatch && nomMatch;
+    });
   }
 
   open(content: any, profil: any) {
@@ -50,18 +69,22 @@ export default class ProfilComponent implements OnInit {
     if (this.selectedProfil) {
       this.profilService.updateRole(idProfil, role).subscribe({
         next: (resp) => {
-          this.message = "role change";
-          console.log(this.message);
+          this.message = "Changement de rôle effectué";
+          this.toaster.success(this.message, 'Succès', {
+            timeOut: 3000,
+            progressAnimation: 'decreasing',
+            progressBar: true,
+          });
+          this.applyFilters();
+        },
+        error: (err) => {
+          this.toaster.error("Erreur lors du changement de rôle", 'Erreur', {
+            progressBar: true,
+            progressAnimation: 'decreasing'
+          });
+          console.error("Erreur:", err);
         }
       });
-
-      // this.mouvementStockService.insertMouvementStock(mouvement).subscribe({
-      //   next: (resp) => {
-      //     console.log("insertion succes");
-      //     this.getEtatStock();
-      //   },
-      //   error: (err) => console.error('erreur insertion', err)
-      // });
     }
   }
 

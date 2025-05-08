@@ -40,17 +40,18 @@ export default class CommentairesComponent implements OnInit {
   }
 
   insertCommentaire() {
-    const userInfo = this.authService.getUserInfo();
-    this.commentaire.id_utilisateur = userInfo.id;
-    this.commentairesService.insertCommentaires(this.commentaire).subscribe({
-      next: (response) => {
-        this.loadCommentaires();
-      },
-      error: (err) => {
-        console.log(err.error.message);
-      }
-    });
-    // console.log(this.commentaire);
+    const input = document.getElementById('libelle') as HTMLInputElement;
+    // const userInfo = this.authService.getUserInfo();
+    // this.commentaire.id_utilisateur = userInfo.id;
+    // this.commentairesService.insertCommentaires(this.commentaire).subscribe({
+    //   next: (response) => {
+    //     this.loadCommentaires();
+    //   },
+    //   error: (err) => {
+    //     console.log(err.error.message);
+    //   }
+    // });
+    input.value = "";
   }
 
   modifierDate(date) {

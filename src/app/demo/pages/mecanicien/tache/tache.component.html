@@ -18,21 +18,31 @@
                     </div>
                     <div class="col-auto">
                         <!-- Filtre par état -->
-                        <select [(ngModel)]="etatFilter" (ngModelChange)="applyFilters()" class="form-control">
+                        <select *ngIf="userInfo.role === 'mecanicien'" [(ngModel)]="etatFilter" (ngModelChange)="applyFilters()" class="form-control">
                             <option value="">Tous</option>
                             <option *ngFor="let etat of etats" [value]="etat">
                                 {{ etat }}
                             </option>
                         </select>
+
+                        <select *ngIf="userInfo.role === 'manager'" [(ngModel)]="mecanicienFilter" (ngModelChange)="applyFilters()" class="form-control">
+                            <option value="">Tous</option>
+                            <option *ngFor="let mecanicien of filteredTache" [value]="mecanicien.id_mecanicien.nom">
+                                {{ mecanicien.id_mecanicien.nom }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="userInfo.role === 'manager'" class="col-auto">
+                        <input type="search" [(ngModel)]="clientFilter" (ngModelChange)="applyFilters()" placeholder="Rechercher par nom" class="form-control" />
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item px-0" *ngFor="let tache of filteredTache; let index = index">
                         <div class="row align-items-start">
                             <div class="col">
-                                <h4 class="mb-0">{{ tache.id_vehicule.id_modele.nom }} {{ tache.id_vehicule.marque }} -
-                                    {{ tache.id_vehicule.numero }}</h4>
-                                <!-- <h5 class="mb-0">{{  }}</h5> -->
+                                <h4 class="mb-0">{{ tache.id_rendez_vous.id_client.nom }} - {{ tache.id_vehicule.id_modele.nom }} {{ tache.id_vehicule.marque }} -
+                                    {{ tache.id_vehicule.numero }} <span *ngIf="userInfo.role === 'manager'">({{ tache.id_mecanicien.nom }})</span></h4>
                                 <small class="text-success">{{ formatDate(tache.date_debut) }} jusqu'au {{
                                     formatDate(tache.date_fin) }}</small>
                             </div>

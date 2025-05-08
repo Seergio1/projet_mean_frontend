@@ -31,9 +31,16 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'ti ti-dashboard',
         role: ['manager']
       },
+    ]
+  },{
+    id: 'utilisateurs',
+    title: 'Utilisateurs',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
       {
         id: 'profiluser',
-        title: 'Profil',
+        title: 'Utilisateurs',
         type: 'item',
         classes: 'nav-item',
         url: '/profil',

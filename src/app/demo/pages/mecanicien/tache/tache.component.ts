@@ -8,6 +8,16 @@ import { MecanicienService } from 'src/app/services/mecanicien/mecanicien.servic
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 import { ToastrService } from 'ngx-toastr';
 
+interface Tache {
+id_vehicule: any;
+  _id: string;
+  id_rendez_vous: any;
+  id_mecanicien: any;
+  date_debut: string;
+  date_fin: string;
+  etat: string;
+  facture: boolean;
+}
 @Component({
   selector: 'app-tache',
   standalone: true,
@@ -17,12 +27,25 @@ import { ToastrService } from 'ngx-toastr';
 })
 export default class TacheComponent implements OnInit {
   @ViewChild('modalContainer', { static: false }) modalContainer!: ElementRef;
-
+  
   taches: any[] = [];
-  filteredTache: any[] = [];
+
+  filteredTache: Tache[] = [{
+    _id: '',
+    id_rendez_vous: {id_client: {nom: '', contact: '', email: ''}},
+    id_mecanicien: {nom: '', contact: '', email: ''},
+    date_debut: '',
+    date_fin: '',
+    etat: '',
+    facture : false,
+    id_vehicule: {marque: '', numero: '', id_modele: {nom: ''}}
+  }];
+
   dateMinFilter: any = null;
   dateMaxFilter: any = null;
   etatFilter: any = null;
+  mecanicienFilter: any = null;
+  clientFilter: string = "";
   selectedTache: any = null;
   etats = ['en attente', 'en cours', 'terminée'];
   message: any = null;
@@ -32,6 +55,8 @@ export default class TacheComponent implements OnInit {
   modalOuverte = false;
   facture_etat :any = null;
   facture_id: any = null;
+  userInfo: any = null;
+  
 
   allServices: any[] = [];
   serviceEtArticleChecked: { serviceId: string; checkArticle: '0' | '1' }[] = [];
@@ -45,19 +70,32 @@ export default class TacheComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.userInfo = this.authService.getUserInfo();
     this.getAllTache();
     this.chargerServices();
   }
 
   getAllTache() {
-    const UserInfo = this.authService.getUserInfo();
-    this.mecanicienService.getAllTacheMecanicien(UserInfo.id).subscribe({
-      next: (resp) => {
-        this.taches = resp.data;
-        this.applyFilters();
-      },
-      error: (err) => console.error('Erreur lors de la récupération des taches:', err)
-    });
+    
+    
+    if (this.userInfo.role=="mecanicien") {
+      this.mecanicienService.getAllTacheMecanicien(this.userInfo.id).subscribe({
+        next: (resp) => {
+          this.taches = resp.data;
+          this.applyFilters();
+        },
+        error: (err) => console.error('Erreur lors de la récupération des taches de ce mécanicien:', err)
+      });
+    }else if (this.userInfo.role=="manager") {
+      this.mecanicienService.getAllTaches().subscribe({
+        next: (resp) => {
+          this.taches = resp.data;
+          this.applyFilters();
+        },
+        error: (err) => console.error('Erreur lors de la récupération des tous les taches:', err)
+      });
+    }
+    
   }
 
 
@@ -117,7 +155,7 @@ export default class TacheComponent implements OnInit {
   }
 
   updateFactureTacheEtat(idTache: string, etat: boolean){
-      console.log(idTache,etat);
+
       
 
       this.mecanicienService.miseAjourFactureEtat(idTache, etat).subscribe({
@@ -156,9 +194,8 @@ export default class TacheComponent implements OnInit {
   }
 
   updateRole(idTache: string, etat: string) {
-    const UserInfo = this.authService.getUserInfo();
     if (this.selectedTache) {
-      this.mecanicienService.updateTacheMecanicien(UserInfo.id, idTache, etat, '').subscribe({
+      this.mecanicienService.updateTacheMecanicien(this.userInfo.id, idTache, etat, '').subscribe({
         next: () => {
           this.message = "Changement d'état de la tâche";
           this.toaster.success(this.message, 'Succès', {
@@ -179,12 +216,12 @@ export default class TacheComponent implements OnInit {
   }
 
   genererFacture(tache_id: string) {
-    this.mecanicienService.getFactureByTache(tache_id).subscribe({
+    this.mecanicienService.getFactureByTache(tache_id,this.userInfo.role).subscribe({
       next: (resp) => {
         const facture_id = resp.data;
         console.log('Facture ID récupéré :', facture_id);
   
-        this.mecanicienService.genererPdf(facture_id).subscribe({
+        this.mecanicienService.genererPdf(facture_id,this.userInfo.role).subscribe({
           next: (response) => {
             const blob = new Blob([response], { type: 'application/pdf' });
             const link = document.createElement('a');
@@ -220,9 +257,16 @@ export default class TacheComponent implements OnInit {
 
       const dateMatch = (!this.dateMinFilter || dateFin >= this.dateMinFilter) &&
                         (!this.dateMaxFilter || dateDebut <= this.dateMaxFilter);
-      const etatMatch = this.etatFilter ? tache.etat === this.etatFilter : true;
+      
 
-      return dateMatch && etatMatch;
+      if (this.userInfo.role == 'manager') {
+        const mecaMatch = this.mecanicienFilter ? tache.id_mecanicien.nom === this.mecanicienFilter : true;
+        const nomMatch = this.clientFilter ? tache.id_rendez_vous.id_client.nom.includes(this.clientFilter) : true;
+        return dateMatch && mecaMatch && nomMatch;
+      }else{
+        const etatMatch = this.etatFilter ? tache.etat === this.etatFilter : true;
+        return dateMatch && etatMatch;
+      }
     });
   }
 

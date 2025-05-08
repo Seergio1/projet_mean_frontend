@@ -1,0 +1,152 @@
+// (click)="open(content, user)"
+.user-card {
+    border: none;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease-in-out;
+    margin-bottom: 20px;
+    padding: 20px;
+  
+    &:hover {
+      transform: translateY(-5px);
+    }
+  
+    .avatar {
+      width: 50px;
+      height: 50px;
+      background: #007bff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 22px;
+      color: white;
+    }
+  
+    .user-name {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 10px 0 5px;
+      color: #333;
+    }
+  
+    .user-email {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 4px;
+    }
+  
+    .user-role {
+      font-size: 13px;
+      font-weight: 500;
+      color: #dc3545;
+    }
+  
+    .btn-action {
+      background-color: #e9ecef;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #495057;
+  
+      &:hover {
+        background-color: #ced4da;
+      }
+    }
+  }
+  .user-role-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    text-transform: capitalize;
+  
+    &.manager {
+      background-color: #dc3545;
+    }
+  
+    &.client {
+      background-color: #17a2b8;
+    }
+  
+    &.mecanicien {
+      background-color: #28a745;
+    }
+  }
+  
+
+//  filtre
+.filter-row {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  
+  
+    .form-select,
+    .form-control {
+      border-radius: 8px;
+      padding: 8px 14px;
+      border: 1px solid #ced4da;
+      font-size: 14px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  
+      &:focus {
+        border-color: #5c6ac4;
+        box-shadow: 0 0 0 0.2rem rgba(92, 106, 196, 0.25);
+      }
+    }
+  
+    .filter-select {
+      min-width: 200px;
+    }
+  
+    .filter-input {
+      min-width: 200px;
+    }
+  }
+
+
+  // modal 
+  .modal-header{
+    padding-bottom: 15px;
+  }
+  .modal-header, .modal-footer {
+    background-color: #fff;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  .modal-body {
+    background-color: #fff;
+  }
+  
+  .modal-title {
+    font-size: 1.25rem;
+    color: #333;
+  }
+  
+  .form-select {
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  
+  .btn-outline-secondary {
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-weight: 500;
+  }
+  
+  .alert {
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  

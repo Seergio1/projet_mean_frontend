@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { el } from '@fullcalendar/core/internal-common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MecanicienService {
     private apiUrl = `${environment.apiUrl}/mecanicien`;
+    private apiUrlM = `${environment.apiUrl}/manager`;
 
   constructor(
     private http: HttpClient,
@@ -21,9 +23,10 @@ export class MecanicienService {
     return this.http.get(`${this.apiUrl}/getIdLastFacture`, { headers });
   }
 
-  getFactureByTache(idTache): Observable<any> {
+  getFactureByTache(idTache:string,role:string): Observable<any> {
     const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
-    return this.http.get(`${this.apiUrl}/facture/tache/${idTache}`, { headers });
+    const apiUrl = this.getApiUrl(role);
+    return this.http.get(`${apiUrl}/facture/tache/${idTache}`, { headers });
   }
 
   addFacture(vehiculeId,tacheId,clientId,serviceEtArticles): Observable<{ data: any[], message: string}> {
@@ -60,15 +63,26 @@ export class MecanicienService {
     }>(`${this.apiUrl}/facture/modification_etat_facture/${idTache}`,{ newEtat }, { headers });
     }
 
-  genererPdf(idFacture): Observable<any> {
-    const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
-  
-    return this.http.get(`${this.apiUrl}/facture/pdf/${idFacture}`, {
-      headers,
-      responseType: 'blob'
-    });
-  }
-
+    genererPdf(idFacture: string, role: string): Observable<any> {
+      const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
+      const apiUrl = this.getApiUrl(role);
+    
+      return this.http.get(`${apiUrl}/facture/pdf/${idFacture}`, {
+        headers,
+        responseType: 'blob'
+      });
+    }
+    
+    private getApiUrl(role: string): string {
+      switch (role) {
+        case 'mecanicien':
+          return this.apiUrl;
+        case 'manager':
+          return this.apiUrlM;
+        default:
+          throw new Error(`Rôle non supporté : ${role}`);
+      }
+    }
   getAllFacturesByClient(idClient): Observable<{ data: any[], message: string}> {
     const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
 
@@ -88,6 +102,17 @@ export class MecanicienService {
         { headers } 
       );
   }
+
+  getAllTaches(): Observable<{ data: any[], message: string}> {
+    const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
+
+    return this.http.get<{
+      data: any[], 
+      message: string
+    }>(`${this.apiUrlM}/taches`, 
+      { headers } 
+    );
+}
 
   updateTacheMecanicien(mecanicienId, idTache,newEtat, libelle): Observable<{ data: any[], message: string}> {
     const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');

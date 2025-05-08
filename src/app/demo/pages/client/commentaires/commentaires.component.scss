@@ -1,0 +1,110 @@
+.avis-container {
+  margin: 0 auto;
+  padding: 25px 15px;
+
+  .comment-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 12px 0;
+
+    max-height: 250px; // hauteur fixe ou ajustable selon ton design
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+
+    li {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .comment-text {
+        font-size: 15px;
+        color: #333;
+      }
+
+      .comment-date {
+        font-size: 13px;
+        color: #888;
+        font-style: italic;
+      }
+    }
+  }
+
+  .comment-list::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .comment-list::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+  }
+
+  .comment-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+.add-comment-section {
+  margin-top: 40px;
+  .libelle {
+    font-size: 12px;
+  }
+  h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #444;
+  }
+  .comment-form {
+    display: flex;
+    align-items: center;
+    gap: 10px; // espace entre le champ et le bouton
+    margin-top: 10px;
+    .form-group {
+      margin: 0;
+      flex-grow: 1;
+      .modern-input {
+        padding: 10px 14px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        width: 100%;
+        transition: border-color 0.3s;
+      }
+      .modern-input:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+    }
+    .button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .modern-btn {
+      padding: 10px 20px;
+      font-size: 14px;
+      border-radius: 6px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    .modern-btn:hover {
+      background-color: #0056b3;
+    }
+  }
+  .visually-hidden {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+}

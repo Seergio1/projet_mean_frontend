@@ -1,61 +1,70 @@
+<div class="filter-row">
+  <h4 class="col">Filtre</h4>
+  <div class="row mb-3 ">
+    <div class="col">
+      <input type="search" [(ngModel)]="nomFilter" (ngModelChange)="applyFilters()" id="nomFilter" placeholder="Rechercher par nom" class="form-control" />
+    </div>
+    <div class="col-auto">
+      <select [(ngModel)]="roleFilter" (ngModelChange)="applyFilters()" id="roleFilter" class="form-select">
+        <option value="">Tous</option>
+        <option *ngFor="let role of roles" [value]="role">
+          {{ role }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
 <div class="row">
-    <div *ngFor="let user of utilisateurs" class="col-xl-4 col-md-6">
-      <div class="card earning-card overflow-hidden">
-        <span class="round secondary-round small"></span>
-        <span class="round secondary-round big"></span>
-        <div class="card-body">
-          <div class="row">
-            <div class="col">
-              <div class="avatar avatar-lg">
-                <i class="text-white ti ti-user f-24"></i>
-              </div>
-            </div>
-            <div class="col-auto">
-              <div class="btn-group">
-                <button class="avatar avatar-xs bg-primary dropdown-toggle arrow-none"
-                (click)="open(content, user)"
-                >
-                  <i class="ti ti-dots"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <span class="d-block f-34 f-w-500 my-2">
-            {{ user.nom }}
-          </span>
-          <p class="mb-0">{{ user.email }}</p>
-          <p class="mb-0 text-danger">{{ user.role }}</p>
+  <div *ngFor="let user of filterUser" class="col-xl-4 col-md-6">
+    <div class="user-card">
+      <div class="d-flex justify-content-between align-items-start">
+        <div class="avatar">
+          <i class="ti ti-user"></i>
+        </div>
+        <button class="btn-action" (click)="open(content, user)">
+          <i class="ti ti-dots-vertical"></i>
+        </button>
+      </div>
+
+      <div class="mt-3">
+        <div class="user-name">{{ user.nom }}</div>
+        <div class="user-email">{{ user.email }}</div>
+        <div [ngClass]="'user-role-badge ' + user.role.toLowerCase()">
+          {{ user.role }}
         </div>
       </div>
     </div>
   </div>
+</div>
+
 
   <!-- Modal -->
-<ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">{{ selectedProfil.nom }}</h4>
-      <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  <ng-template #content let-modal>
+    <div class="modal-header border-0 ">
+      <h5 class="modal-title fw-semibold">{{ selectedProfil.nom }}</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
     </div>
-    <div class="modal-body">
-      <div class="form-group">
-          <label for="exampleInputEmail1">nouveau role</label>
-          <select id="vehiculeId" [(ngModel)]="selectedProfil.role"
-          (change)="updateRole(selectedProfil._id, selectedProfil.role)"
-          name="vehiculeId" class="form-control" required
-          >
-            <option *ngFor="let role of roles" [value]="role">
-              {{ role }}
-            </option>
-          </select>
-        </div>
-        <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
-        <!-- <div class="form-group">
-          <label for="exampleInputPassword1">prix unitaire</label>
-          <input type="number" min="1" class="form-control" id="exampleInputPassword1" placeholder="Prix Unitaire" [(ngModel)]="prixUnitaireInserer">
-        </div> -->
+  
+    <div class="modal-body pt-0">
+      <div class="mb-3">
+        <label for="vehiculeId" class="form-label">Rôle</label>
+        <select
+        id="vehiculeId"
+        [(ngModel)]="selectedProfil.role"
+        (ngModelChange)="updateRole(selectedProfil._id, $event)"
+        name="vehiculeId"
+        class="form-select"
+        required
+      >
+        <option *ngFor="let role of roles" [value]="role">
+          {{ role }}
+        </option>
+      </select>
+      </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" (click)="modal.close('Fermer')">Fermer</button>
-      <!-- <button type="button" class="btn btn-success" (click)=" inserer(); modal.close()">inserer</button> -->
+  
+    <div class="modal-footer border-0 pt-0">
+      <button class="btn btn-outline-secondary" (click)="modal.close('Fermer')">Fermer</button>
     </div>
   </ng-template>
+  
