@@ -61,7 +61,7 @@
                                         <i *ngIf="tache.etat === 'terminée'" class="ti ti-check text-success"></i>
                                     </span>
 
-                                    <span tabindex="0" role="button" *ngIf="tache.etat === 'terminée' && tache.facture===false"
+                                    <span tabindex="0" role="button" *ngIf="tache.etat === 'terminée' && tache.facture===false && userInfo.role === 'mecanicien'"
                                     (click)="ouvrirModalFacture(facture_content,tache)" 
                                     (keydown.enter)="ouvrirModalFacture(facture_content,tache)"
                                     (keyup.space)="ouvrirModalFacture(facture_content,tache)"
@@ -122,7 +122,7 @@
                 </div>
             </div>
 
-            <div *ngIf="selectedTache.etat != 'terminée'" class="modal-footer">
+            <div *ngIf="selectedTache.etat != 'terminée' && userInfo.role === 'mecanicien'" class="modal-footer">
                 <div class="col-auto">
                     <label for="etatId">Etat</label>
                     <select id="etatId" [(ngModel)]="selectedTache.etat"

@@ -69,13 +69,17 @@ export default class ProfilComponent implements OnInit {
     if (this.selectedProfil) {
       this.profilService.updateRole(idProfil, role).subscribe({
         next: (resp) => {
-          this.message = "Changement de rôle effectué";
-          this.toaster.success(this.message, 'Succès', {
-            timeOut: 3000,
-            progressAnimation: 'decreasing',
-            progressBar: true,
-          });
           this.applyFilters();
+          this.message = "Changement de rôle effectué";
+          
+          setTimeout(() => {
+            this.toaster.success(this.message, 'Succès', {
+              timeOut: 3000,
+              progressAnimation: 'decreasing',
+              progressBar: true,
+            });
+          }, 100);
+          
         },
         error: (err) => {
           this.toaster.error("Erreur lors du changement de rôle", 'Erreur', {

@@ -47,6 +47,10 @@ const routes: Routes = [
         path: 'etat-stock',
         loadComponent: () => import('./demo/pages/manager/etat-stock/etat-stock.component')
       },
+      {
+        path: 'commentaires-all',
+        loadComponent: () => import('./demo/pages/manager/avis/avis/avis.component')
+      },
     ]
   },
 

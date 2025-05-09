@@ -25,7 +25,8 @@ export class CommentairesService {
   }
 
   getAllCommentaires(): Observable<any> {
-    const response = this.http.get(`${this.apiUrl}/manager/commentaires`);
+    const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
+    const response = this.http.get<any>(`${this.apiUrl}/manager/commentaires`, { headers });
     return response;
   }
 

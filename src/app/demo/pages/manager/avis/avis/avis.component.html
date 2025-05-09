@@ -1,1 +1,14 @@
-<p>avis works!</p>
+<div class="avis-container">
+    <div class="avis-grid">
+      <div class="avis-card" *ngFor="let comment of commentaires">
+        <p class="avis-text">
+          “{{ comment.libelle }}”
+        </p>
+        <div class="avis-user-info">
+          <span class="avis-user-name">{{ comment.id_utilisateurs.nom }}</span>
+          <span class="avis-user-date">{{ modifierDate(comment.date) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  

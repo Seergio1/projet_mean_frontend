@@ -48,6 +48,39 @@ export const NavigationItems: NavigationItem[] = [
         role: ['manager']
       }
     ]
+  },{
+    id: 'avis-all',
+    title: 'Avis',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'avis-user',
+        title: 'Commentaire',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/commentaires-all',
+        icon: 'ti ti-star',
+        role: ['manager']
+      }
+    ]
+  },
+  {
+    id: 'stock',
+    title: 'Stock',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'avis-user',
+        title: 'Etat de stock',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/etat-stock',
+        icon: 'ti ti-package',
+        role: ['manager']
+      }
+    ]
   },
   {
     id: 'rendezvous',

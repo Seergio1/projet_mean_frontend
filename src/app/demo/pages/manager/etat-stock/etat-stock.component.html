@@ -1,70 +1,81 @@
-<div class="row">
-    <div class="col-sm-12">
-        <app-card>
-            <h2>Etat de Stock</h2>
-            
-            <div class="table-container">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th class="number">
-                                    <input
-                                    class="form-control mb-3"
-                                    type="text"
-                                    [(ngModel)]="nomSearch"
-                                    (input)="getEtatStock()"
-                                    placeholder="Rechercher un article..."
-                                    />
-                                nom article
-                            </th>
-                            <th class="number">entrer</th>
-                            <th class="number">sortie</th>
-                            <th class="number">reste</th>
-                            <th class="number">#</th>
-                            <!-- <th class="number">prix total</th> -->
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of etatStock">
-                            <td class="number">{{ row.nom }}</td>
-                            <td class="number">{{ row.totalEntrer }}</td>
-                            <td class="number">{{ row.totalSortie }}</td>
-                            <td class="number">{{ row.totalEntrer - row.totalSortie }}</td>
-                            <td class="number">
-                                <button class="btn btn-primary" (click)="open(content, row)">
-                                    Inserer
-                                </button>
-                            </td>
-                            <!-- <td class="number">{{ row.prix_total }}</td> -->
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </app-card>
-    </div>
-</div>
-
-<!-- Bouton pour ouvrir le modal -->
-
-<!-- Modal -->
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Inserer en Stock: {{ selectedArticle.nom }}</h4>
-    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
-  </div>
-  <div class="modal-body">
-    <div class="form-group">
-        <label for="exampleInputEmail1">quantite</label>
-        <input type="number" min="1" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="quantite" [(ngModel)]="quantiteInserer">
+<div class="filter-row">
+    <h4 class="col">Filtre</h4>
+    <div class="row mb-3 ">
+      <div class="col">
+        <input
+          type="text"
+          class="form-control search-bar"
+          [(ngModel)]="nomSearch"
+          (input)="getEtatStock()"
+          placeholder="Rechercher un article..."
+        />
       </div>
-      <!-- <div class="form-group">
-        <label for="exampleInputPassword1">prix unitaire</label>
-        <input type="number" min="1" class="form-control" id="exampleInputPassword1" placeholder="Prix Unitaire" [(ngModel)]="prixUnitaireInserer">
-      </div> -->
+      <div class="col-auto">
+        <select [(ngModel)]="etatFilter" (ngModelChange)="applyFilters()" class="form-select">
+            <option value="">Tous</option>
+            <option value="Normal">Normal</option>
+            <option value="Faible">Faible</option>
+          </select>
+      </div>
+    </div>
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-secondary" (click)="modal.close('Fermer')">Fermer</button>
-    <button type="button" class="btn btn-success" (click)=" inserer(); modal.close()">inserer</button>
+
+<div class="etat-stock-wrapper">
+      <div class="table-responsive">
+        <table class="table custom-table">
+          <thead>
+            <tr>
+              <th>Etat</th>
+              <th>Nom article</th>
+              <th>Entrées</th>
+              <th>Sorties</th>
+              <th>Reste</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of filterStock">
+              <td>
+                <span 
+                  class="badge-dot" 
+                  [ngStyle]="{
+                    'background-color': (row.totalEntrer - row.totalSortie) < row.seuil ? '#dc3545' : '#28a745'
+                  }">
+                </span>
+              </td>
+              <td>{{ row.nom }}</td>
+              <td>{{ row.totalEntrer }}</td>
+              <td>{{ row.totalSortie }}</td>
+              <td>{{ row.totalEntrer - row.totalSortie }}</td>
+              <td>
+                <button class="btn btn-trade" (click)="open(content, row)">
+                  ➕
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          
+        </table>
+      </div>
+
   </div>
-</ng-template>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header border-0 ">
+      <h5 class="modal-title fw-semibold">{{ selectedArticle.nom }}</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+  
+    <div class="modal-body pt-0">
+      <div class="mb-3">
+        <label for="quantite" class="form-label">Quantité</label>
+        <input type="number" min="1" class="form-control" id="quantite" placeholder="quantite" [(ngModel)]="quantiteInserer">
+      </div>
+    </div>
+  
+    <div class="modal-footer border-0 pt-0">
+      <button class="btn btn-outline-secondary" (click)=" inserer(); modal.close()">Inserer</button>
+    </div>
+  </ng-template>
   
