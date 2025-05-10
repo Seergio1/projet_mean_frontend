@@ -19,6 +19,7 @@ export default class EtatStockComponent implements OnInit {
   selectedArticle: any = null;
   quantiteInserer: any = 1;
   prixUnitaireInserer: any = 0;
+  userInfo: any = null
   // modalRef!: NgbModalRef;
 
   etatFilter: string | null = null;
@@ -26,6 +27,7 @@ export default class EtatStockComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.userInfo = this.authService.getUserInfo();
     this.getEtatStock();
   }
 
@@ -37,7 +39,7 @@ export default class EtatStockComponent implements OnInit {
 
   getEtatStock() {
 
-    this.mouvementStockService.getDetailsStock(this.nomSearch).subscribe({
+    this.mouvementStockService.getDetailsStock(this.nomSearch,this.userInfo.role).subscribe({
       next: (resp) => {
         this.etatStock = resp.data;
         console.log(resp.data);
@@ -45,6 +47,15 @@ export default class EtatStockComponent implements OnInit {
         this.applyFilters();
       },
       error: (err) => console.error('erreur lors du chargement de details stock',err)
+    });
+  }
+
+  getMouvementStockByArticle(id_Article: string) {
+    this.mouvementStockService.getMouvementStockByArticle(id_Article, this.userInfo.role).subscribe({
+      next: (resp) => {
+        console.log(resp.data);
+      },
+      error: (err) => console.error('erreur lors du chargement de mouvement de stocks', err)
     });
   }
 

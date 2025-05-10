@@ -14,26 +14,50 @@ interface MouvementStock {
   providedIn: 'root'
 })
 export class MouvementStockService {
-    private apiUrl = `${environment.apiUrl}/manager`;
+    private apiUrl = `${environment.apiUrl}/client`;
+    private apiUrlM = `${environment.apiUrl}/manager`;
   
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
+  
+    private getApiUrl(role: string): string {
+      switch (role) {
+        case 'mecanicien':
+          return this.apiUrl;
+        case 'manager':
+          return this.apiUrlM;
+        default:
+          throw new Error(`Rôle non supporté : ${role}`);
+      }
+    }
+
   getMouvementStock(): Observable<{ data: any[], message: string}> {
     const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
+    
     return this.http.get<{
       data: any[], 
       message: string
-    }>(`${this.apiUrl}/mouvement-stock`, { headers });
+    }>(`${this.apiUrlM}/mouvement-stock`, { headers });
   }
 
-  getDetailsStock(nomArticle: string): Observable<{ data: any[], message: string}> {
+    getMouvementStockByArticle(id_Article: string,role: string): Observable<{ data: any[], message: string}> {
     const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
-    const params = new HttpParams().set('nomArticle',nomArticle);
+    const apiUrl = this.getApiUrl(role);
     return this.http.get<{
       data: any[], 
       message: string
-    }>(`${this.apiUrl}/article`, 
+    }>(`${apiUrl}/mouvement-stock/${id_Article}`, { headers });
+  }
+
+  getDetailsStock(nomArticle: string,role: string): Observable<{ data: any[], message: string}> {
+    const headers = this.authService.getAuthHeaders().set('Content-Type', 'application/json');
+    const params = new HttpParams().set('nomArticle',nomArticle);
+    const apiUrl = this.getApiUrl(role);
+    return this.http.get<{
+      data: any[], 
+      message: string
+    }>(`${apiUrl}/article`, 
       { headers, params } 
     );
   }
@@ -44,7 +68,7 @@ export class MouvementStockService {
     return this.http.put<{
       data: any[], 
       message: string
-    }>(`${this.apiUrl}/insert-mvmt`,
+    }>(`${this.apiUrlM}/insert-mvmt`,
       body,
       { headers } 
     );
@@ -56,7 +80,7 @@ export class MouvementStockService {
     return this.http.get<{
       data: any[], 
       message: string
-    }>(`${this.apiUrl}/article-depense`,
+    }>(`${this.apiUrlM}/article-depense`,
       { headers } 
     );
   }
