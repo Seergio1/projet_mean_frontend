@@ -1,9 +1,9 @@
 // Angular import
-import { Component,OnInit } from '@angular/core';
-import { RouterModule,Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/client/notification.service';
-
+import { ToastrService } from 'ngx-toastr';
 // third party import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 
@@ -11,21 +11,23 @@ import { SharedModule } from 'src/app/theme/shared/shared.module';
   selector: 'app-nav-right',
   imports: [RouterModule, SharedModule],
   templateUrl: './nav-right.component.html',
-  styleUrls: ['./nav-right.component.scss']
+  styleUrls: ['./nav-right.component.scss'],
+  standalone: true
 })
-export class NavRightComponent implements  OnInit{
+export class NavRightComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   userInfo: any = null;
   notifications: any[] = [];
   filteredNotifications: any[] = [];
-  idClient = this.authService.getUserInfo().id;
+  idUtilisateur = this.authService.getUserInfo().id;
+  notifNonLues: number = 0;
 
-  constructor(private authService: AuthService,private router: Router,private notifService: NotificationService) {}
+  constructor(private authService: AuthService, private router: Router, private notifService: NotificationService, private toaster: ToastrService) { }
 
   ngOnInit() {
     this.userInfo = this.authService.getUserInfo(); // Appel de la méthode pour récupérer les données
     this.getNotifications();
-    console.log(this.userInfo);
+
   }
 
   logout(): void {
@@ -34,11 +36,21 @@ export class NavRightComponent implements  OnInit{
   }
 
   getNotifications() {
-    this.notifService.getNotificationsByIdClient(this.idClient).subscribe({
+    this.notifService.getNotificationsByIdClient(this.idUtilisateur).subscribe({
       next: (response) => {
         console.log("Notifications reçues :", response.data);
         this.notifications = response.data;
         this.filteredNotifications = [...this.notifications];
+        this.notifNonLues = this.filteredNotifications.filter(notification => notification.lu === false).length;
+        if (this.notifNonLues > 0) {
+          this.toaster.success("Vous avez " + this.notifNonLues + " notification(s) non lu(e)s", 'Succès', {
+            timeOut: 3000,
+            progressAnimation: 'decreasing',
+            progressBar: true,
+            positionClass: 'toast-bottom-right'
+          });
+        }
+
       },
       error: (error) => {
         console.error('Erreur lors de la récupération des notifications', error);
@@ -48,7 +60,7 @@ export class NavRightComponent implements  OnInit{
 
   basculerPleinEcran() {
     const elem = document.documentElement as any;
-  
+
     if (!document.fullscreenElement) {
       if (elem.requestFullscreen) {
         elem.requestFullscreen();
@@ -67,8 +79,8 @@ export class NavRightComponent implements  OnInit{
       }
     }
   }
-  
-  
+
+
 
   filterNotifications(event: any) {
     const filterType = event.target.value;
@@ -95,7 +107,7 @@ export class NavRightComponent implements  OnInit{
   }
 
   marquerTousLu() {
-    this.notifService.marquerTousLu(this.idClient).subscribe({
+    this.notifService.marquerTousLu(this.idUtilisateur).subscribe({
       next: () => {
         console.log('Toutes les notifications ont été marquées comme lues');
         this.getNotifications(); // Recharger les notifications pour afficher les mises à jour

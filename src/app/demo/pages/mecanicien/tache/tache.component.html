@@ -61,6 +61,18 @@
                                         <i *ngIf="tache.etat === 'terminée'" class="ti ti-check text-success"></i>
                                     </span>
 
+                                    <span *ngIf="userInfo.role === 'manager'" 
+                                            [ngClass]="{
+                                                'bg-light-danger': tache.etat === 'en attente',
+                                                'bg-light-warning': tache.etat === 'en cours',
+                                                'bg-light-success': tache.etat === 'terminée'
+                                            }" 
+                                        class="ms-2 align-top avatar avatar-xxs">
+                                        <i *ngIf="tache.etat === 'en attente'" class="ti ti-x text-danger"></i>
+                                        <i *ngIf="tache.etat === 'en cours'" class="ti ti-hourglass text-warning"></i>
+                                        <i *ngIf="tache.etat === 'terminée'" class="ti ti-check text-success"></i>
+                                    </span>
+
                                     <span tabindex="0" role="button" *ngIf="tache.etat === 'terminée' && tache.facture===false && userInfo.role === 'mecanicien'"
                                     (click)="ouvrirModalFacture(facture_content,tache)" 
                                     (keydown.enter)="ouvrirModalFacture(facture_content,tache)"

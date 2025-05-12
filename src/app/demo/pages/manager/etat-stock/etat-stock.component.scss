@@ -1,146 +1,170 @@
 .etat-stock-wrapper {
-    padding: 1.5rem;
-    background-color: #fff;
-    border-radius: 12px;
-  
-    .etat-stock-header {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-  
-      @media (min-width: 576px) {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-  
-      h2 {
-        margin: 0;
-        font-weight: 600;
-        color: #333;
-      }
-  
-      .search-bar {
-        max-width: 300px;
-        border-radius: 8px;
-        padding: 0.5rem 1rem;
-        border: 1px solid #ddd;
-      }
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 12px;
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+
+    // Pour un meilleur look lors du scroll horizontal
+    -webkit-overflow-scrolling: touch;
+
+    // Évite que le scroll casse le layout
+    table {
+      min-width:400px; // ou plus selon tes colonnes
     }
-  
-    .custom-table {
-      border-collapse: separate;
-      border-spacing: 0 0.5rem;
-  
-      thead th {
-        background: #fff;
-        border-bottom: none;
-        color: #555;
-        font-weight: 600;
-        text-align: center;
-        border-bottom: 1px solid lightgray;
-      }
-  
-      tbody tr {
-        background: #fff;
-        // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        border-radius: 10px;
-        transition: 0.2s;
-  
-        td {
-          text-align: center;
-          vertical-align: middle;
-          padding: 0.75rem;
-          background-color: #fff;
-        }
-  
-        .badge-dot {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background-color: #28a745;
-          display: inline-block;
-        }
-  
-        .btn-trade {
-        //   background-color: #0d6efd;
-          color: #fff;
-          border: none;
-          border-radius: 6px;
-          padding: 0.4rem 0.75rem;
-          font-size: 0.9rem;
-          transition: background 0.2s;
-  
-          &:hover {
-            cursor: pointer;
-          }
-        }
-      }
+  }
+  .etat-stock-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    @media (min-width: 576px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h2 {
+      margin: 0;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .search-bar {
+      max-width: 300px;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      border: 1px solid #ddd;
     }
   }
 
-   // modal 
-   .modal-header{
-    padding-bottom: 15px;
+  // Wrapper scrollable
+  .table-wrapper {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: auto;
   }
-  .modal-header, .modal-footer {
-    background-color: #fff;
-    border-radius: 0.5rem 0.5rem 0 0;
-  }
-  .modal-body {
-    background-color: #fff;
-  }
-  
-  .modal-title {
-    font-size: 1.25rem;
-    color: #333;
-  }
-  
-  .form-select {
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 14px;
-  }
-  
-  .btn-outline-secondary {
-    border-radius: 6px;
-    padding: 6px 14px;
-    font-weight: 500;
-  }
-  
-  .alert {
-    border-radius: 6px;
-    font-size: 14px;
-  }
-  
-//  filtre
-.filter-row {
-    background: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-  
-  
-    .form-select,
-    .form-control {
-      border-radius: 8px;
-      padding: 8px 14px;
-      border: 1px solid #ced4da;
-      font-size: 14px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  
-      &:focus {
-        border-color: #5c6ac4;
-        box-shadow: 0 0 0 0.2rem rgba(92, 106, 196, 0.25);
+
+  // Table avec en-tête fixe
+  .custom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #fff;
+      border-bottom: 1px solid lightgray;
+      color: #555;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    th,
+    td {
+      text-align: center;
+      vertical-align: middle;
+      padding: 0.75rem;
+      background-color: #fff;
+    }
+
+    tbody tr {
+      background: #fff;
+      transition: 0.2s;
+
+      .badge-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #28a745;
+        display: inline-block;
+      }
+
+      .btn-trade {
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.4rem 0.75rem;
+        font-size: 0.9rem;
+        transition: background 0.2s;
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
-  
-    .filter-select {
-      min-width: 200px;
-    }
-  
-    .filter-input {
-      min-width: 200px;
+  }
+}
+
+// Modal
+.modal-header {
+  padding-bottom: 15px;
+}
+
+.modal-header,
+.modal-footer {
+  background-color: #fff;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.modal-body {
+  background-color: #fff;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.form-select {
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.btn-outline-secondary {
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-weight: 500;
+}
+
+.alert {
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+// Filtre
+.filter-row {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+
+  .form-select,
+  .form-control {
+    border-radius: 8px;
+    padding: 8px 14px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &:focus {
+      border-color: #5c6ac4;
+      box-shadow: 0 0 0 0.2rem rgba(92, 106, 196, 0.25);
     }
   }
+
+  .filter-select {
+    min-width: 200px;
+  }
+
+  .filter-input {
+    min-width: 200px;
+  }
+}

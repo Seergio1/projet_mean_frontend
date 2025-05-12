@@ -24,6 +24,8 @@ export default class EtatStockComponent implements OnInit {
 
   etatFilter: string | null = null;
   filterStock: any[] = [];
+
+  detailArtcle: any = null;
   
 
   ngOnInit(): void {
@@ -42,7 +44,6 @@ export default class EtatStockComponent implements OnInit {
     this.mouvementStockService.getDetailsStock(this.nomSearch,this.userInfo.role).subscribe({
       next: (resp) => {
         this.etatStock = resp.data;
-        console.log(resp.data);
         
         this.applyFilters();
       },
@@ -53,7 +54,7 @@ export default class EtatStockComponent implements OnInit {
   getMouvementStockByArticle(id_Article: string) {
     this.mouvementStockService.getMouvementStockByArticle(id_Article, this.userInfo.role).subscribe({
       next: (resp) => {
-        console.log(resp.data);
+        this.detailArtcle = resp.data;
       },
       error: (err) => console.error('erreur lors du chargement de mouvement de stocks', err)
     });
@@ -73,12 +74,36 @@ export default class EtatStockComponent implements OnInit {
     });
   }
   
-  open(content: any, article: any) {
+  open(content: any, article: any,detail: any) {
     this.selectedArticle = article;
+    if (detail) {
+      this.getMouvementStockByArticle(this.selectedArticle._id);
+    }
     this.modalService.open(content, {
       centered: true
     });
   }
+modifierDate(date: string | Date) {
+  const dateObj = new Date(date);
+
+  const formattedDate = dateObj.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
+
+  const formattedTime = dateObj.toLocaleTimeString("fr-FR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+
+  return {
+    date: formattedDate,
+    heure: formattedTime
+  };
+}
+
 
   inserer() {
     if (this.selectedArticle) {

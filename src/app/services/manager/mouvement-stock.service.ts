@@ -47,7 +47,7 @@ export class MouvementStockService {
     return this.http.get<{
       data: any[], 
       message: string
-    }>(`${apiUrl}/mouvement-stock/${id_Article}`, { headers });
+    }>(`${apiUrl}/mouvement-stock-article/${id_Article}`, { headers });
   }
 
   getDetailsStock(nomArticle: string,role: string): Observable<{ data: any[], message: string}> {

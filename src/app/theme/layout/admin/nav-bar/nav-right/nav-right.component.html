@@ -9,7 +9,10 @@
           href="javascript:"
           ngbDropdownToggle
         >
-          <i class="ti ti-bell"></i>
+          <div class="notif-icon-wrapper">
+            <i class="ti ti-bell"></i>
+            <span *ngIf="notifNonLues > 0" class="notif-badge">{{ notifNonLues }}</span>
+          </div>
         </a>
         <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown" ngbDropdownMenu>
           <div class="dropdown-header">

@@ -1,125 +1,113 @@
 <div class="filter-row">
-    <h4 class="col">Filtre</h4>
-    <div class="row mb-3 ">
-      <div class="col">
-        <input
-          type="text"
-          class="form-control search-bar"
-          [(ngModel)]="nomSearch"
-          (input)="getEtatStock()"
-          placeholder="Rechercher un article..."
-        />
-      </div>
-      <div class="col-auto">
-        <select [(ngModel)]="etatFilter" (ngModelChange)="applyFilters()" class="form-select">
-            <option value="">Tous</option>
-            <option value="Normal">Normal</option>
-            <option value="Faible">Faible</option>
-          </select>
-      </div>
+  <h4 class="col">Filtre</h4>
+  <div class="row mb-3 ">
+    <div class="col">
+      <input type="text" class="form-control search-bar" [(ngModel)]="nomSearch" (input)="getEtatStock()"
+        placeholder="Rechercher un article..." />
+    </div>
+    <div class="col-auto">
+      <select [(ngModel)]="etatFilter" (ngModelChange)="applyFilters()" class="form-select">
+        <option value="">Tous</option>
+        <option value="Normal">Normal</option>
+        <option value="Faible">Faible</option>
+      </select>
     </div>
   </div>
+</div>
 
 <div class="etat-stock-wrapper">
-      <div class="table-responsive">
-        <table class="table custom-table">
-          <thead>
-            <tr>
-              <th>Etat</th>
-              <th>Nom article</th>
-              <th>Entrées</th>
-              <th>Sorties</th>
-              <th>Reste</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of filterStock">
-              <td>
-                <span 
-                  class="badge-dot" 
-                  [ngStyle]="{
+  <div class="table-responsive">
+    <table class="table custom-table">
+      <thead>
+        <tr>
+          <th>Etat</th>
+          <th>Nom article</th>
+          <th>Entrées</th>
+          <th>Sorties</th>
+          <th>Reste</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of filterStock">
+          <td>
+            <span class="badge-dot" [ngStyle]="{
                     'background-color': (row.totalEntrer - row.totalSortie) < row.seuil ? '#dc3545' : '#28a745'
                   }">
-                </span>
-              </td>
-              <td>{{ row.nom }}</td>
-              <td>{{ row.totalEntrer }}</td>
-              <td>{{ row.totalSortie }}</td>
-              <td>{{ row.totalEntrer - row.totalSortie }}</td>
-              <td>
-                <button class="btn btn-trade" *ngIf="userInfo.role === 'manager'" (click)="open(content, row)">
-                  ➕
-                </button>
-                <button class="btn btn-trade"  (click)="open(mvt_content, row)">
-                  ℹ️
-                </button>
-              </td>
-            </tr>
-          </tbody>
-          
-        </table>
-      </div>
+            </span>
+          </td>
+          <td>{{ row.nom }}</td>
+          <td>{{ row.totalEntrer }}</td>
+          <td>{{ row.totalSortie }}</td>
+          <td>{{ row.totalEntrer - row.totalSortie }}</td>
+          <td>
+            <button class="btn btn-trade" *ngIf="userInfo.role === 'manager'" (click)="open(content, row, false)">
+              ➕
+            </button>
+            <button class="btn btn-trade" (click)="open(mvt_content, row, true)">
+              ℹ️
+            </button>
+          </td>
+        </tr>
+      </tbody>
 
+    </table>
   </div>
+
+</div>
 
 
 <ng-template #content let-modal>
-    <div class="modal-header border-0 ">
-      <h5 class="modal-title fw-semibold">{{ selectedArticle.nom }}</h5>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
-    </div>
-  
-    <div class="modal-body pt-0">
-      <div class="mb-3">
-        <label for="quantite" class="form-label">Quantité</label>
-        <input type="number" min="1" class="form-control" id="quantite" placeholder="quantite" [(ngModel)]="quantiteInserer">
-      </div>
-    </div>
-  
-    <div class="modal-footer border-0 pt-0" >
-      <button class="btn btn-outline-secondary" (click)=" inserer(); modal.close()">Inserer</button>
-    </div>
-  </ng-template>
+  <div class="modal-header border-0 ">
+    <h5 class="modal-title fw-semibold">{{ selectedArticle.nom }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
 
-  <ng-template #mvt_content let-modal>
-    <div class="modal-header border-0 ">
-      <h5 class="modal-title fw-semibold">Détails des mouvements de {{ selectedArticle.nom }}</h5>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  <div class="modal-body pt-0">
+    <div class="mb-3">
+      <label for="quantite" class="form-label">Quantité</label>
+      <input type="number" min="1" class="form-control" id="quantite" placeholder="quantite"
+        [(ngModel)]="quantiteInserer">
     </div>
-  
-    <div class="modal-body pt-0">
-      <div class="etat-stock-wrapper">
-        <div class="table-responsive">
-        <table class="table custom-table">
+  </div>
+
+  <div class="modal-footer border-0 pt-0">
+    <button class="btn btn-outline-secondary" (click)=" inserer(); modal.close()">Inserer</button>
+  </div>
+</ng-template>
+
+<ng-template #mvt_content let-modal>
+  <div class="modal-header border-0">
+    <h5 class="modal-title fw-semibold">
+      Détails des mouvements de {{ selectedArticle.nom }}
+    </h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+
+  <div class="modal-body pt-0">
+    <div class="etat-stock-wrapper">
+      <div class="table-responsive">
+        <div class="table-wrapper">
+        <table class="table custom-table fixed-header-table">
           <thead>
             <tr>
               <th>Entrées</th>
               <th>Sorties</th>
               <th>Date</th>
+              <th>Heure</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let row of filterStock">
-              
-              <td>{{ row.totalEntrer }}</td>
-              <td>{{ row.totalSortie }}</td>
-              <td>{{ row.totalEntrer - row.totalSortie }}</td>
-              <td>
-                <button class="btn btn-trade" *ngIf="userInfo.role === 'manager'" (click)="open(content, row)">
-                  ➕
-                </button>
-                <button class="btn btn-trade"  (click)="open(mvt_content, row)">
-                  ℹ️
-                </button>
-              </td>
+            <tr *ngFor="let mvt of detailArtcle">
+              <td>{{ mvt.entrer }}</td>
+              <td>{{ mvt.sortie }}</td>
+              <td>{{ modifierDate(mvt.date).date }}</td>
+              <td>{{ modifierDate(mvt.date).heure }}</td>
             </tr>
           </tbody>
-          
         </table>
       </div>
       </div>
     </div>
-  
-  </ng-template>
-  
+  </div>
+</ng-template>
