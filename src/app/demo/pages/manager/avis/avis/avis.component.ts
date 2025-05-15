@@ -2,11 +2,10 @@ import { Component,OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommentairesService } from 'src/app/services/commentaires.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 
 @Component({
   selector: 'app-avis',
-  imports: [CommonModule, CardComponent],
+  imports: [CommonModule],
   templateUrl: './avis.component.html',
   styleUrl: './avis.component.scss',
   standalone: true

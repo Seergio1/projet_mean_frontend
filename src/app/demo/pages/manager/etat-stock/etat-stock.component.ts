@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { er } from '@fullcalendar/core/internal-common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 import { MouvementStockService } from 'src/app/services/manager/mouvement-stock.service';
-import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 
 @Component({
   selector: 'app-etat-stock',
-  imports: [CommonModule, CardComponent, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './etat-stock.component.html',
   styleUrl: './etat-stock.component.scss'
 })

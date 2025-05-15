@@ -3,12 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfilService } from 'src/app/services/manager/profil.service';
-import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profil',
-  imports: [CommonModule, FormsModule, CardComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './profil.component.html',
   styleUrl: './profil.component.scss',
   standalone: true

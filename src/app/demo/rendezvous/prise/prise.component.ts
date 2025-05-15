@@ -147,7 +147,7 @@ getServiceNameById(serviceId: string): string {
             color: 'red',
           };
         });
-        console.log(events);
+        // console.log(events);
         this.calendarOptions = {
           ...this.calendarOptions,
           events
@@ -175,7 +175,7 @@ getServiceNameById(serviceId: string): string {
     if (!this.rendezVous.dateSelectionnee || !this.rendezVous.heureSelectionnee) return;
     const dateStr = this.rendezVous.dateSelectionnee;
     const heureSelectionnee = this.rendezVous.heureSelectionnee;
-    console.log(this.datesIndisponibles.has(dateStr));
+    // console.log(this.datesIndisponibles.has(dateStr));
 
     if (this.datesIndisponibles.has(dateStr)) {
       if (!this.estHeureDisponible(dateStr, heureSelectionnee)) {

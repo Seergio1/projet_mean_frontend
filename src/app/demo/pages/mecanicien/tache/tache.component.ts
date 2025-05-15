@@ -5,7 +5,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 import { RendezvousService } from 'src/app/services/client/rendezvous.service';
 import { MecanicienService } from 'src/app/services/mecanicien/mecanicien.service';
-import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 import { ToastrService } from 'ngx-toastr';
 
 interface Tache {
@@ -21,7 +20,7 @@ id_vehicule: any;
 @Component({
   selector: 'app-tache',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './tache.component.html',
   styleUrl: './tache.component.scss'
 })

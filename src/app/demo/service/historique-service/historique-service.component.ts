@@ -61,7 +61,7 @@ export default class HistoriqueServiceComponent implements OnInit {
       next: (response) => {
         this.message = response.message
         this.historiqueService = response.data;
-        console.log(response.data);
+        // console.log(response.data);
         this.applyFilters();
       },
       error: (err) => console.error('Erreur lors de la récupération des historiques:',err)

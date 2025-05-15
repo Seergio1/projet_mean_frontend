@@ -2,12 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { jwtDecode } from 'jwt-decode';
 
 interface UserInfo {
   email: string;
   role: string;
   nom: string;
   id: string;
+}
+
+interface JwtPayload {
+  exp: number; // Timestamp en secondes
+  id: string;
+  role: string;
 }
 
 @Injectable({
@@ -30,8 +37,36 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, user);
   }
 
+  decodeToken(token: string): JwtPayload | null {
+    try {
+      return jwtDecode<JwtPayload>(token);
+    } catch (error) {
+      return null;
+    }
+  }
+
+   isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
+
+    const decoded = this.decodeToken(token);
+    if (!decoded) return true;
+
+    return Date.now() > decoded.exp * 1000;
+  }
+
   saveToken(token: string): void {
     localStorage.setItem(this.tokenKey, JSON.stringify(token));
+
+    const decoded = this.decodeToken(token);
+    if (decoded) {
+      const expiration = decoded.exp * 1000 - Date.now(); // délai en ms
+      console.log(expiration);
+      
+      setTimeout(() => {
+        this.logout(); 
+      }, expiration);
+    }
   }
 
   getToken(): string | null {

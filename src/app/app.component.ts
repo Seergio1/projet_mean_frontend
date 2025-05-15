@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SpinnerComponent } from './theme/shared/components/spinner/spinner.component';
-
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,15 @@ import { SpinnerComponent } from './theme/shared/components/spinner/spinner.comp
   styleUrls: ['./app.component.scss'],
   imports: [RouterOutlet, SpinnerComponent]
 })
-export class AppComponent {
-  title = 'Berry Angular Free Version';
+export class AppComponent implements OnInit {
+
+  constructor(private authService: AuthService) { }
+
+  ngOnInit(): void {
+    if (this.authService.isTokenExpired()) {
+      this.authService.logout();
+    }
+  }
+  title = 'E-meca | Votre garage en ligne';
 }
 

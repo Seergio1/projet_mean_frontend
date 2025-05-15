@@ -65,7 +65,7 @@ export default class HistoriqueDevisComponent implements OnInit{
         // console.log(response);
         this.message = response.message;
         this.historiqueDevis = response.data;
-        console.log(response.data);
+        // console.log(response.data);
         this.applyFilters();
 
       },

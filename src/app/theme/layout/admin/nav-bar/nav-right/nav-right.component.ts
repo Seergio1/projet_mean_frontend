@@ -38,7 +38,7 @@ export class NavRightComponent implements OnInit {
   getNotifications() {
     this.notifService.getNotificationsByIdClient(this.idUtilisateur).subscribe({
       next: (response) => {
-        console.log("Notifications reçues :", response.data);
+        // console.log("Notifications reçues :", response.data);
         this.notifications = response.data;
         this.filteredNotifications = [...this.notifications];
         this.notifNonLues = this.filteredNotifications.filter(notification => notification.lu === false).length;
@@ -97,7 +97,7 @@ export class NavRightComponent implements OnInit {
   updateNotification(id_notification: string, newEtat: boolean) {
     this.notifService.updateEtatNotification(id_notification, newEtat).subscribe({
       next: () => {
-        console.log('État mis à jour');
+        // console.log('État mis à jour');
         this.getNotifications(); // Rafraîchir la liste
       },
       error: (error) => {
@@ -109,7 +109,7 @@ export class NavRightComponent implements OnInit {
   marquerTousLu() {
     this.notifService.marquerTousLu(this.idUtilisateur).subscribe({
       next: () => {
-        console.log('Toutes les notifications ont été marquées comme lues');
+        // console.log('Toutes les notifications ont été marquées comme lues');
         this.getNotifications(); // Recharger les notifications pour afficher les mises à jour
       },
       error: (error) => {

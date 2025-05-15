@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
-import { BreadcrumbComponent } from "../../../../theme/shared/components/breadcrumbs/breadcrumbs.component";
 import { CommentairesService } from 'src/app/services/commentaires.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -11,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-commentaires',
   standalone: true,
-  imports: [RouterModule, FormsModule, CommonModule, CardComponent, BreadcrumbComponent],
+  imports: [RouterModule, FormsModule, CommonModule, CardComponent],
   templateUrl: './commentaires.component.html',
   styleUrl: './commentaires.component.scss'
 })
@@ -35,7 +34,7 @@ export default class CommentairesComponent implements OnInit {
     const userInfo = this.authService.getUserInfo();
     this.commentairesService.getAllCommentairesClient(userInfo.id).subscribe( data => {
       this.commentaires = Array.isArray(data.data) ? data.data : [];
-      console.log(this.commentaires);
+      // console.log(this.commentaires);
     });
   }
 
