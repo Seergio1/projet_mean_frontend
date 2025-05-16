@@ -3,11 +3,17 @@
 // The list of file replacements can be found in `angular.json`.
 
 import packageInfo from '../../package.json';
+// local
+// export const environment = {
+//   appVersion: packageInfo.version,
+//   production: false,
+//   apiUrl: 'http://localhost:5000/api'
+// };
 
 export const environment = {
   appVersion: packageInfo.version,
-  production: false,
-  apiUrl: 'http://localhost:5000/api'
+  production: true,
+  apiUrl: 'https://projet-mean-backend.onrender.com/api'
 };
 
 /*

@@ -8,6 +8,8 @@ ng generate component components/componentName
 #demmarer le serveur
 ng serve (utilisera environment.ts)
 ng build --prod (utilisera automatiquement environment.prod.ts)
+ng build -c production (efa niova anito ny mi build)
+
 
 #install dependencies
 npm install --legacy-peer-deps
