@@ -27,6 +27,9 @@ npm install @fullcalendar/timegrid --legacy-peer-deps
 
 npm install jwt-decode --legacy-peer-deps
 
+npm install puppeteer puppeteer-core chrome-aws-lambda --legacy-peer-deps
+
+
 
 
 
