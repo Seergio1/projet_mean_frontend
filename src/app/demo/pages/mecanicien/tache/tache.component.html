@@ -48,9 +48,11 @@
                             </div>
                             <div class="col-auto">
                                 <h4 class="mb-0">
-                                    <span tabindex="0" role="button" (click)="ouvrirModal(content, tache)"
+                                    <span 
+                                        *ngIf="userInfo.role === 'mecanicien' && tache.facture===false" 
+                                        tabindex="0" role="button" 
+                                        (click)="ouvrirModal(content, tache)"
                                         (keydown.enter)="ouvrirModal(content, tache)"
-                                        *ngIf="tache.facture===false"
                                         (keyup.space)="ouvrirModal(content, tache)" [ngClass]="{
                                         'bg-light-danger': tache.etat === 'en attente',
                                         'bg-light-warning': tache.etat === 'en cours',
